@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.LoginFragment"
-    android:background="@color/purple_200">
+    android:background="@color/grey">
 
 <ImageView
     android:layout_width="200dp"
@@ -13,25 +13,44 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toTopOf="@id/editTextLogin"
+    app:layout_constraintBottom_toTopOf="@id/editTextLayoutLogin"
     android:src="@drawable/logo"
     />
 
-    <EditText
-        android:id="@+id/editTextLogin"
-        android:layout_margin="20dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextLayoutLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
-        android:hint="@string/login"/>
+        android:layout_margin="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:background="@drawable/input_rounded_background"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLayoutPassword">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login"
+            android:background="@android:color/transparent"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_margin="20dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editTextLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
-        android:hint="@string/password" />
+        android:layout_margin="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:background="@drawable/input_rounded_background"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLogin">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:background="@android:color/transparent"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/buttonLogin"
@@ -39,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/connect"
+        android:background="@drawable/input_rounded_background"
         app:layout_constraintBottom_toTopOf="@+id/buttonCreateUser"
         />
 
@@ -48,6 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/signUp"
+        android:background="@drawable/input_rounded_background"
         app:layout_constraintBottom_toTopOf="@+id/labelRetrievePassword"
         />
 
