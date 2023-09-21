@@ -2,7 +2,7 @@ package be.technifuture.tff
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import be.technifuture.tff.databinding.ActivityConnectBinding
+import be.technifutur.tlm.tff.databinding.ActivityConnectBinding
 
 class ConnectActivity : AppCompatActivity() {
 
