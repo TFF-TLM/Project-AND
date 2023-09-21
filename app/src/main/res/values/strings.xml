@@ -9,4 +9,8 @@
     <string name="retrievePassword">Mots de pass oublié ?</string>
     <string name="signUp">Crée un compte</string>
     <string name="connect">Se connecter</string>
+
+    <!-- Create User Fragment -->
+    <string name="mail">Adress Mail</string>
+    <string name="confirm_password">Vérification du Password</string>
 </resources>
