@@ -64,6 +64,7 @@
                 android:id="@+id/editTextMail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:hint="@string/mail"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -102,37 +103,17 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </ScrollView>
-    <androidx.cardview.widget.CardView
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:text="balv blab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <RadioButton
-                android:text="balv blab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <RadioButton
-                android:text="balv blab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </RadioGroup>
-
-    </androidx.cardview.widget.CardView>
-    <Button
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:id="@+id/buttonCreateUser"
         android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/signUp"
+        android:src="@drawable/ic_stat_name"
         android:background="@drawable/input_rounded_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/black" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

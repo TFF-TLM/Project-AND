@@ -18,5 +18,14 @@
         android:id="@+id/createUserFragment"
         android:name="be.technifuture.tff.fragment.CreateUserFragment"
         android:label="fragment_create_user"
-        tools:layout="@layout/fragment_create_user" />
+        tools:layout="@layout/fragment_create_user" >
+        <action
+            android:id="@+id/action_createUserFragment_to_createAvatarUserFragment"
+            app:destination="@id/createAvatarUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAvatarUserFragment"
+        android:name="be.technifuture.tff.CreateAvatarUserFragment"
+        android:label="fragment_create_avatar_user"
+        tools:layout="@layout/fragment_create_avatar_user" />
 </navigation>

@@ -13,4 +13,7 @@
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>
     <string name="confirm_password">Vérification du Password</string>
+    <string name="create_avatar">Création de l\'avatar</string>
+
+
 </resources>
