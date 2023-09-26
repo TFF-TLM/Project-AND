@@ -1,4 +1,4 @@
-package be.technifuture.tff.fragment
+package be.technifuture.tff.fragment.connect
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 
 class CreateAvatarUserFragment : Fragment() {
 
-    lateinit var binding: FragmentCreateAvatarUserBinding
+    private lateinit var binding: FragmentCreateAvatarUserBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +42,6 @@ class CreateAvatarUserFragment : Fragment() {
         binding.item14.text = chooseAvatar[0][rand]
         chooseAvatar[0].removeAt(rand)
 
-
-
         rand = (chooseAvatar[1].indices).random()
         binding.item21.text = chooseAvatar[1][rand]
         chooseAvatar[1].removeAt(rand)
@@ -75,7 +73,6 @@ class CreateAvatarUserFragment : Fragment() {
         // 3. Récuperer l'image et la mettre en entête
     }
 }
-
 
 private val chooseAvatar = mutableListOf(
     mutableListOf(

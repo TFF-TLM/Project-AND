@@ -1,4 +1,4 @@
-package be.technifuture.tff.fragment
+package be.technifuture.tff.fragment.connect
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import be.technifuture.tff.R
+import be.technifuture.tff.databinding.FragmentCreateUserBinding
+
 class CreateUserFragment : Fragment() {
+
+    lateinit var binding: FragmentCreateUserBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_user, container, false)
+        binding = FragmentCreateUserBinding.inflate(layoutInflater)
+        return binding.root
     }
 }
