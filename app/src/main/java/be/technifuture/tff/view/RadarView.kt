@@ -9,8 +9,10 @@ import android.view.View
 import java.lang.Math.cos
 import java.lang.Math.sin
 
+data class GpsCoordinates(val latitude: Double, val longitude: Double)
+data class ObjectData(val localX: Float, val localY: Float) {}
+data class LocalCoordinates(val x: Double, val y: Double)
 
-data class ObjectData(val distance: Float, val angle: Double)
 
 class RadarView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val objects = mutableListOf<ObjectData>()
@@ -51,29 +53,21 @@ class RadarView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             radius += stepSize
         }
 
-        // Dessinez les objets
         for (obj in objects) {
-            val distance = obj.distance
-            val angle = obj.angle
-
-            val x = centerX + distance * cos(angle)
-            val y = centerY + distance * sin(angle)
-
-            canvas?.drawCircle(x.toFloat(), y.toFloat(), 10f, objectPaint)
+            val x = centerX + obj.localX
+            val y = centerY + obj.localY
+            canvas?.drawCircle(x, y, 10f, objectPaint)
         }
 
-        // Dessinez la ligne de scan rotative
         val startX = centerX + scanLength * cos(scanAngle)
         val startY = centerY + scanLength * sin(scanAngle)
         canvas?.drawLine(centerX, centerY, startX.toFloat(), startY.toFloat(), scanPaint)
 
-        // Mettez à jour l'angle de la ligne de scan
-        scanAngle += Math.toRadians(1.0) // Augmentez l'angle selon votre vitesse souhaitée
+        scanAngle += Math.toRadians(1.0)
         if (scanAngle >= 2 * Math.PI) {
             scanAngle = 0.0
         }
 
-        // Redessinez la vue
         invalidate()
     }
 
