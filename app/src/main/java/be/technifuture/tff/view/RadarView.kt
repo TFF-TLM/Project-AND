@@ -9,7 +9,6 @@ import android.view.View
 import java.lang.Math.cos
 import java.lang.Math.sin
 
-data class GpsCoordinates(val latitude: Double, val longitude: Double)
 data class ObjectData(val localX: Float, val localY: Float) {}
 data class LocalCoordinates(val x: Double, val y: Double)
 
