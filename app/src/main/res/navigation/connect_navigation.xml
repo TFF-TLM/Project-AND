@@ -34,4 +34,9 @@
         android:name="be.technifuture.tff.fragment.RadarFragment"
         android:label="fragment_radar"
         tools:layout="@layout/fragment_radar" />
+    <fragment
+        android:id="@+id/cellCreateAvatar"
+        android:name="be.technifuture.tff.fragment.connect.cell.CellCreateAvatar"
+        android:label="fragment_cell_create_avatar"
+        tools:layout="@layout/cell_create_avatar" />
 </navigation>
