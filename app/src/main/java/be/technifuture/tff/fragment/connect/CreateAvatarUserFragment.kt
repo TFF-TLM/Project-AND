@@ -1,10 +1,14 @@
 package be.technifuture.tff.fragment.connect
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 
 class CreateAvatarUserFragment : Fragment() {
@@ -16,57 +20,39 @@ class CreateAvatarUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateAvatarUserBinding.inflate(layoutInflater)
-
-        initRadioGroup()
         binding.buttonCreateUser.setOnClickListener { createUser() }
         binding.buttonGenerateAvatar.setOnClickListener { createAvatar() }
+
+        binding.question1.text = "Quel est votre endroit préférer"
+        setupRecyclerView(chooseAvatar[0], binding!!.recyclerViewQ1)
+
+        binding.question2.text = "Quel animal est vous ?"
+        setupRecyclerView(chooseAvatar[1], binding!!.recyclerViewQ2)
+
+        binding.question3.text = "Quel est votre Hobbit ?"
+        setupRecyclerView(chooseAvatar[2], binding!!.recyclerViewQ3)
 
         return binding.root
     }
 
-    private fun initRadioGroup() {
-
-        var rand = (chooseAvatar[0].indices).random()
-        binding.item11.text = chooseAvatar[0][rand]
-        chooseAvatar[0].removeAt(rand)
-
-        rand = (chooseAvatar[0].indices).random()
-        binding.item12.text = chooseAvatar[0][rand]
-        chooseAvatar[0].removeAt(rand)
-
-        rand = (chooseAvatar[0].indices).random()
-        binding.item13.text = chooseAvatar[0][rand]
-        chooseAvatar[0].removeAt(rand)
-
-        rand = (chooseAvatar[0].indices).random()
-        binding.item14.text = chooseAvatar[0][rand]
-        chooseAvatar[0].removeAt(rand)
-
-        rand = (chooseAvatar[1].indices).random()
-        binding.item21.text = chooseAvatar[1][rand]
-        chooseAvatar[1].removeAt(rand)
-
-        rand = (chooseAvatar[1].indices).random()
-        binding.item22.text = chooseAvatar[1][rand]
-        chooseAvatar[1].removeAt(rand)
-
-        rand = (chooseAvatar[1].indices).random()
-        binding.item23.text = chooseAvatar[1][rand]
-        chooseAvatar[1].removeAt(rand)
-
-        rand = (chooseAvatar[1].indices).random()
-        binding.item24.text = chooseAvatar[1][rand]
-        chooseAvatar[1].removeAt(rand)
+    private fun setupRecyclerView(list: MutableList<String>, recyclerViewQ1: RecyclerView, ) {
+        recyclerViewQ1.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewQ1.adapter = CreateAvatarAdapter(list) { item ->
+            Log.d("DEBUGG",item)
+        }
     }
 
     private fun createUser() {
+        Log.d("DEBUGG","Créate User")
         //TODO:
         // 1. Vérifier que l'avatar à bien été crée
-        // 2. Récuperer les infos del'eran précédent
+        // 2. Récuperer les infos de l'ecran précédent
         // 3. L'envoyé à l'API
     }
 
     private fun createAvatar() {
+        Log.d("DEBUGG","Créate avatar")
         //TODO :
         // 1. Verifier que les 3 questions on été répondu
         // 2. Demander la création de l'avatar
@@ -75,16 +61,16 @@ class CreateAvatarUserFragment : Fragment() {
 }
 
 private val chooseAvatar = mutableListOf(
-    mutableListOf(
-        "Astronaute", "Twitcher", "Pilote", "Aventurier", "Journaliste",
-        "Docteur", "Pompier", "Super Héro", "Avocat", "President"
+    mutableListOf( // Lieux
+        "Espace", "Montagne", "Plage", "Piscine", "Maison",
+        "Forêt", "Desert", "Campagne", "Lune", "Mer"
     ),
-    mutableListOf(
+    mutableListOf( // Animaux
         "Serpent", "Chient", "Licorne", "Dragon", "Hibou",
         "Aigle", "Araignée", "Pieuvre", "Requin", "Tigre"
     ),
-    mutableListOf(
+    mutableListOf( // Hobbit
         "Football", "Jeu vidéo", "Judo", "Natation", "Vélo",
-        "Tik Tok", "...", "...", "...", "..."
+        "Basket", "Voiture", "Courrir", "Combat Spatiaux", "Jeu de societer"
     )
 )

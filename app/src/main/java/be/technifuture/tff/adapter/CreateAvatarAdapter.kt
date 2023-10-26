@@ -1,5 +1,6 @@
 package be.technifuture.tff.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +37,7 @@ class CreateAvatarViewHolder(private var viewBinding: CellCreateAvatarBinding, v
     fun bind(item: String) {
 
         viewBinding.label.text = item
+
         viewBinding.cardView.setOnClickListener{
             onClick(item)
         }

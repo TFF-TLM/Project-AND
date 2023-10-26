@@ -50,44 +50,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:hint="Question 1" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewQ1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
 
-        <RadioGroup
-    android:id="@+id/answer1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@id/question1"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:orientation="horizontal">
 
-    <com.google.android.material.radiobutton.MaterialRadioButton
-        android:id="@+id/item1.1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="item 1"
-        />
-
-    <com.google.android.material.radiobutton.MaterialRadioButton
-        android:id="@+id/item1.2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="item 1"
-        />
-
-    <com.google.android.material.radiobutton.MaterialRadioButton
-        android:id="@+id/item1.3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="item 1"
-        />
-
-    <com.google.android.material.radiobutton.MaterialRadioButton
-        android:id="@+id/item1.4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="item 1"
-        />
-</RadioGroup>
         <TextView
             android:id="@+id/question2"
             tools:hint="Question 2"
@@ -95,44 +64,14 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@id/answer1"/>
-    <RadioGroup
-        android:id="@+id/answer2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/question2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal">
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item2.1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="item 1"
             />
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item2.2"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewQ2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="item 1"
-            />
+            android:orientation="horizontal"/>
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item2.3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="item 1"
-            />
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item2.4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="item 1"
-            />
-    </RadioGroup>
         <TextView
             android:id="@+id/question3"
             tools:hint="Question 3"
@@ -141,43 +80,13 @@
             android:layout_marginVertical="20dp"
             android:textAlignment="center"
             />
-    <RadioGroup
-        android:id="@+id/answer3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/question3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal">
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item3.1"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewQ3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="item 1"
-            />
+            android:orientation="horizontal"/>
 
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item3.2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="item 1"
-            />
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item3.3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="item 1"
-            />
-
-        <com.google.android.material.radiobutton.MaterialRadioButton
-            android:id="@+id/item3.4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="item 1"
-            />
-    </RadioGroup>
     </LinearLayout>
 
     <ImageButton
