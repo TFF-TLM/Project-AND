@@ -1,27 +1,20 @@
 package be.technifuture.tff.service
 
 import android.util.Log
+import be.technifuture.tff.fragment.connect.CreateUserController
 import be.technifuture.tff.model.UserModel
 
 class UserService {
-        fun isLoginAvailable(login: String): Boolean{
-            // Must start by letter, Only Number and Letter for other
-            // Max : 20 charactére
-            val regex = "^(?=.*[A-Za-z0-9]\$)[A-Za-z][A-Za-z\\d.-]{0,19}\$".toRegex()
-
-            // Login Match avec nos Régles ?
-            if(regex.matches(login)){
-                Log.d("TEST", "isLoginAvailable : Regex Ok")
-            }else{
-                Log.d("TEST", "isLoginAvailable : Regex NOk")
-                return false
-            }
-
-            // Si oui existe t'il dans le BackEnd ?
+        fun isLoginAvailable(login: String): Boolean {
             val tempUserYetUse = mutableListOf("tony","medhi","laurent","user")
-            return !tempUserYetUse.contains(login.lowercase())
 
+            return !tempUserYetUse.contains(login.lowercase())
         }
+
+    fun isEmailAvailable(email: String): Boolean{
+        val tempUserYetUse = mutableListOf("a@a.a","a@b.c","b@b.b","b@b.c")
+        return tempUserYetUse.contains(email)
+    }
 
         fun getUserByLogin(login: String, pass: String): Boolean{
             //TODO: Appel pour verifier l'user
