@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/jeuxFragment"
+        android:icon="@drawable/ico_game"
+        android:title="Jeux" />
+    <item
+        android:id="@+id/radarFragment"
+        android:icon="@drawable/ico_history"
+        android:title="Historique" />
+    <item
+        android:id="@+id/loginFragment"
+        android:icon="@drawable/ico_radar"
+        android:title="Radar" />
+    <item
+        android:id="@+id/radarFragment1"
+        android:icon="@drawable/ico_user"
+        android:title="Utilisateur" />
+</menu>

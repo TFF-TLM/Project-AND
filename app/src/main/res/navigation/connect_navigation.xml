@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_radar" />
     <fragment
         android:id="@+id/jeuxFragment"
-        android:name="be.technifuture.tff.JeuxFragment"
+        android:name="be.technifuture.tff.fragment.JeuxFragment"
         android:label="fragment_jeux"
         tools:layout="@layout/fragment_jeux" />
 </navigation>

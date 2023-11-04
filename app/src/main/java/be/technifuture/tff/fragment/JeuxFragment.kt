@@ -1,15 +1,12 @@
-package be.technifuture.tff
+package be.technifuture.tff.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.Fragment
 import be.technifuture.tff.databinding.FragmentJeuxBinding
-import be.technifuture.tff.databinding.FragmentRadarBinding
 import be.technifuture.tff.model.Chat
 import be.technifuture.tff.model.GpsCoordinates
 import be.technifuture.tff.model.mySetting
@@ -22,6 +19,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+
+private fun GpsCoordinates.toLatLng(): LatLng {
+    return LatLng(latitude.toDouble(), longitude.toDouble());
+}
 
 class JeuxFragment : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentJeuxBinding
@@ -80,7 +81,14 @@ class JeuxFragment : Fragment(), OnMapReadyCallback {
                     .radius(radiusInMeters)
                     .strokeWidth(2f)
                     .strokeColor(Color.BLUE)
-                    .fillColor(Color.argb(128, itemChat.color.r, itemChat.color.g, itemChat.color.b)) // Couleur de remplissage semi-transparente
+                    .fillColor(
+                        Color.argb(
+                            128,
+                            itemChat.color.r,
+                            itemChat.color.g,
+                            itemChat.color.b
+                        )
+                    ) // Couleur de remplissage semi-transparente
 
                 googleMap.addCircle(circleOptions)
                     .tag = itemChat.id
@@ -111,8 +119,4 @@ class JeuxFragment : Fragment(), OnMapReadyCallback {
         mapView.onLowMemory()
     }
 
-}
-
-private fun GpsCoordinates.toLatLng(): LatLng {
-    return LatLng(latitude.toDouble(), longitude.toDouble());
 }
