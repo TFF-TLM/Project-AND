@@ -1,5 +1,6 @@
 package be.technifuture.tff.fragment.connect.viewController
 
+import android.app.AlertDialog
 import be.technifuture.tff.databinding.FragmentCreateUserBinding
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.NetworkService
@@ -81,6 +82,10 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
         }
         return true
 
+    }
+
+    private fun getAlert(error: ErrorValidation){
+        val alert = AlertDialog.Builder()
     }
 
 }
