@@ -4,16 +4,17 @@
         android:id="@+id/jeuxFragment"
         android:icon="@drawable/ico_game"
         android:title="Jeux" />
+
     <item
-        android:id="@+id/radarFragment"
         android:icon="@drawable/ico_history"
         android:title="Historique" />
+
     <item
-        android:id="@+id/loginFragment"
+        android:id="@+id/radarFragment"
         android:icon="@drawable/ico_radar"
         android:title="Radar" />
+
     <item
-        android:id="@+id/radarFragment1"
         android:icon="@drawable/ico_user"
         android:title="Utilisateur" />
 </menu>
