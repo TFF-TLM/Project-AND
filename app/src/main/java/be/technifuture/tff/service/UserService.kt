@@ -11,7 +11,7 @@ class UserService {
 
     fun isEmailAvailable(email: String): Boolean{
         val tempUserYetUse = mutableListOf("a@a.a","a@b.c","b@b.b","b@b.c")
-        return tempUserYetUse.contains(email)
+        return !tempUserYetUse.contains(email)
     }
 
         fun getUserByLogin(login: String, pass: String): Boolean{

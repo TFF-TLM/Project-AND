@@ -82,6 +82,7 @@
                 android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="@string/password"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -98,6 +99,7 @@
                 android:id="@+id/editTextVerifPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="@string/confirm_password"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>

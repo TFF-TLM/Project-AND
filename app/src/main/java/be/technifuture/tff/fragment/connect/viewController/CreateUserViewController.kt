@@ -1,12 +1,16 @@
 package be.technifuture.tff.fragment.connect.viewController
 
 import android.app.AlertDialog
+import android.content.Context
+import android.widget.Switch
+import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentCreateUserBinding
-import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.NetworkService
 
 
-class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
+class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
+                           private val viewContext: Context
+) {
 
     private var login: String = ""
     private var password: String = ""
@@ -21,11 +25,8 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
         MAIL_EXIST
     }
 
-    fun validateForm(){
-        if(loginIsValid() && isEmailValid() && isPasswordValid()){
-            val user = UserModel(login, email, password)
-        }
-    }
+    fun validateForm(): Boolean =
+        loginIsValid() && isEmailValid() && isPasswordValid()
 
     private fun loginIsValid(): Boolean {
         login = viewBinding.editTextLogin.text.toString()
@@ -35,12 +36,13 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
         val regex = "^(?=.*[A-Za-z0-9]\$)[A-Za-z][A-Za-z\\d.-]{0,19}\$".toRegex()
 
         if (!regex.matches(login)) {
+            getAlert(ErrorValidation.LOGIN_RULES)
             // Message d'erreur utilisateur
             return false
         }
 
-        if (NetworkService.user.isLoginAvailable(login)) {
-            // Message d'erreur utilisateur
+        if (!NetworkService.user.isLoginAvailable(login)) {
+            getAlert(ErrorValidation.LOGIN_EXIST)
             return false
         }
         return true
@@ -51,16 +53,17 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
         val password2 = viewBinding.editTextVerifPassword.text.toString()
 
         if (password != password2) {
+            getAlert(ErrorValidation.PASSWORD_SAME)
             // Message d'erreur utilisateur
             return false
         }
         //Minimum eight characters, at least one uppercase letter,
-        // one lowercase letter, one number and one special character:
+        // one lowercase letter, one number and one special character, Minimum 8 charactere
         val regex =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
 
         if (!regex.matches(password)) {
-            // Message d'erreur utilisateur
+            getAlert(ErrorValidation.PASSWORD_RULES)
             return false
         }
         return true
@@ -72,11 +75,13 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
         val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$".toRegex()
 
         if (!regex.matches(email)) {
+            getAlert(ErrorValidation.MAIL_RULES)
             // Message d'erreur utilisateur
             return false
         }
 
-        if (NetworkService.user.isEmailAvailable(email)) {
+        if (!NetworkService.user.isEmailAvailable(email)) {
+            getAlert(ErrorValidation.MAIL_EXIST)
             // Message d'erreur utilisateur
             return false
         }
@@ -85,7 +90,26 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
     }
 
     private fun getAlert(error: ErrorValidation){
-        //val alert = AlertDialog.Builder()
+
+        val alert = AlertDialog.Builder(viewContext)
+        alert.setTitle("Error")
+        alert.setMessage(
+        when(error){
+            ErrorValidation.LOGIN_EXIST ->
+                R.string.LOGIN_EXIST
+            ErrorValidation.LOGIN_RULES ->
+                R.string.LOGIN_RULES
+            ErrorValidation.PASSWORD_RULES ->
+                R.string.PASSWORD_RULES
+            ErrorValidation.PASSWORD_SAME ->
+                R.string.PASSWORD_SAME
+            ErrorValidation.MAIL_EXIST ->
+                R.string.MAIL_EXIST
+            ErrorValidation.MAIL_RULES ->
+                R.string.MAIL_RULES
+        })
+        alert.setNeutralButton("Ok", null)
+        alert.show()
     }
 
 }
