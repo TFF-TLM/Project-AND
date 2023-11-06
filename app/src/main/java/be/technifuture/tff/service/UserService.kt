@@ -1,7 +1,5 @@
 package be.technifuture.tff.service
 
-import android.util.Log
-import be.technifuture.tff.fragment.connect.CreateUserController
 import be.technifuture.tff.model.UserModel
 
 class UserService {

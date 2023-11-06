@@ -23,7 +23,7 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
 
     fun validateForm(){
         if(loginIsValid() && isEmailValid() && isPasswordValid()){
-            val user = UserModel(login, email, password, "")
+            val user = UserModel(login, email, password)
         }
     }
 
@@ -85,7 +85,7 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding) {
     }
 
     private fun getAlert(error: ErrorValidation){
-        val alert = AlertDialog.Builder()
+        //val alert = AlertDialog.Builder()
     }
 
 }
