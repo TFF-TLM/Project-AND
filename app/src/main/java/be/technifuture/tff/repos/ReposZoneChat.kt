@@ -3,30 +3,30 @@ package be.technifuture.tff.repos
 import be.technifuture.tff.model.Chat
 import be.technifuture.tff.model.ChatRGB
 import be.technifuture.tff.model.GpsCoordinates
+import be.technifuture.tff.model.ZoneChat
 import kotlin.random.Random
 
-class ReposChat {
+class ReposZoneChat  {
 
-    fun mockData(longitude : Float, latitude : Float): MutableList<Chat> {
+    fun mockData(longitude : Float, latitude : Float): MutableList<ZoneChat> {
         val baseLongitude = longitude
         val baseLatitude = latitude
-        val itemsChatShow = mutableListOf<Chat>()
+        val itemsChatShow = mutableListOf<ZoneChat>()
 
         for (i in 1..10) { // Créez 10 objets Chat (vous pouvez ajuster le nombre)
             val randomLatitude = baseLatitude + Random.nextDouble(-0.03, 0.03) // Ajustez la plage de latitude
             val randomLongitude = baseLongitude + Random.nextDouble(-0.03, 0.03) // Ajustez la plage de longitude
             val randomRadius = Random.nextInt(1, 1001) // Rayon aléatoire entre 1 et 2000 mètres
 
-            val chat = Chat(
-                id = "Chat$i",
-                urlImage = "URL_de_l'image",
-                nom = "Chat $i",
-                vie = 100,
-                level = 1,
+            val zoneChat = ZoneChat(
+                id = "ZoneChat $i",
+                nom = "ZoneChat $i",
+                radius = randomRadius,
+                color = ChatRGB(0,0,255),
                 gpsCoordinates = GpsCoordinates(randomLatitude, randomLongitude)
             )
 
-            itemsChatShow.add(chat)
+            itemsChatShow.add(zoneChat)
         }
 
         return itemsChatShow
@@ -34,13 +34,13 @@ class ReposChat {
 
     companion object {
 
-        private var instance: ReposChat? = null
+        private var instance: ReposZoneChat? = null
 
-        fun getInstance(): ReposChat {
+        fun getInstance(): ReposZoneChat {
             if (instance == null) {
-                instance = ReposChat()
+                instance = ReposZoneChat()
             }
-            return instance as ReposChat
+            return instance as ReposZoneChat
         }
 
 
