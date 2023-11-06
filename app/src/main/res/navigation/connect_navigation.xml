@@ -3,40 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/connect_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/radarFragment">
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="be.technifuture.tff.fragment.connect.LoginFragment"
+        android:name="be.technifuture.tff.fragment.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_createUserFragment"
-            app:destination="@id/createUserFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/createUserFragment"
-        android:name="be.technifuture.tff.fragment.connect.CreateUserFragment"
-        android:label="fragment_create_user"
-        tools:layout="@layout/fragment_create_user" >
-        <action
-            android:id="@+id/action_createUserFragment_to_createAvatarUserFragment"
-            app:destination="@id/createAvatarUserFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/createAvatarUserFragment"
-        android:name="be.technifuture.tff.fragment.connect.CreateAvatarUserFragment"
-        android:label="fragment_create_avatar_user"
-        tools:layout="@layout/fragment_create_avatar_user" />
-
+        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/radarFragment"
         android:name="be.technifuture.tff.fragment.RadarFragment"
         android:label="fragment_radar"
         tools:layout="@layout/fragment_radar" />
-    <fragment
-        android:id="@+id/cellCreateAvatar"
-        android:name="be.technifuture.tff.fragment.connect.cell.CellCreateAvatar"
-        android:label="fragment_cell_create_avatar"
-        tools:layout="@layout/cell_create_avatar" />
 </navigation>

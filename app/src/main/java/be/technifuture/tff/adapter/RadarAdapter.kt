@@ -52,7 +52,7 @@ class SortieListeViewHolder1(
     fun setupData(item: Chat) {
         hp.max = 100
         hp.progress = item.vie
-        nom.text = item.mom
+        nom.text = item.nom
         distance.text = "50 M"
         level.text  = item.level.toString()
 Log.d("LM",item.toString())
