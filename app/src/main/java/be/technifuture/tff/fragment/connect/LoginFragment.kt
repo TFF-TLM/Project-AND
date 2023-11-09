@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.databinding.FragmentLoginBinding
+import be.technifuture.tff.service.NetworkService
 
 class LoginFragment : Fragment() {
 
@@ -21,6 +22,17 @@ class LoginFragment : Fragment() {
         binding.buttonCreateUser.setOnClickListener {
             val direction = LoginFragmentDirections.actionLoginFragmentToCreateUserFragment()
             findNavController().navigate(direction)
+        }
+
+        binding.buttonLogin.setOnClickListener {
+            val isValid =NetworkService.user.getUserByLogin(
+                binding.editTextLogin.text.toString(),
+                binding.editTextPassword.text.toString())
+            if(isValid){
+                //TODO: Mettre l'itent vers l'activité de Jeu
+            } else {
+                //TODO: Alert d'erreur
+            }
         }
 
         return binding.root

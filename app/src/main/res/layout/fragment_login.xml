@@ -31,6 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login"
+            android:lines="1"
+            android:inputType="text"
             android:background="@android:color/transparent"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,6 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:lines="1"
+            android:inputType="textPassword"
             android:background="@android:color/transparent"/>
     </com.google.android.material.textfield.TextInputLayout>
 

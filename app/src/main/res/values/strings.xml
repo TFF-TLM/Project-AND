@@ -9,6 +9,9 @@
     <string name="retrievePassword">Mots de pass oublié ?</string>
     <string name="signUp">Crée un compte</string>
     <string name="connect">Se connecter</string>
+    <string name="LOG_ERROR">
+        Login/Mots de pass incorrect
+    </string>
 
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>

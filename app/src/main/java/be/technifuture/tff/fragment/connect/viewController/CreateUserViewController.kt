@@ -22,7 +22,8 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
         PASSWORD_RULES,
         PASSWORD_SAME,
         MAIL_RULES,
-        MAIL_EXIST
+        MAIL_EXIST,
+        LOG_ERROR
     }
 
     fun validateForm(): Boolean =
@@ -107,6 +108,8 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
                 R.string.MAIL_EXIST
             ErrorValidation.MAIL_RULES ->
                 R.string.MAIL_RULES
+            ErrorValidation.LOG_ERROR ->
+                R.string.LOG_ERROR
         })
         alert.setNeutralButton("Ok", null)
         alert.show()
