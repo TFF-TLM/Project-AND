@@ -1,13 +1,12 @@
-package be.technifuture.tff.fragment
+package be.technifuture.tff.fragment.connect
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.databinding.FragmentLoginBinding
-import be.technifuture.tff.service.UserService
-import be.technifuture.tff.service.UserService.Companion.userService
 
 class LoginFragment : Fragment() {
 
@@ -18,6 +17,11 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(layoutInflater)
+
+        binding.buttonCreateUser.setOnClickListener {
+            val direction = LoginFragmentDirections.actionLoginFragmentToCreateUserFragment()
+            findNavController().navigate(direction)
+        }
 
         return binding.root
     }

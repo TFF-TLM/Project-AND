@@ -9,4 +9,31 @@
     <string name="retrievePassword">Mots de pass oublié ?</string>
     <string name="signUp">Crée un compte</string>
     <string name="connect">Se connecter</string>
+
+    <!-- Create User Fragment -->
+    <string name="mail">Adress Mail</string>
+    <string name="confirm_password">Vérification du Password</string>
+    <string name="create_avatar">Création de l\'avatar</string>
+
+    <!-- Create User Error -->
+    <string name="LOGIN_RULES">
+        Le login doit respecter ces régles : \n
+        * Pas de chiffre en premier \n
+        * Max 20 caractéres \n
+        * Pas de caractéres spéciaux\n
+    </string>
+    <string name="LOGIN_EXIST">Ce login existe déjà</string>
+    <string name="PASSWORD_RULES">
+        Le Login dois respecter ces régles : \n
+        * Minimun une lettre majuscule \n
+        * Minimun une lettre minuscule \n
+        * Minimun un caractére spécial \n
+        * Min 8 caractéres \n
+    </string>
+    <string name="PASSWORD_SAME">La vérification du mots de pass ne corespond pas</string>
+    <string name="MAIL_RULES">
+        Adresse mail aux mauvais format
+    </string>
+    <string name="MAIL_EXIST">Ce mail existe déjà</string>
+
 </resources>

@@ -26,7 +26,9 @@ class ConnectActivity : AppCompatActivity() {
         binding = ActivityConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /*
         val intent = Intent(this, JeuxActivity::class.java)
         startActivity(intent)
+        */
     }
 }
