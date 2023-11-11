@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/jeux_navigation"
+    app:startDestination="@id/jeuxFragment">
+
+    <fragment
+        android:id="@+id/radarFragment"
+        android:name="be.technifuture.tff.fragment.RadarFragment"
+        android:label="fragment_radar"
+        tools:layout="@layout/fragment_radar" />
+    <fragment
+        android:id="@+id/jeuxFragment"
+        android:name="be.technifuture.tff.fragment.JeuxFragment"
+        android:label="fragment_jeux"
+        tools:layout="@layout/fragment_jeux" />
+</navigation>
