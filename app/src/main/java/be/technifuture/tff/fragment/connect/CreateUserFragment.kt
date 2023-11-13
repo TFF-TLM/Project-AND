@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.databinding.FragmentCreateUserBinding
 import be.technifuture.tff.fragment.connect.viewController.CreateUserController
+import be.technifuture.tff.service.AlertDialogCustom
 
 
 class CreateUserFragment : Fragment() {
@@ -21,7 +22,7 @@ class CreateUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateUserBinding.inflate(layoutInflater)
-        viewController = CreateUserController(binding, requireContext())
+        viewController = CreateUserController(binding, AlertDialogCustom(requireContext()))
 
         binding.buttonCreateUser.setOnClickListener {
             val user = viewController.validateForm()

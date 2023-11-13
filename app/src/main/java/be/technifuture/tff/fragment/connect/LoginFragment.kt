@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.JeuxActivity
 import be.technifuture.tff.databinding.FragmentLoginBinding
+import be.technifuture.tff.service.AlertDialogCustom
+import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
 import be.technifuture.tff.service.NetworkService
 
 class LoginFragment : Fragment() {
@@ -40,6 +42,7 @@ class LoginFragment : Fragment() {
                 startActivity(intent)
             } else {
                 Log.d("DEBUGG","Connection Invalid")
+                AlertDialogCustom(requireContext()).getAlert(ErrorValidation.LOG_ERROR)
                 //TODO: Alert d'erreur
             }
         }
