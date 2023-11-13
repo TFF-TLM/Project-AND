@@ -26,15 +26,22 @@ class UserService {
         return !tempUserYetUse.contains(email)
     }
 
-        fun getUserByLogin(login: String, pass: String): Boolean{
+        fun getUserByLogin(login: String, pass: String): UserModel?{
             //TODO: Appel pour verifier l'user
             val mockUserLogin = mutableListOf("tony","medhi","laurent","user")
             // Hash de "12345678"
             val mockMdp = "a510d00003ea6b92c238dd728b2048209c78f51de5f62ac0c8db07e87397b4d4"
 
 
-            return mockUserLogin.contains(login.lowercase()) &&
-                    mockMdp == generateHash(pass)
+            return if(mockUserLogin.contains(login.lowercase()) &&
+                mockMdp == generateHash(pass)){
+                UserModel("Tony", "user_test@tff.be",
+                    "a510d00003ea6b92c238dd728b2048209c78f51de5f62ac0c8db07e87397b4d4",
+                    "aachoseParlàbas")
+            }else{
+                null
+            }
+
         }
 
         fun insertUser(user: UserModel){
