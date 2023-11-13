@@ -27,7 +27,7 @@
     </string>
     <string name="LOGIN_EXIST">Ce login existe déjà</string>
     <string name="PASSWORD_RULES">
-        Le Login dois respecter ces régles : \n
+        Le Password dois respecter ces régles : \n
         * Minimun une lettre majuscule \n
         * Minimun une lettre minuscule \n
         * Minimun un caractére spécial \n

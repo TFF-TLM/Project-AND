@@ -84,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="@string/password"
+                android:text="abcd1234ABC??"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="@string/confirm_password"
+                android:text="abcd1234ABC?"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

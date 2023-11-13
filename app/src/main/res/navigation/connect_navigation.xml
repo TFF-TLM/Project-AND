@@ -27,7 +27,11 @@
         android:id="@+id/createAvatarUserFragment"
         android:name="be.technifuture.tff.fragment.connect.CreateAvatarUserFragment"
         android:label="fragment_create_avatar_user"
-        tools:layout="@layout/fragment_create_avatar_user" />
+        tools:layout="@layout/fragment_create_avatar_user" >
+        <argument
+            android:name="user"
+            app:argType="be.technifuture.tff.model.UserModel" />
+    </fragment>
     <fragment
         android:id="@+id/radarFragment"
         android:name="be.technifuture.tff.fragment.RadarFragment"

@@ -1,10 +1,13 @@
 package be.technifuture.tff.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 class UserModel(
 
     val login: String,
     val mail: String,
     val password: String,
-    val urlAvatar: String,
-    val clan: ClanModel
-)
+    var urlAvatar: String,
+) : Parcelable

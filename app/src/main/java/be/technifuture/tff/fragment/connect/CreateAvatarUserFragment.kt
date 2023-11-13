@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
+import be.technifuture.tff.model.UserModel
 
 class CreateAvatarUserFragment : Fragment() {
 
+    private val args: CreateAvatarUserFragmentArgs by navArgs()
     private lateinit var binding: FragmentCreateAvatarUserBinding
+
+    private var urlAvatar: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +37,8 @@ class CreateAvatarUserFragment : Fragment() {
         binding.question3.text = "Quel est votre Hobbit ?"
         setupRecyclerView(chooseAvatar[2], binding!!.recyclerViewQ3)
 
+        binding.buttonCreateUser.isActivated = false
+
         return binding.root
     }
 
@@ -44,7 +51,15 @@ class CreateAvatarUserFragment : Fragment() {
     }
 
     private fun createUser() {
-        Log.d("DEBUGG","Créate User")
+        Log.d("DEBUGG","*** Créate User")
+        if(urlAvatar == null){
+            Log.d("DEBUGG","** Pas d'url fait")
+        }else{
+            var user = args.user
+            user.urlAvatar = urlAvatar as String
+        }
+
+
         //TODO:
         // 1. Vérifier que l'avatar à bien été crée
         // 2. Récuperer les infos de l'ecran précédent
@@ -53,6 +68,13 @@ class CreateAvatarUserFragment : Fragment() {
 
     private fun createAvatar() {
         Log.d("DEBUGG","Créate avatar")
+        if(urlAvatar == null){
+            urlAvatar = "url_avatar_depuis_API"
+        }else{
+            Log.d("DEBUGG","url déjà crée")
+        }
+
+
         //TODO :
         // 1. Verifier que les 3 questions on été répondu
         // 2. Demander la création de l'avatar

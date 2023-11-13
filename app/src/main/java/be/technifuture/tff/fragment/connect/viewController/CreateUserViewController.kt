@@ -5,6 +5,7 @@ import android.content.Context
 import android.widget.Switch
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentCreateUserBinding
+import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.NetworkService
 
 
@@ -26,8 +27,13 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
         LOG_ERROR
     }
 
-    fun validateForm(): Boolean =
-        loginIsValid() && isEmailValid() && isPasswordValid()
+    fun validateForm(): UserModel? =
+        if(loginIsValid() && isEmailValid() && isPasswordValid())
+            UserModel(login, email, password, "")
+        else
+            null
+
+
 
     private fun loginIsValid(): Boolean {
         login = viewBinding.editTextLogin.text.toString()

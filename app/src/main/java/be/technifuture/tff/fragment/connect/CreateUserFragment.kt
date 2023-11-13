@@ -1,6 +1,7 @@
 package be.technifuture.tff.fragment.connect
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,11 @@ class CreateUserFragment : Fragment() {
         viewController = CreateUserController(binding, requireContext())
 
         binding.buttonCreateUser.setOnClickListener {
-            if(viewController.validateForm()){
-                val direction = CreateUserFragmentDirections.actionCreateUserFragmentToCreateAvatarUserFragment()
+            val user = viewController.validateForm()
+            Log.d("DEBUGG", user.toString())
+
+            if(user != null){
+                val direction = CreateUserFragmentDirections.actionCreateUserFragmentToCreateAvatarUserFragment(user)
                 findNavController().navigate(direction)
             }
         }
