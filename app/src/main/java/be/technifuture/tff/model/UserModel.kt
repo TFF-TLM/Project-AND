@@ -6,5 +6,6 @@ class UserModel(
     val mail: String,
     val password: String,
     val urlAvatar: String,
-    val clan: ClanModel
+    val clan: ClanModel,
+    var bonus: Bonus
 )

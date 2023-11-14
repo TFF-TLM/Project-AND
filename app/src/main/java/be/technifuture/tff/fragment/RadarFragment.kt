@@ -9,23 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
-import be.technifuture.tff.adapter.AdapterRadarChats
+import be.technifuture.tff.adapter.RadarChatsAdapter
 import be.technifuture.tff.databinding.FragmentRadarBinding
-import be.technifuture.tff.model.Chat
-import be.technifuture.tff.model.ChatRGB
-import be.technifuture.tff.model.GpsCoordinates
-import be.technifuture.tff.view.LocalCoordinates
-import be.technifuture.tff.view.ObjectData
-import be.technifuture.tff.view.RadarView
+import be.technifuture.tff.model.*
+import be.technifuture.tff.view.*
 
 
-class RadarFragment : Fragment(), AdapterRadarChats.OnLikeClickListener {
+class RadarFragment : Fragment(), RadarChatsAdapter.OnLikeClickListener {
 
     private lateinit var binding: FragmentRadarBinding
     private lateinit var radarView: RadarView
 
     private var chats: MutableList<Chat>? = mutableListOf()
-    private lateinit var adapter : AdapterRadarChats
+    private lateinit var adapter : RadarChatsAdapter
 
     private fun InitChats(){
         chats?.add(Chat("1","https://www.zooplus.be/magazine/wp-content/uploads/2019/06/comprendre-le-langage-des-chats-1024x768.jpg","Chat 1 ", 80, 5,  GpsCoordinates(50.6149283418158, 5.501153571992362)))
@@ -59,7 +55,7 @@ class RadarFragment : Fragment(), AdapterRadarChats.OnLikeClickListener {
 
     private fun SetupRecyclerView(){
         chats?.let { it ->
-            adapter = AdapterRadarChats(it, this)
+            adapter = RadarChatsAdapter(it, this)
             binding.RadarRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL,false)
             binding.RadarRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
