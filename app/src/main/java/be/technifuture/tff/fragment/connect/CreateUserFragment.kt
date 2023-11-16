@@ -25,6 +25,7 @@ class CreateUserFragment : Fragment() {
         viewController = CreateUserController(binding, AlertDialogCustom(requireContext()))
 
         binding.buttonCreateUser.setOnClickListener {
+
             val user = viewController.validateForm()
             Log.d("DEBUGG", user.toString())
 

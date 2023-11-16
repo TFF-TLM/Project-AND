@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 import be.technifuture.tff.model.UserModel
+import okhttp3.internal.wait
 
 class CreateAvatarUserFragment : Fragment() {
 
@@ -81,6 +82,7 @@ class CreateAvatarUserFragment : Fragment() {
     private fun createAvatar() {
         Log.d("DEBUGG","Créate avatar")
         if(urlAvatar == null){
+            binding.loaderView.visibility = View.VISIBLE
             urlAvatar = "url_avatar_depuis_API"
             binding.buttonCreateUser.visibility = View.VISIBLE
         }else{

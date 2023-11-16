@@ -32,7 +32,8 @@ class LoginFragment : Fragment() {
         }
 
         binding.buttonLogin.setOnClickListener {
-            val isValid =NetworkService.user.getUserByLogin(
+            binding.loaderView.visibility = View.VISIBLE
+            val isValid = NetworkService.user.getUserByLogin(
                 binding.editTextLogin.text.toString(),
                 binding.editTextPassword.text.toString())
 
@@ -45,9 +46,11 @@ class LoginFragment : Fragment() {
                     startActivity(intent)
                 } else {
                     AlertDialogCustom(requireContext()).getAlert(ErrorValidation.LOG_ERROR)
+                    binding.loaderView.visibility = View.GONE
                 }
             }else{
                 AlertDialogCustom(requireContext()).getAlert(ErrorValidation.NO_CONNECTION)
+                binding.loaderView.visibility = View.GONE
             }
 
         }
