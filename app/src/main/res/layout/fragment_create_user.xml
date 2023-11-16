@@ -7,9 +7,10 @@
     tools:context=".fragment.connect.CreateUserFragment"
     android:background="@color/grey">
 
-    <ImageView
+    ,<ImageView
         android:id="@+id/imageAvatar"
         android:src="@drawable/logo"
+
         android:layout_margin="20dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -47,7 +48,9 @@
                 android:id="@+id/editTextLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:hint="@string/login"
+                android:text="Tony2"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="@string/mail"
+                android:text="aaa@aaa.aaa"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:hint="@string/confirm_password"
-                android:text="abcd1234ABC?"
+                android:text="abcd1234ABC??"
                 android:background="@android:color/transparent"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -113,6 +117,7 @@
         android:id="@+id/buttonCreateUser"
         android:layout_margin="20dp"
         android:text="@string/signUp"
+        android:contentDescription = "Send"
         android:src="@drawable/ic_stat_name"
         android:background="@drawable/input_rounded_background"
         app:layout_constraintBottom_toBottomOf="parent"

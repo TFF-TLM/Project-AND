@@ -19,6 +19,7 @@ class CreateAvatarUserFragment : Fragment() {
     private lateinit var binding: FragmentCreateAvatarUserBinding
 
     private var urlAvatar: String? = null
+    private var answerSelected = mutableListOf("","","")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,24 +30,40 @@ class CreateAvatarUserFragment : Fragment() {
         binding.buttonGenerateAvatar.setOnClickListener { createAvatar() }
 
         binding.question1.text = "Quel est votre endroit préférer"
-        setupRecyclerView(chooseAvatar[0], binding!!.recyclerViewQ1)
+        setupRecyclerView(chooseAvatar[0], binding!!.recyclerViewQ1, 1)
 
         binding.question2.text = "Quel animal est vous ?"
-        setupRecyclerView(chooseAvatar[1], binding!!.recyclerViewQ2)
+        setupRecyclerView(chooseAvatar[1], binding!!.recyclerViewQ2, 2)
 
         binding.question3.text = "Quel est votre Hobbit ?"
-        setupRecyclerView(chooseAvatar[2], binding!!.recyclerViewQ3)
+        setupRecyclerView(chooseAvatar[2], binding!!.recyclerViewQ3, 3)
 
         binding.buttonCreateUser.isActivated = false
 
         return binding.root
     }
 
-    private fun setupRecyclerView(list: MutableList<String>, recyclerViewQ1: RecyclerView, ) {
-        recyclerViewQ1.layoutManager =
+    private fun setupRecyclerView(list: MutableList<String>, recyclerView: RecyclerView, qSelected: Int) {
+        recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewQ1.adapter = CreateAvatarAdapter(list) { item ->
-            Log.d("DEBUGG",item)
+        recyclerView.adapter = CreateAvatarAdapter(list) { item ->
+            insertAnswer(item, qSelected)
+        }
+    }
+
+    private fun insertAnswer(answer: String, question: Int){
+        answerSelected[question-1] = answer
+
+        when(question){
+            1 ->
+                binding.answer1.text = answer
+            2 ->
+                binding.answer2.text = answer
+            3 ->
+                binding.answer3.text = answer
+        }
+        if(!answerSelected.contains("")){
+            binding.buttonGenerateAvatar.visibility = View.VISIBLE
         }
     }
 
@@ -65,6 +82,7 @@ class CreateAvatarUserFragment : Fragment() {
         Log.d("DEBUGG","Créate avatar")
         if(urlAvatar == null){
             urlAvatar = "url_avatar_depuis_API"
+            binding.buttonCreateUser.visibility = View.VISIBLE
         }else{
             Log.d("DEBUGG","url déjà crée")
         }
@@ -83,7 +101,9 @@ private val chooseAvatar = mutableListOf(
     ),
     mutableListOf( // Animaux
         "Serpent", "Chien", "Licorne", "Dragon", "Hibou",
-        "Aigle", "Araignée", "Pieuvre", "Requin", "Tigre"
+        "Aigle", "Araignée", "Pieuvre", "Requin", "Tigre",
+        "Lion", "Orque", "Quokka", "Phoenix", "Pangolin",
+        "Griffon", "Kraken", "Axolotl", "Okapi", "Chimère"
     ),
     mutableListOf( // Hobbit
         "Football", "Jeu vidéo", "Judo", "Natation", "Vélo",

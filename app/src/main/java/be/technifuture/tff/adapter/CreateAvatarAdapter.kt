@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.databinding.CellCreateAvatarBinding
 
-class CreateAvatarAdapter(private var ext: MutableList<String>, val onClick: (String) -> Unit) :
+class CreateAvatarAdapter(private var choose: MutableList<String>, private val onClick: (String) -> Unit) :
 
     RecyclerView.Adapter<CreateAvatarViewHolder>() {
     private lateinit var binding: CellCreateAvatarBinding
@@ -22,12 +22,13 @@ class CreateAvatarAdapter(private var ext: MutableList<String>, val onClick: (St
     }
 
     override fun onBindViewHolder(holder: CreateAvatarViewHolder, position: Int) {
-        holder.bind(ext[position])
+        holder.bind(choose[position])
     }
+
 
     //retourne le nbr d'élément à afficher
     override fun getItemCount(): Int {
-        return ext.size
+        return choose.size
     }
 }
 
@@ -41,7 +42,6 @@ class CreateAvatarViewHolder(private var viewBinding: CellCreateAvatarBinding, v
         viewBinding.cardView.setOnClickListener{
             onClick(item)
         }
-
 
     }
 }

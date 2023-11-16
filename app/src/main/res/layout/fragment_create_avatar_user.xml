@@ -30,10 +30,11 @@
         />
 
     <LinearLayout
+        android:id="@+id/boxOfRecycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
+        tools:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -89,6 +90,38 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/boxOfRecycler"
+        >
+
+        <TextView
+            android:id="@+id/answer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Bla"
+            android:layout_margin="10dp"
+            />
+        <TextView
+            android:id="@+id/answer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Bla"
+            android:layout_margin="10dp"
+            />
+        <TextView
+            android:id="@+id/answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Bla"
+            android:layout_margin="10dp"
+            />
+
+    </LinearLayout>
     <ImageButton
         android:id="@+id/buttonCreateUser"
         android:layout_width="50dp"
@@ -98,7 +131,11 @@
         android:scaleType="fitCenter"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"/>
+
+
+
 
     <ImageButton
         android:layout_width="50dp"
@@ -109,6 +146,7 @@
         android:background="@drawable/input_rounded_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/black" />
+        app:tint="@color/black"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
