@@ -15,7 +15,8 @@ class AlertDialogCustom (private val viewContext: Context){
         PASSWORD_SAME,
         MAIL_RULES,
         MAIL_EXIST,
-        LOG_ERROR
+        LOG_ERROR,
+        NO_CONNECTION
     }
 
     fun getAlert(error: ErrorValidation){
@@ -46,6 +47,8 @@ class AlertDialogCustom (private val viewContext: Context){
                 view.resources.getString(R.string.MAIL_RULES)
             ErrorValidation.LOG_ERROR ->
                 view.resources.getString(R.string.LOG_ERROR)
+            ErrorValidation.NO_CONNECTION ->
+                view.resources.getString(R.string.NO_CONNECTION)
         }
         builder.setCanceledOnTouchOutside(false)
         builder.show()

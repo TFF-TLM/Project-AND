@@ -57,13 +57,8 @@ class CreateAvatarUserFragment : Fragment() {
         }else{
             var user = args.user
             user.urlAvatar = urlAvatar as String
+            //TODO: L'envoyé à l'API
         }
-
-
-        //TODO:
-        // 1. Vérifier que l'avatar à bien été crée
-        // 2. Récuperer les infos de l'ecran précédent
-        // 3. L'envoyé à l'API
     }
 
     private fun createAvatar() {
@@ -73,7 +68,6 @@ class CreateAvatarUserFragment : Fragment() {
         }else{
             Log.d("DEBUGG","url déjà crée")
         }
-
 
         //TODO :
         // 1. Verifier que les 3 questions on été répondu
@@ -88,7 +82,7 @@ private val chooseAvatar = mutableListOf(
         "Forêt", "Desert", "Campagne", "Lune", "Mer"
     ),
     mutableListOf( // Animaux
-        "Serpent", "Chient", "Licorne", "Dragon", "Hibou",
+        "Serpent", "Chien", "Licorne", "Dragon", "Hibou",
         "Aigle", "Araignée", "Pieuvre", "Requin", "Tigre"
     ),
     mutableListOf( // Hobbit

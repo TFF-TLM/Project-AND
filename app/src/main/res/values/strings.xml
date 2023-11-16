@@ -36,5 +36,6 @@
         Adresse mail au mauvais format
     </string>
     <string name="MAIL_EXIST">Ce mail existe déjà</string>
+    <string name="NO_CONNECTION">Veuillez vous connecter à internet</string>
 
 </resources>
