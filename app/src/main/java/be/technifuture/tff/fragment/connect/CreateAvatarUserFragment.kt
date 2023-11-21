@@ -9,10 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import be.technifuture.tff.R
 import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
-import be.technifuture.tff.model.UserModel
-import okhttp3.internal.wait
 
 class CreateAvatarUserFragment : Fragment() {
 
@@ -30,14 +29,14 @@ class CreateAvatarUserFragment : Fragment() {
         binding.buttonCreateUser.setOnClickListener { createUser() }
         binding.buttonGenerateAvatar.setOnClickListener { createAvatar() }
 
-        binding.question1.text = "Quel est votre endroit préférer"
-        setupRecyclerView(chooseAvatar[0], binding!!.recyclerViewQ1, 1)
+        binding.question1.text = getString(R.string.question1)
+        setupRecyclerView(chooseAvatar[0], binding.recyclerViewQ1, 1)
 
-        binding.question2.text = "Quel animal est vous ?"
-        setupRecyclerView(chooseAvatar[1], binding!!.recyclerViewQ2, 2)
+        binding.question2.text = getString(R.string.question2)
+        setupRecyclerView(chooseAvatar[1], binding.recyclerViewQ2, 2)
 
-        binding.question3.text = "Quel est votre Hobbit ?"
-        setupRecyclerView(chooseAvatar[2], binding!!.recyclerViewQ3, 3)
+        binding.question3.text = getString(R.string.question3)
+        setupRecyclerView(chooseAvatar[2], binding.recyclerViewQ3, 3)
 
         binding.buttonCreateUser.isActivated = false
 
@@ -73,7 +72,7 @@ class CreateAvatarUserFragment : Fragment() {
         if(urlAvatar == null){
             Log.d("DEBUGG","** Pas d'url fait")
         }else{
-            var user = args.user
+            val user = args.user
             user.urlAvatar = urlAvatar as String
             //TODO: L'envoyé à l'API
         }

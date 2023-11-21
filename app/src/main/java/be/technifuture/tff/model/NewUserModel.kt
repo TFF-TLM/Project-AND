@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class UserModel(
+class NewUserModel(
 
     val login: String,
     val mail: String,

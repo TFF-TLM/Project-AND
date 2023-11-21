@@ -15,11 +15,15 @@
     <string name="mail">Adress Mail</string>
     <string name="confirm_password">Vérification du Password</string>
     <string name="create_avatar">Création de l\'avatar</string>
+    <string name="question1">Quel est votre endroit préférer</string>
+    <string name="question2">Quel animal est vous ?</string>
+    <string name="question3">Quel est votre Hobbit ?</string>
 
     <!-- Alert Dialogue Custom Error -->
     <string name="LOGIN_RULES">
         Le login doit respecter ces régles : \n
         * Pas de chiffre en premier \n
+        * Min 5 caractéres \n
         * Max 20 caractéres \n
         * Pas de caractéres spéciaux\n
     </string>

@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_create_avatar_user" >
         <argument
             android:name="user"
-            app:argType="be.technifuture.tff.model.UserModel" />
+            app:argType="be.technifuture.tff.model.NewUserModel" />
     </fragment>
     <fragment
         android:id="@+id/radarFragment"

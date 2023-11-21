@@ -1,7 +1,7 @@
 package be.technifuture.tff.fragment.connect.viewController
 
 import be.technifuture.tff.databinding.FragmentCreateUserBinding
-import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
 import be.technifuture.tff.service.NetworkService
@@ -15,9 +15,9 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
     private var password: String = ""
     private var email: String = ""
 
-    fun validateForm(): UserModel? =
+    fun validateForm(): NewUserModel? =
         if(loginIsValid() && isEmailValid() && isPasswordValid())
-            UserModel(login, email, password, "")
+            NewUserModel(login, email, password, "")
         else
             null
 
@@ -26,7 +26,7 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
 
         // Must start by letter, Only Number and Letter for other
         // Max : 20 charactére
-        val regex = "^(?=.*[A-Za-z0-9]\$)[A-Za-z][A-Za-z\\d.-]{0,19}\$".toRegex()
+        val regex = "^(?=.*[A-Za-z0-9]\$)[A-Za-z][A-Za-z\\d.-]{4,19}\$".toRegex()
 
         if (!regex.matches(login)) {
             alert.getAlert(ErrorValidation.LOGIN_RULES)
