@@ -1,4 +1,4 @@
 package be.technifuture.tff.model
 
-class ClanModel {
+class ClanModel(val test : String) {
 }

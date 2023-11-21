@@ -8,14 +8,17 @@ data class ZoneChat(
     var nom: String,
     var radius: Int,
     var color: ChatRGB,
-    var gpsCoordinates: GpsCoordinates
+    var gpsCoordinates: GpsCoordinates,
+    var chat: Chat
 ) : Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
         parcel.readParcelable(ChatRGB::class.java.classLoader) ?: ChatRGB(0, 0, 0),
-        parcel.readParcelable(GpsCoordinates::class.java.classLoader) ?: GpsCoordinates(0.0, 0.0)
+        parcel.readParcelable(GpsCoordinates::class.java.classLoader) ?: GpsCoordinates(0.0, 0.0),
+        parcel.readParcelable(Chat::class.java.classLoader) ?: Chat("", "", "", 0, 100, 1, false, GpsCoordinates(0.0, 0.0))
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -24,6 +27,7 @@ data class ZoneChat(
         parcel.writeInt(radius)
         parcel.writeParcelable(color, flags)
         parcel.writeParcelable(gpsCoordinates, flags)
+        parcel.writeParcelable(chat, flags)
     }
 
     override fun describeContents(): Int {
@@ -71,3 +75,53 @@ data class ChatRGB(val r: Int, val g: Int, val b: Int) : Parcelable {
         }
     }
 }
+
+
+data class Chat(
+    var id: String,
+    var urlImage: String,
+    var nom: String,
+    var vie: Int,
+    var maxVie: Int,
+    var level: Int,
+    var isVisible : Boolean,
+    var gpsCoordinates: GpsCoordinates
+) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readByte() != 0.toByte(),
+        parcel.readParcelable(GpsCoordinates::class.java.classLoader) ?: GpsCoordinates(0.0, 0.0)
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(urlImage)
+        parcel.writeString(nom)
+        parcel.writeInt(vie)
+        parcel.writeInt(maxVie)
+        parcel.writeInt(level)
+        parcel.writeByte(if (isVisible) 1 else 0)
+        parcel.writeParcelable(gpsCoordinates, flags)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Chat> {
+        override fun createFromParcel(parcel: Parcel): Chat {
+            return Chat(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Chat?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
+

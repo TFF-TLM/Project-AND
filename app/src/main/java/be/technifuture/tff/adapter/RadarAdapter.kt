@@ -11,20 +11,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
 import be.technifuture.tff.model.Chat
+import be.technifuture.tff.model.interfaces.RadarListener
 import com.bumptech.glide.Glide
 
 class RadarChatsAdapter(
     private val ChatsItemsListe: MutableList<Chat>,
-    private val onLikeClickListener: OnLikeClickListener
+    private val onClickListener: RadarListener
 ) : RecyclerView.Adapter<RadarChatsViewHolder>() {
 
-    interface OnLikeClickListener {
-        fun onLikeClick(action:String, item: Chat)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadarChatsViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.cell_radar_chat, parent, false)
-        return RadarChatsViewHolder(layout, onLikeClickListener)
+        return RadarChatsViewHolder(layout, onClickListener)
     }
 
     override fun onBindViewHolder(holder: RadarChatsViewHolder, position: Int) {
@@ -40,7 +38,7 @@ class RadarChatsAdapter(
 
 class RadarChatsViewHolder(
     private val view: View,
-    private val onLikeClickListener: RadarChatsAdapter.OnLikeClickListener
+    private val onClickListener: RadarListener
 ) : RecyclerView.ViewHolder(view) {
 
     val nom: TextView = view.findViewById(R.id.CellRadarChatNom)
@@ -64,7 +62,7 @@ class RadarChatsViewHolder(
 
         /*
         BtnOpen.setOnClickListener {
-            onLikeClickListener.onLikeClick("UPD", item)
+            onClickListener.onRadarClick("UPD", item)
         }
         */
     }

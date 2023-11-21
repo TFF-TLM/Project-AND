@@ -7,5 +7,5 @@ class UserModel(
     val password: String,
     val urlAvatar: String,
     val clan: ClanModel,
-    var bonus: Bonus
+    var bonus: MutableList<Bonus>
 )

@@ -3,6 +3,7 @@ package be.technifuture.tff
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,6 +11,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import be.technifuture.tff.databinding.ActivityJeuxBinding
 import be.technifuture.tff.model.mySetting
+import be.technifuture.tff.repos.ReposGoogleMap
 import be.technifuture.tff.repos.ReposLacolisation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -30,6 +32,8 @@ class JeuxActivity : AppCompatActivity() {
         ReposLacolisation.getInstance().getLastLocation(this, applicationContext)
 
         InitNav();
+
+
     }
 
     //*********************************************************************** Navigation

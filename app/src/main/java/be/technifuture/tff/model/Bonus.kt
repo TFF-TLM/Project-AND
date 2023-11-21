@@ -6,7 +6,9 @@ enum class BonusType {
     Attaque
 }
 
-class Bonus {
-    var bonusType : BonusType = BonusType.Croquette
-    var nombreItem : Int = 0
+class Bonus (
+    var bonusType : BonusType = BonusType.Croquette,
+    var nombreItem : Int = 0,
+    var urlImage : String = "") {
+
 }
