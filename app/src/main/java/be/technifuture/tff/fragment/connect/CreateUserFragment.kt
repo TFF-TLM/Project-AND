@@ -30,7 +30,7 @@ class CreateUserFragment : Fragment() {
             Log.d("DEBUGG", user.toString())
 
             if(user != null){
-                val direction = CreateUserFragmentDirections.actionCreateUserFragmentToCreateAvatarUserFragment(user)
+                val direction = CreateUserFragmentDirections.actionCreateUserFragmentToCreateClanUserFragment(user)
                 findNavController().navigate(direction)
             }
         }

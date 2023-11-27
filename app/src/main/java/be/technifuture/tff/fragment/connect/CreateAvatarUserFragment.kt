@@ -83,7 +83,7 @@ class CreateAvatarUserFragment : Fragment() {
         if(urlAvatar == null){
             binding.loaderView.visibility = View.VISIBLE
             urlAvatar = "url_avatar_depuis_API"
-            binding.buttonCreateUser.visibility = View.VISIBLE
+            //binding.buttonCreateUser.visibility = View.VISIBLE
         }else{
             Log.d("DEBUGG","url déjà crée")
         }

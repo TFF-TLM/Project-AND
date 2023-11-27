@@ -111,15 +111,15 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </ScrollView>
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+    <Button
         android:id="@+id/buttonCreateUser"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_margin="20dp"
-        android:text="@string/signUp"
-        android:contentDescription = "Send"
-        android:src="@drawable/ic_stat_name"
         android:background="@drawable/input_rounded_background"
+        android:contentDescription="Send"
+        android:text="@string/signUp"
+        android:drawableEnd="@drawable/ic_stat_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@color/black" />

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/cardView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageClan"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:src="@drawable/clan_jaune" />
+
+        <TextView
+            android:id="@+id/nameClan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Achame"
+            android:textStyle="bold"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/descClan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:text="Bonus lors d'Empoisonnement"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -3,6 +3,7 @@ package be.technifuture.tff.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+//TODO: Type Clan, Int? ou ClanModel?
 @Parcelize
 class UserModel(
 

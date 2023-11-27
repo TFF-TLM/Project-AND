@@ -18,7 +18,7 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
     fun validateForm(): NewUserModel? =
         if(loginIsValid() && isEmailValid() && isPasswordValid())
 
-            NewUserModel(login, email, password, "")
+            NewUserModel(login, email, password, 0, "")
         else
             null
 

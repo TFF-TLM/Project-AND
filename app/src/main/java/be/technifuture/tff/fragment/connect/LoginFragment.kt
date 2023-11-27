@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.preference.PreferenceManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +24,8 @@ import java.util.Date
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private val sharedPref: SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(requireContext())
+    private lateinit var sharedPref: SharedPreferences
+
     private val configID = "USER_ID"
     private val configTime = "TIMESTAMP_ID"
 
@@ -33,6 +34,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(layoutInflater)
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         binding.buttonCreateUser.setOnClickListener {
             val direction = LoginFragmentDirections.actionLoginFragmentToCreateUserFragment()
@@ -88,6 +90,7 @@ class LoginFragment : Fragment() {
                 navigate(user)
             }
         }
+        Log.d("DEBUGG", userId.toString())
 
     }
 

@@ -9,5 +9,6 @@ class NewUserModel(
     val login: String,
     val mail: String,
     val password: String,
+    val clan: Int,
     var urlAvatar: String,
 ) : Parcelable

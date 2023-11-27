@@ -10,7 +10,5 @@ class ConnectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityConnectBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
     }
 }
