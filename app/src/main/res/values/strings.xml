@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFF</string>
+    <string name="app_name">Meowtopia</string>
 
     <!-- Login Fragment -->
     <string name="login">Login</string>
