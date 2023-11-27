@@ -1,9 +1,11 @@
 package be.technifuture.tff.fragment.connect
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +44,15 @@ class LoginFragment : Fragment() {
                 val userFound = isValid
                 if(userFound != null){
                     //TODO: Délai lors de la connection. Mettre un loader.
+                    /*val sharedPref: SharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(requireContext())
+                        with(sharedPref.edit()) {
+                            putString("INFO_USER_USERNAME", )
+                            putString("INFO_USER_EMAIL",)
+                            putString("INFO_USER_AVATAR",)
+                            apply()
+                        }*/
+
                     val intent = Intent(requireContext(), JeuxActivity::class.java)
                     startActivity(intent)
                 } else {

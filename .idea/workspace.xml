@@ -9,21 +9,24 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50365234-4394-4010-873c-94ff4cba15b1" name="Changes" comment="Implement du Loader (Login + Create Avatar)">
+    <list default="true" id="50365234-4394-4010-873c-94ff4cba15b1" name="Changes" comment="Externalisation du question, + retrait des warning dans les creation User">
+      <change afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/LoginFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/LoginFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/viewController/CreateUserViewController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/viewController/CreateUserViewController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/UserService.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/tony/.android/avd/Nexus_One_API_34.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/tony/.android/avd/Pixel_7_API_34.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -75,17 +78,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;android-custom-view/Users/tony/Desktop/TFF - TLM/AND/Project-AND/app/src/main/java/be/technifuture/tff/view/RadarView.kt_SELECTED&quot;: &quot;RadarView&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/tony/Desktop/TFF - TLM/AND/Project-AND&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ScreenshotViewer.SavePath": "/Users/tony/Desktop/TFF - TLM/AND/Project-AND",
+    "android-custom-view/Users/tony/Desktop/TFF - TLM/AND/Project-AND/app/src/main/java/be/technifuture/tff/view/RadarView.kt_SELECTED": "RadarView",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "/Users/tony/Desktop/TFF - TLM/AND/Project-AND",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Hellana\Desktop\Project-AND\app\src\main\res\values" />
@@ -348,7 +353,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700145083445</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Externalisation du question, + retrait des warning dans les creation User">
+      <created>1700556015751</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1700556015751</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -397,6 +409,7 @@
     <MESSAGE value="Chnagment de la hierarchie du Xml Login" />
     <MESSAGE value="Mise en place des choix dans Creation Avatar + Visibility Des bouton" />
     <MESSAGE value="Implement du Loader (Login + Create Avatar)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement du Loader (Login + Create Avatar)" />
+    <MESSAGE value="Externalisation du question, + retrait des warning dans les creation User" />
+    <option name="LAST_COMMIT_MESSAGE" value="Externalisation du question, + retrait des warning dans les creation User" />
   </component>
 </project>
