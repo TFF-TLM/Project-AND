@@ -411,5 +411,7 @@
     <MESSAGE value="Implement du Loader (Login + Create Avatar)" />
     <MESSAGE value="Externalisation du question, + retrait des warning dans les creation User" />
     <option name="LAST_COMMIT_MESSAGE" value="Externalisation du question, + retrait des warning dans les creation User" />
+    <MESSAGE value="commit du merge avec la branche feat/cree un compte" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit du merge avec la branche feat/cree un compte" />
   </component>
 </project>
