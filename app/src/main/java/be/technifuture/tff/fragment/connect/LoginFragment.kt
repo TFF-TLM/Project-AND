@@ -14,13 +14,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.JeuxActivity
 import be.technifuture.tff.databinding.FragmentLoginBinding
+import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
 import be.technifuture.tff.service.NetworkService
+import java.util.Date
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
+    private val sharedPref: SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(requireContext())
+    private val configID = "USER_ID"
+    private val configTime = "TIMESTAMP_ID"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,43 +39,36 @@ class LoginFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
+        isYetConnected()
+
         binding.buttonLogin.setOnClickListener {
             binding.loaderView.visibility = View.VISIBLE
-            val isValid = NetworkService.user.getUserByLogin(
+
+            NetworkService.user.getUserByLogin(
                 binding.editTextLogin.text.toString(),
-                binding.editTextPassword.text.toString())
+                binding.editTextPassword.text.toString()
+            ) { user ->
 
-
-            if(isNetworkAvailable()){
-                val userFound = isValid
-                if(userFound != null){
-                    //TODO: Délai lors de la connection. Mettre un loader.
-                    /*val sharedPref: SharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(requireContext())
-                        with(sharedPref.edit()) {
-                            putString("INFO_USER_USERNAME", )
-                            putString("INFO_USER_EMAIL",)
-                            putString("INFO_USER_AVATAR",)
-                            apply()
-                        }*/
-
-                    val intent = Intent(requireContext(), JeuxActivity::class.java)
-                    startActivity(intent)
+                if (isNetworkAvailable()) {
+                    if (user != null) {
+                        navigate(user)
+                    } else {
+                        AlertDialogCustom(requireContext()).getAlert(ErrorValidation.LOG_ERROR)
+                        binding.loaderView.visibility = View.GONE
+                    }
                 } else {
-                    AlertDialogCustom(requireContext()).getAlert(ErrorValidation.LOG_ERROR)
+                    AlertDialogCustom(requireContext()).getAlert(ErrorValidation.NO_CONNECTION)
                     binding.loaderView.visibility = View.GONE
                 }
-            }else{
-                AlertDialogCustom(requireContext()).getAlert(ErrorValidation.NO_CONNECTION)
-                binding.loaderView.visibility = View.GONE
             }
 
         }
         return binding.root
     }
 
-    private fun isNetworkAvailable (): Boolean {
-        val connectivityManager = getSystemService(requireContext(), ConnectivityManager:: class.java)
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager =
+            getSystemService(requireContext(), ConnectivityManager::class.java)
         val currentNetwork = connectivityManager?.activeNetwork
         val networkCapabilities = connectivityManager?.getNetworkCapabilities(currentNetwork)
         return networkCapabilities?.run {
@@ -78,6 +77,29 @@ class LoginFragment : Fragment() {
                     hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
         } ?: false
 
+    }
+
+    private fun isYetConnected() {
+        val userId = sharedPref.getInt(configID, -1)
+        val timestamp = sharedPref.getInt(configTime, 0)
+
+        if (timestamp < Date().time && userId != -1) {
+            NetworkService.user.getUserById(userId) { user ->
+                navigate(user)
+            }
+        }
+
+    }
+
+    private fun navigate(user: UserModel) {
+        with(sharedPref.edit()) {
+            putInt(configID, user.id)
+            // TimeStamp Actuel + 1 semaine
+            putLong(configTime, Date().time + (60 * 60 * 24 * 7))
+            apply()
+        }
+        val intent = Intent(requireContext(), JeuxActivity::class.java)
+        startActivity(intent)
     }
 
 
