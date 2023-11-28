@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ import be.technifuture.tff.R
 import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 import be.technifuture.tff.model.NewUserModel
+import be.technifuture.tff.service.NetworkService
 
 class CreateAvatarUserFragment : Fragment() {
 
@@ -27,7 +29,6 @@ class CreateAvatarUserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        user = args.user
         binding = FragmentCreateAvatarUserBinding.inflate(layoutInflater)
         binding.buttonCreateUser.setOnClickListener { createUser() }
         binding.buttonGenerateAvatar.setOnClickListener { createAvatar() }
@@ -41,7 +42,8 @@ class CreateAvatarUserFragment : Fragment() {
         binding.question3.text = getString(R.string.question3)
         setupRecyclerView(chooseAvatar[2], binding.recyclerViewQ3, 3)
 
-        binding.buttonCreateUser.isActivated = false
+        user = args.user
+        binding.sayHello.text = getString(R.string.say_hello, user.login)
 
         return binding.root
     }
@@ -80,24 +82,22 @@ class CreateAvatarUserFragment : Fragment() {
     }
 
     private fun createUser() {
-        Log.d("DEBUGG","*** Créate User")
-        if(urlAvatar == null){
-            Log.d("DEBUGG","** Pas d'url fait")
-        }else{
-            val user = args.user
-            user.urlAvatar = urlAvatar as String
-            //TODO: L'envoyé à l'API
+        NetworkService.user.insertUser(user){ user ->
+            //TODO: Stocker l'user dans un singleton
+            val direction = CreateAvatarUserFragmentDirections.actionCreateAvatarUserFragmentToLoginFragment()
+            findNavController().navigate(direction)
         }
+        Log.d("DEBUGG", user.urlAvatar)
     }
 
     private fun createAvatar() {
-        Log.d("DEBUGG","Créate avatar")
-        if(urlAvatar == null){
-            binding.loaderView.visibility = View.VISIBLE
-            urlAvatar = "url_avatar_depuis_API"
-            //binding.buttonCreateUser.visibility = View.VISIBLE
-        }else{
-            Log.d("DEBUGG","url déjà crée")
+        binding.loaderView.visibility = View.VISIBLE
+        NetworkService.user.generateAvatar(answerSelected){ url ->
+            user.urlAvatar = url
+            binding.loaderView.visibility = View.GONE
+            binding.buttonGenerateAvatar.visibility = View.GONE
+            binding.buttonCreateUser.visibility = View.VISIBLE
+            Log.d("DEBUGG", "Creation avatar Finie")
         }
 
         //TODO :

@@ -2,8 +2,15 @@ package be.technifuture.tff.service
 
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
+import java.lang.Thread.sleep
 
 class UserService {
+
+    private val mockUser = UserModel(
+        1,"Tony", "user_test@tff.be",
+        "12345678",
+        1
+    )
 
     fun isLoginAvailable(login: String): Boolean {
         val tempUserYetUse = mutableListOf("tony", "medhi", "laurent", "user")
@@ -24,11 +31,7 @@ class UserService {
         return if (mockUserLogin.contains(login.lowercase()) &&
             mockMdp == pass
         ) {
-            onCompletion(UserModel(
-                1,"Tony", "user_test@tff.be",
-                "12345678",
-                1
-            ))
+            onCompletion(mockUser)
         } else {
             onCompletion(null)
         }
@@ -36,27 +39,17 @@ class UserService {
     }
 
     fun getUserById(id: Int, onCompletion: (UserModel) -> Unit){
-        onCompletion(UserModel(
-            1,"Tony", "user_test@tff.be",
-            "12345678",
-            1
-        ))
+        onCompletion(mockUser)
 
     }
 
-    fun insertUser(user: NewUserModel) {
+    fun insertUser(user: NewUserModel, onComplet: (UserModel) -> Unit){
+        onComplet(mockUser)
         //TODO: Insertien d'un user à l'API
     }
 
-    fun setClanUser(user: NewUserModel) {
-        //TODO: set le clan d'un user
-    }
-
-    fun setPosition(latittudu: Double, longittude: Double) {
-        //TODO: inserer un location dans l'API
-    }
-
-    fun generateAvatar(job: String, animal: String, hobby: String) {
-        //TODO: envoyer les promp et recevoir une Image
+    fun generateAvatar(list: MutableList<String>, onComplet: (String) -> Unit) {
+        sleep(3000)
+        onComplet("url_de_api")
     }
 }

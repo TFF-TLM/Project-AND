@@ -31,6 +31,9 @@
         <argument
             android:name="user"
             app:argType="be.technifuture.tff.model.NewUserModel" />
+        <action
+            android:id="@+id/action_createAvatarUserFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/createClanUserFragment"

@@ -54,6 +54,7 @@ class LoginFragment : Fragment() {
 
                 if (isNetworkAvailable()) {
                     if (user != null) {
+
                         navigate(user)
                     } else {
                         AlertDialogCustom(requireContext()).getAlert(ErrorValidation.LOG_ERROR)
