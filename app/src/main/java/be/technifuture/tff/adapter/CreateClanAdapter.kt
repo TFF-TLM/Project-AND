@@ -41,14 +41,25 @@ class CreateClanViewHolder(private var viewBinding: CellCreateClanBinding, priva
             onClick(item.id)
             selectedPos = item.id
         }
-        viewBinding.imageClan.setImageResource(
+
             when(item.id){
-                1 -> R.drawable.clan_jaune
-                2 -> R.drawable.clan_rouge
-                3 -> R.drawable.clan_vert
+                1 -> {
+                    viewBinding.imageClan.setImageResource(R.drawable.clan_jaune)
+                    viewBinding.cardView.setCardBackgroundColor(Color.YELLOW)
+                }
+                2 -> {
+                    viewBinding.imageClan.setImageResource(R.drawable.clan_rouge)
+                    viewBinding.cardView.setCardBackgroundColor(Color.RED)
+
+                }
+                3 -> {
+                    viewBinding.imageClan.setImageResource(R.drawable.clan_vert)
+                    viewBinding.cardView.setCardBackgroundColor(Color.GREEN)
+
+                }
                 else -> R.drawable.clan_jaune
             }
-        )
+
         viewBinding.descClan.text = item.description
         viewBinding.nameClan.text = item.name
         if(selectedPos == item.id){

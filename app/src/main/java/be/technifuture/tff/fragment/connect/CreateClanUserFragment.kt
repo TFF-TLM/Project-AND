@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import be.technifuture.tff.R
 import be.technifuture.tff.adapter.CreateClanAdapter
 import be.technifuture.tff.databinding.FragmentCreateClanUserBinding
 import be.technifuture.tff.model.NewUserModel
@@ -25,7 +26,10 @@ class CreateClanUserFragment : Fragment() {
     ): View {
         binding = FragmentCreateClanUserBinding.inflate(layoutInflater)
         setupRecyclerView()
+
         user = args.user
+        binding.sayHello.text = getString(R.string.say_hello, user.login)
+
         binding.nextButton.setOnClickListener {
             val direction =
                 CreateClanUserFragmentDirections.actionFragmentCreateClanUserToCreateAvatarUserFragment(
@@ -41,7 +45,9 @@ class CreateClanUserFragment : Fragment() {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewChooseClan.adapter = CreateClanAdapter(NetworkService.clan.getClan()) { id ->
             binding.nextButton.visibility = View.VISIBLE
+            binding.clanSelected.text = NetworkService.clan.getClanById(id).name
             user.clan = id
+
         }
     }
 }

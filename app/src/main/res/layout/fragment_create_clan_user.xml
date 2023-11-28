@@ -28,7 +28,32 @@
         android:textSize="20dp"
         android:textStyle="bold"
         />
+<TextView
+    android:id="@+id/sayHello"
+    app:layout_constraintTop_toBottomOf="@id/title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/say_hello"
+    android:textAlignment="center"
+    />
+    <TextView
+        android:id="@+id/explain_screen"
+        app:layout_constraintTop_toBottomOf="@id/sayHello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/explain_clan"
+        android:textAlignment="center"
+        />
 
+    <TextView
+        android:id="@+id/clan_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/recyclerViewChooseClan"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        />
     <androidx.recyclerview.widget.RecyclerView
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toTopOf="@id/nextButton"
