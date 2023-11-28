@@ -19,6 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         android:alpha="0.5"
         />
+    <TextView
+        android:id="@+id/title"
+        android:text="@string/info_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/imageAvatar"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        />
 
 <ScrollView
     android:id="@+id/scroll"

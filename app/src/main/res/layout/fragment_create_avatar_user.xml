@@ -31,17 +31,16 @@
         />
 
     <LinearLayout
+        tools:visibility="gone"
         android:id="@+id/boxOfRecycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textAlignment="center">
-
 
         <TextView
             android:id="@+id/question1"
@@ -52,11 +51,27 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:hint="Question 1" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewQ1"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewQ1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
+
+            <TextView
+                android:id="@+id/answer1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="Bla"
+                android:visibility="gone"
+                android:textAlignment="center"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
         <TextView
@@ -68,11 +83,26 @@
             android:textAlignment="center"
             />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewQ2"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewQ2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
+
+            <TextView
+                android:id="@+id/answer2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="Bla"
+                android:textAlignment="center"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/question3"
@@ -83,45 +113,25 @@
             android:textAlignment="center"
             />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewQ3"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"/>
+            android:layout_height="match_parent">
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewQ3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/boxOfRecycler"
-        >
+            <TextView
+                android:id="@+id/answer3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="Bla"
+                android:textAlignment="center"
+                />
 
-        <TextView
-            android:id="@+id/answer1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Bla"
-            android:layout_margin="10dp"
-            />
-        <TextView
-            android:id="@+id/answer2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Bla"
-            android:layout_margin="10dp"
-            />
-        <TextView
-            android:id="@+id/answer3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Bla"
-            android:layout_margin="10dp"
-            />
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
     <ImageButton
         android:id="@+id/buttonCreateUser"

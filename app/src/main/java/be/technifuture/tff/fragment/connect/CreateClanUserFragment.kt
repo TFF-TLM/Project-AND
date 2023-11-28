@@ -41,6 +41,7 @@ class CreateClanUserFragment : Fragment() {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewChooseClan.adapter = CreateClanAdapter(NetworkService.clan.getClan()) { id ->
             binding.nextButton.visibility = View.VISIBLE
+            user.clan = id
         }
     }
 }

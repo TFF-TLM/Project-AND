@@ -7,11 +7,12 @@
     <string name="retrievePassword">Mots de pass oublié ?</string>
     <string name="signUp">Crée un compte</string>
     <string name="connect">Se connecter</string>
-    <string name="remember_me">se souvenir de moi</string>
+    <string name="remember_me">Se souvenir de moi</string>
 
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>
     <string name="confirm_password">Vérification du Password</string>
+    <string name="info_user">Donnée Utilisateur</string>
     <string name="create_avatar">Création de l\'avatar</string>
     <string name="choose_clan">Choix du Clan</string>
     <string name="question1">Quel est votre endroit préférer</string>

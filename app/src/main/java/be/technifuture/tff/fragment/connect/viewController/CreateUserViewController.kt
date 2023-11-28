@@ -64,7 +64,7 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
     private fun isEmailValid(): Boolean {
         email = viewBinding.editTextMail.text.toString()
 
-        val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]\$".toRegex()
+        val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,4}\$".toRegex()
 
         if (!regex.matches(email)) {
             alert.getAlert(ErrorValidation.MAIL_RULES)

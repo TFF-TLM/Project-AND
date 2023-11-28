@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
 import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
+import be.technifuture.tff.model.NewUserModel
 
 class CreateAvatarUserFragment : Fragment() {
 
     private val args: CreateAvatarUserFragmentArgs by navArgs()
+    private lateinit var user: NewUserModel
     private lateinit var binding: FragmentCreateAvatarUserBinding
 
     private var urlAvatar: String? = null
@@ -25,6 +27,7 @@ class CreateAvatarUserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        user = args.user
         binding = FragmentCreateAvatarUserBinding.inflate(layoutInflater)
         binding.buttonCreateUser.setOnClickListener { createUser() }
         binding.buttonGenerateAvatar.setOnClickListener { createAvatar() }
@@ -55,12 +58,21 @@ class CreateAvatarUserFragment : Fragment() {
         answerSelected[question-1] = answer
 
         when(question){
-            1 ->
+            1 ->{
                 binding.answer1.text = answer
-            2 ->
+                binding.answer1.visibility = View.VISIBLE
+                binding.recyclerViewQ1.visibility = View.GONE
+            }
+            2 ->{
                 binding.answer2.text = answer
-            3 ->
+                binding.answer2.visibility = View.VISIBLE
+                binding.recyclerViewQ2.visibility = View.GONE
+            }
+            3 ->{
                 binding.answer3.text = answer
+                binding.answer3.visibility = View.VISIBLE
+                binding.recyclerViewQ3.visibility = View.GONE
+            }
         }
         if(!answerSelected.contains("")){
             binding.buttonGenerateAvatar.visibility = View.VISIBLE
