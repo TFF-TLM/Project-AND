@@ -7,9 +7,7 @@
     <string name="retrievePassword">Mots de pass oublié ?</string>
     <string name="signUp">Crée un compte</string>
     <string name="connect">Se connecter</string>
-    <string name="LOG_ERROR">
-        Login/Mots de pass incorrect
-    </string>
+    <string name="remember_me">se souvenir de moi</string>
 
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>
@@ -19,6 +17,7 @@
     <string name="question1">Quel est votre endroit préférer</string>
     <string name="question2">Quel animal est vous ?</string>
     <string name="question3">Quel est votre Hobbit ?</string>
+    <string name="nextButton">Suivant</string>
 
     <!-- Alert Dialogue Custom Error -->
     <string name="LOGIN_RULES">
@@ -42,7 +41,7 @@
     </string>
     <string name="MAIL_EXIST">Ce mail existe déjà</string>
     <string name="NO_CONNECTION">Veuillez vous connecter à internet</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="LOG_ERROR">Login/Mots de pass incorrect</string>
+
 
 </resources>

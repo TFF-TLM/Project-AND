@@ -28,6 +28,7 @@ class LoginFragment : Fragment() {
 
     private val configID = "USER_ID"
     private val configTime = "TIMESTAMP_ID"
+    private val timeToReconnect = (60 * 60 * 24 * 7) // 1 semaine
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -95,15 +96,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun navigate(user: UserModel) {
-        with(sharedPref.edit()) {
-            putInt(configID, user.id)
-            // TimeStamp Actuel + 1 semaine
-            putLong(configTime, Date().time + (60 * 60 * 24 * 7))
-            apply()
+        if(binding.checkSave.isChecked){
+            with(sharedPref.edit()) {
+                putInt(configID, user.id)
+                putLong(configTime, Date().time + timeToReconnect)
+                apply()
+                Log.d("DEBUGG", "fct Sauvegarde, Login Fragment : On sauvegarde")
+            }
         }
+
         val intent = Intent(requireContext(), JeuxActivity::class.java)
         startActivity(intent)
     }
-
-
 }

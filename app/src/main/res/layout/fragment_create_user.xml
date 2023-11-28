@@ -118,7 +118,7 @@
         android:layout_margin="20dp"
         android:background="@drawable/input_rounded_background"
         android:contentDescription="Send"
-        android:text="@string/signUp"
+        android:text="@string/nextButton"
         android:drawableEnd="@drawable/ic_stat_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

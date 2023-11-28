@@ -31,7 +31,6 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
 
         if (!regex.matches(login)) {
             alert.getAlert(ErrorValidation.LOGIN_RULES)
-            // Message d'erreur utilisateur
             return false
         }
 
@@ -48,11 +47,10 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
 
         if (password != password2) {
             alert.getAlert(ErrorValidation.PASSWORD_SAME)
-            // Message d'erreur utilisateur
             return false
         }
-        //Minimum eight characters, at least one uppercase letter,
-        // one lowercase letter, one number and one special character, Minimum 8 charactere
+        // Minimum eight characters, at least one uppercase letter,
+        // one lowercase letter, one number and one special character, Minimum 8 character
         val regex =
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
 
@@ -66,17 +64,15 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
     private fun isEmailValid(): Boolean {
         email = viewBinding.editTextMail.text.toString()
 
-        val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$".toRegex()
+        val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]\$".toRegex()
 
         if (!regex.matches(email)) {
             alert.getAlert(ErrorValidation.MAIL_RULES)
-            // Message d'erreur utilisateur
             return false
         }
 
         if (!NetworkService.user.isEmailAvailable(email)) {
             alert.getAlert(ErrorValidation.MAIL_EXIST)
-            // Message d'erreur utilisateur
             return false
         }
         return true
