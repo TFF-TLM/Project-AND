@@ -53,3 +53,7 @@ class UserService {
         onComplet("url_de_api")
     }
 }
+
+object UserConnected{
+    lateinit var user: UserModel
+}

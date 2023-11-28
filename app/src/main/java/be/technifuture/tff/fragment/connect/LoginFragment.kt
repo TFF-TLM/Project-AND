@@ -19,6 +19,7 @@ import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
 import be.technifuture.tff.service.NetworkService
+import be.technifuture.tff.service.UserConnected
 import java.util.Date
 
 class LoginFragment : Fragment() {
@@ -105,6 +106,7 @@ class LoginFragment : Fragment() {
                 Log.d("DEBUGG", "fct Sauvegarde, Login Fragment : On sauvegarde")
             }
         }
+        UserConnected.user = user
 
         val intent = Intent(requireContext(), JeuxActivity::class.java)
         startActivity(intent)
