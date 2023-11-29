@@ -9,6 +9,10 @@
     <string name="connect">Se connecter</string>
     <string name="remember_me">Se souvenir de moi</string>
 
+    <!-- Profil Fragment -->
+    <string name="level">Level %1$s</string>
+    <string name="expAffiche">%1$s / %2$s</string>
+
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>
     <string name="confirm_password">Vérification du Password</string>
@@ -47,6 +51,9 @@
     <string name="MAIL_EXIST">Ce mail existe déjà</string>
     <string name="NO_CONNECTION">Veuillez vous connecter à internet</string>
     <string name="LOG_ERROR">Login/Mots de pass incorrect</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 
 </resources>
