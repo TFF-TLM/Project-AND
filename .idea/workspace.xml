@@ -9,13 +9,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="50365234-4394-4010-873c-94ff4cba15b1" name="Changes" comment="Rajout du Singleton pour user + Utilisation lors du login">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/jeu/ProfileFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
+    <list default="true" id="50365234-4394-4010-873c-94ff4cba15b1" name="Changes" comment="Rajout de la page ProfileFragment">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/jeux_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/jeux_navigation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/include_header_create.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/my_bottom_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/my_bottom_menu.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -418,7 +415,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701182964508</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Rajout de la page ProfileFragment">
+      <created>1701251494826</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1701251494826</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -446,7 +450,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="1et Jet du remplissage des choix" />
     <MESSAGE value="Commit fin de journée" />
     <MESSAGE value="Ajout de la cell + adapter/ViewHolder Pour la creation d'Avatar" />
     <MESSAGE value="Repris du code aprés l'arret de 2 semaine" />
@@ -471,6 +474,7 @@
     <MESSAGE value="Implementation du choix avatar" />
     <MESSAGE value="Paufinage de l'ecran clan" />
     <MESSAGE value="Rajout du Singleton pour user + Utilisation lors du login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rajout du Singleton pour user + Utilisation lors du login" />
+    <MESSAGE value="Rajout de la page ProfileFragment" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rajout de la page ProfileFragment" />
   </component>
 </project>
