@@ -9,4 +9,5 @@ interface JeuxListener {
     fun onInterestOpenned(pointInteret: PointInteret)
 
     fun onChatOpenned(chat: Chat)
+    fun onClosePopUp()
 }

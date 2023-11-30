@@ -9,16 +9,17 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.adapter.BonusAdapter
 import be.technifuture.tff.databinding.FragmentChatInteractionBinding
 import be.technifuture.tff.model.*
 import be.technifuture.tff.model.interfaces.BonusListener
 import be.technifuture.tff.repos.ReposUser
 import com.bumptech.glide.Glide
+import be.technifuture.tff.model.interfaces.JeuxListener
+
 
 class ChatInteractionFragment : Fragment(), BonusListener {
+    private var jeuxListenner: JeuxListener? = null
     private lateinit var binding: FragmentChatInteractionBinding
     private val args: ChatInteractionFragmentArgs by navArgs()
     private lateinit var adapter : BonusAdapter
@@ -37,10 +38,18 @@ class ChatInteractionFragment : Fragment(), BonusListener {
         super.onViewCreated(view, savedInstanceState)
         SetupRecyclerView()
         chat = args.chat!!
-        Log.d("LM", chat.toString())
         SetupUI();
+        SetupListenner()
+    }
+
+
+    public fun setOnButtonClickListener(listenner : JeuxListener){
+        jeuxListenner = listenner
+    }
+
+    public fun SetupListenner(){
         binding.btnChatClose.setOnClickListener {
-            findNavController().popBackStack()
+            jeuxListenner?.onClosePopUp()
         }
     }
 
@@ -61,15 +70,13 @@ class ChatInteractionFragment : Fragment(), BonusListener {
         bonus = ReposUser.getInstance().mockData().bonus
         adapter = BonusAdapter(bonus, this)
         binding.chatRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
-
-        //(requireActivity(), RecyclerView.HORIZONTAL,false)
         binding.chatRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
 
     }
 
     override fun onBonusClick(action: String, item: Bonus) {
-        TODO("Not yet implemented")
+        Log.d("LM","onBonusClick")
     }
 
 }
