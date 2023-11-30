@@ -3,7 +3,7 @@ package be.technifuture.tff.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
+
 class UserModel(
 
     val id: Int,
@@ -14,6 +14,6 @@ class UserModel(
     val level: Int,
     var expMax: Int,
     var expActuel: Int,
-    var nbCroquette: Int
-
-) : Parcelable
+    var nbCroquette: Int,
+    var bonus : MutableList<Bonus>
+)

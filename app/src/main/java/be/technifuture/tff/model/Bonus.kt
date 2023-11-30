@@ -10,5 +10,4 @@ class Bonus (
     var bonusType : BonusType = BonusType.Croquette,
     var nombreItem : Int = 0,
     var urlImage : String = "") {
-
 }

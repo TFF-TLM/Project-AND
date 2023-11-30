@@ -15,6 +15,10 @@
     <string name="nbCroquet">Nombre de croquette : %1$s</string>
     <string name="nbCat">Nombre de chat : %1$s</string>
 
+    <!-- Profil Chat interaction -->
+    <string name="vie">Vie</string>
+    <string name="mes_bonus">Mes bonus</string>
+
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>
     <string name="confirm_password">Vérification du Password</string>
