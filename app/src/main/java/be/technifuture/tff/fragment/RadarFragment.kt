@@ -9,28 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
-import be.technifuture.tff.adapter.AdapterRadarChats
+import be.technifuture.tff.adapter.RadarChatsAdapter
 import be.technifuture.tff.databinding.FragmentRadarBinding
-import be.technifuture.tff.model.Chat
-import be.technifuture.tff.model.ChatRGB
-import be.technifuture.tff.model.GpsCoordinates
-import be.technifuture.tff.view.LocalCoordinates
-import be.technifuture.tff.view.ObjectData
-import be.technifuture.tff.view.RadarView
+import be.technifuture.tff.model.*
+import be.technifuture.tff.model.interfaces.RadarListener
+import be.technifuture.tff.view.*
 
 
-class RadarFragment : Fragment(), AdapterRadarChats.OnLikeClickListener {
+class RadarFragment : Fragment(), RadarListener {
 
     private lateinit var binding: FragmentRadarBinding
     private lateinit var radarView: RadarView
 
     private var chats: MutableList<Chat>? = mutableListOf()
-    private lateinit var adapter : AdapterRadarChats
+    private lateinit var adapter : RadarChatsAdapter
 
     private fun InitChats(){
-        chats?.add(Chat("1","https://www.zooplus.be/magazine/wp-content/uploads/2019/06/comprendre-le-langage-des-chats-1024x768.jpg","Chat 1 ", 80, 5,  GpsCoordinates(50.6149283418158, 5.501153571992362)))
-        chats?.add(Chat("2","https://miaoubox.s3.eu-central-1.amazonaws.com/blog/chat%20yeux%20final.jpg","Chat 2 ", 50, 8, GpsCoordinates(50.616116263548136, 5.504683378057636)))
-        chats?.add(Chat("3","https://t3t8k6v8.rocketcdn.me/wp-content/uploads/2020/05/Chat-qui-petrit-petrissage.jpg","Chat 3 ", 10, 15, GpsCoordinates(50.615551238020196, 5.5039752430043976)))
+        chats?.add(Chat("1","https://www.zooplus.be/magazine/wp-content/uploads/2019/06/comprendre-le-langage-des-chats-1024x768.jpg","Chat 1 ", 80,100, 5, true,  GpsCoordinates(50.6149283418158, 5.501153571992362)))
+        chats?.add(Chat("2","https://miaoubox.s3.eu-central-1.amazonaws.com/blog/chat%20yeux%20final.jpg","Chat 2 ", 50,100, 8, true, GpsCoordinates(50.616116263548136, 5.504683378057636)))
+        chats?.add(Chat("3","https://t3t8k6v8.rocketcdn.me/wp-content/uploads/2020/05/Chat-qui-petrit-petrissage.jpg","Chat 3 ", 10,100, 15, true, GpsCoordinates(50.615551238020196, 5.5039752430043976)))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,7 +56,7 @@ class RadarFragment : Fragment(), AdapterRadarChats.OnLikeClickListener {
 
     private fun SetupRecyclerView(){
         chats?.let { it ->
-            adapter = AdapterRadarChats(it, this)
+            adapter = RadarChatsAdapter(it, this)
             binding.RadarRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL,false)
             binding.RadarRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
@@ -82,7 +79,7 @@ class RadarFragment : Fragment(), AdapterRadarChats.OnLikeClickListener {
         return LocalCoordinates(x, y)
     }
 
-    override fun onLikeClick(action: String, item: Chat) {
+    override fun onRadarClick(action: String, item: Bonus) {
         TODO("Not yet implemented")
     }
 }

@@ -7,13 +7,16 @@ class PointInteret(
     var nom: String,
     var bonusLevel: Int,
     var bonusType: Int,
+    var isVisible : Boolean,
     var gpsCoordinates: GpsCoordinates
 ) : Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
         parcel.readInt(),
+        parcel.readByte() != 0.toByte(),
         parcel.readParcelable(GpsCoordinates::class.java.classLoader) ?: GpsCoordinates(0.0, 0.0)
     )
 
@@ -22,6 +25,7 @@ class PointInteret(
         parcel.writeString(nom)
         parcel.writeInt(bonusLevel)
         parcel.writeInt(bonusType)
+        parcel.writeByte(if (isVisible) 1 else 0)
         parcel.writeParcelable(gpsCoordinates, flags)
     }
 

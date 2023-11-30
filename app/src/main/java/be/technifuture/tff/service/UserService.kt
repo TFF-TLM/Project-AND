@@ -1,5 +1,7 @@
 package be.technifuture.tff.service
 
+import be.technifuture.tff.model.Bonus
+import be.technifuture.tff.model.BonusType
 import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
@@ -11,7 +13,11 @@ class UserService {
         643,"Tony", "user_test@tff.be",
         "12345678",
         2, 5,530, 140,
-        345
+        345,
+        mutableListOf(
+            Bonus(BonusType.Croquette, 10, "https://img1.freepng.fr/20180715/piy/kisspng-cat-chicken-as-food-elderly-crispy-fried-chicken-s-croquette-5b4b0a2245a2b8.5912826215316444502852.jpg"),
+            Bonus(BonusType.Bouclier, 2, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBZG_ry2wJ5uNGBqeHpupjJ2uH4daVZtW29hqd4tSZLyhvPREQlfsClKY7irR7UEqlL-4&usqp=CAU")
+        )
 
     )
 

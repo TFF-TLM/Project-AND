@@ -11,23 +11,21 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
 import be.technifuture.tff.model.Chat
+import be.technifuture.tff.model.interfaces.RadarListener
 import com.bumptech.glide.Glide
 
-class AdapterRadarChats(
+class RadarChatsAdapter(
     private val ChatsItemsListe: MutableList<Chat>,
-    private val onLikeClickListener: OnLikeClickListener
-) : RecyclerView.Adapter<SortieListeViewHolder1>() {
+    private val onClickListener: RadarListener
+) : RecyclerView.Adapter<RadarChatsViewHolder>() {
 
-    interface OnLikeClickListener {
-        fun onLikeClick(action:String, item: Chat)
-    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SortieListeViewHolder1 {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadarChatsViewHolder {
         val layout = LayoutInflater.from(parent.context).inflate(R.layout.cell_radar_chat, parent, false)
-        return SortieListeViewHolder1(layout, onLikeClickListener)
+        return RadarChatsViewHolder(layout, onClickListener)
     }
 
-    override fun onBindViewHolder(holder: SortieListeViewHolder1, position: Int) {
+    override fun onBindViewHolder(holder: RadarChatsViewHolder, position: Int) {
         val item: Chat = ChatsItemsListe[position]
         holder.setupData(item)
     }
@@ -38,9 +36,9 @@ class AdapterRadarChats(
 }
 
 
-class SortieListeViewHolder1(
+class RadarChatsViewHolder(
     private val view: View,
-    private val onLikeClickListener: AdapterRadarChats.OnLikeClickListener
+    private val onClickListener: RadarListener
 ) : RecyclerView.ViewHolder(view) {
 
     val nom: TextView = view.findViewById(R.id.CellRadarChatNom)
@@ -55,16 +53,16 @@ class SortieListeViewHolder1(
         nom.text = item.nom
         distance.text = "50 M"
         level.text  = item.level.toString()
-Log.d("LM",item.toString())
 
         if (!item.urlImage.isNullOrEmpty()) {
             Glide.with(view)
                 .load(item.urlImage) // Chargez l'URL de l'image
                 .into(photo) // Affichez l'image dans la vue 'photo'
         }
+
         /*
         BtnOpen.setOnClickListener {
-            onLikeClickListener.onLikeClick("UPD", item)
+            onClickListener.onRadarClick("UPD", item)
         }
         */
     }

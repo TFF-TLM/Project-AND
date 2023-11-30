@@ -12,21 +12,22 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import be.technifuture.tff.model.mySetting
+import be.technifuture.tff.model.*
+import be.technifuture.tff.model.interfaces.*
 import kotlin.math.pow
 
 
 
 class ReposLacolisation : LocationListener {
+    private var locationChangeListener: LocationChangeListener? = null
+    private var locationManager : LocationManager? = null
 
     companion object {
 
         const val LOCATION_PERMISSION_REQUEST_CODE = 123
         const val MY_SHARED_PREFERENCE = "ActiCityPreference"
         const val FIRST_TIME_OPENING = "ActiCityOpen"
-
         private var instance: ReposLacolisation? = null
-
 
         fun getInstance(): ReposLacolisation {
             if (instance == null) {
@@ -36,17 +37,16 @@ class ReposLacolisation : LocationListener {
         }
     }
 
-    private var locationManager : LocationManager? = null
 
-    fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+    fun calculateDistance(gpsCoordinates1 : GpsCoordinates, gpsCoordinates2 : GpsCoordinates): Double {
 
         try{
             val earthRadius = 6371.0 // Rayon moyen de la Terre en kilomètres
-            val dLat = degToRad(lat2 - lat1)
-            val dLon = degToRad(lon2 - lon1)
+            val dLat = degToRad(gpsCoordinates2.latitude - gpsCoordinates1.latitude)
+            val dLon = degToRad(gpsCoordinates2.longitude - gpsCoordinates1.longitude)
 
             val a = Math.sin(dLat / 2).pow(2) +
-                    Math.cos(degToRad(lat1)) * Math.cos(degToRad(lat2)) *
+                    Math.cos(degToRad(gpsCoordinates1.latitude)) * Math.cos(degToRad(gpsCoordinates2.latitude)) *
                     Math.sin(dLon / 2).pow(2)
             val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
@@ -127,8 +127,11 @@ class ReposLacolisation : LocationListener {
     override fun onLocationChanged(location: Location) {
         mySetting.latitude = location.latitude
         mySetting.longitude = location.longitude
-        Log.d("LM", "onLocationChanged latitude = "+location.latitude.toString())
-        Log.d("LM", "onLocationChanged longitude = " + location.longitude.toString())
+
+        var gpsCoordinates: GpsCoordinates = GpsCoordinates(mySetting.latitude, mySetting.longitude );
+        locationChangeListener?.onLocationChanged(gpsCoordinates)
+
     }
+
 }
 
