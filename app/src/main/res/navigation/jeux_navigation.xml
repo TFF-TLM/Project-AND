@@ -14,5 +14,18 @@
         android:id="@+id/jeuxFragment"
         android:name="be.technifuture.tff.fragment.JeuxFragment"
         android:label="fragment_jeux"
-        tools:layout="@layout/fragment_jeux" />
+        tools:layout="@layout/fragment_jeux" >
+        <action
+            android:id="@+id/action_jeuxFragment_to_chatInteractionFragment"
+            app:destination="@id/chatInteractionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatInteractionFragment"
+        android:name="be.technifuture.tff.fragment.ChatInteractionFragment"
+        android:label="fragment_chat_interaction"
+        tools:layout="@layout/fragment_chat_interaction" >
+        <argument
+            android:name="chat"
+            app:argType="be.technifuture.tff.model.Chat" />
+    </fragment>
 </navigation>

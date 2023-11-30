@@ -1,11 +1,14 @@
 package be.technifuture.tff.repos
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import be.technifuture.tff.R
-import be.technifuture.tff.model.Chat
 import be.technifuture.tff.model.GpsCoordinates
 import be.technifuture.tff.model.PointInteret
 import be.technifuture.tff.model.ZoneChat
+import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.model.mySetting
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -14,8 +17,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Polygon
-import com.google.android.gms.maps.model.PolygonOptions
 
 
 private fun GpsCoordinates.toLatLng(): LatLng {
@@ -25,16 +26,20 @@ private fun GpsCoordinates.toLatLng(): LatLng {
 
 class ReposGoogleMap : OnMapReadyCallback {
 
+    private var jeuxListenner: JeuxListener? = null
+
     private var itemsZoneChatShow: MutableList<ZoneChat> = mutableListOf()
     private var itemsPointInteretShow: MutableList<PointInteret> = mutableListOf()
     private lateinit var googleMap: GoogleMap
     private var zoomLevel: Float = 13f
-
+    private lateinit var myContext: Context
 
     //val baseLongitude = 5.5314775
     //val baseLatitude = 50.6128178
 
-    constructor(zoom : Float) {
+    constructor( context: Context, zoom : Float, listenner : JeuxListener) {
+        jeuxListenner = listenner
+        myContext = context
         zoomLevel = zoom
         itemsZoneChatShow.addAll(ReposZoneChat.getInstance().mockData(5.5314775f, 50.6128178f))
         itemsPointInteretShow.addAll(ReposPointInteret.getInstance().mockData(5.5314775f, 50.6128178f))
@@ -56,15 +61,47 @@ class ReposGoogleMap : OnMapReadyCallback {
 
         SetZoneChat()
         SetPointInteret()
+        SetChat(myContext)
 
-        googleMap.setOnInfoWindowClickListener { marker ->
+        googleMap.setOnMarkerClickListener { marker ->
+
             val pkGuid = marker.getTag().toString()
-            if(pkGuid != "MOI") {
-                var zoneChat: ZoneChat? = itemsZoneChatShow.find { it.id == pkGuid }
-                // ajouter pour naviger vers le chat detail en envoyer chat
+            if (pkGuid != "MOI" ) {
+
+
+                var zoneChat: ZoneChat? = itemsZoneChatShow.find { it.chat.id == pkGuid }
+                if (zoneChat != null) {
+                    jeuxListenner?.onChatOpenned(zoneChat.chat)
+                }
 
                 var pointInteret: PointInteret? = itemsPointInteretShow.find { it.id == pkGuid }
-                // ajouter pour naviger vers le chat detail en envoyer chat
+                if (pointInteret != null) {
+                    jeuxListenner?.onInterestOpenned(pointInteret)
+                }
+
+            }
+            // Renvoyer false pour indiquer que le clic sur le marqueur doit également déclencher l'événement par défaut
+            false
+        }
+
+
+    }
+
+    private fun SetChat(context: Context) {
+        itemsZoneChatShow.forEach { itemZoneChat: ZoneChat ->
+            if (itemZoneChat.chat.gpsCoordinates.latitude != null && itemZoneChat.chat.gpsCoordinates.longitude != null) {
+                val position = itemZoneChat.chat.gpsCoordinates.toLatLng()
+
+                val originalBitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ico_chat)
+                val resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 150, 150, false)
+                val icon = BitmapDescriptorFactory.fromBitmap(resizedBitmap)
+
+                val markerOptions = MarkerOptions()
+                    .zIndex(30f)
+                    .position(position)
+                    .icon(icon)
+                    .anchor(0.5f, 0.5f)
+                googleMap.addMarker(markerOptions)?.tag = itemZoneChat.chat.id
             }
         }
     }
@@ -76,6 +113,7 @@ class ReposGoogleMap : OnMapReadyCallback {
 
                 val customIcon = BitmapDescriptorFactory.fromResource(R.drawable.ico_poi)
                 val markerOptions = MarkerOptions()
+                    .zIndex(20f)
                     .position(position)
                     .icon(customIcon)
                     .title(itemPointInteret.nom)
@@ -93,6 +131,7 @@ class ReposGoogleMap : OnMapReadyCallback {
                 val radiusInMeters = itemZoneChat.radius.toDouble() // Utilisez la valeur de radius
 
                 val circleOptions = CircleOptions()
+                    .zIndex(10f)
                     .center(position)
                     .radius(radiusInMeters)
                     .strokeWidth(2f)
@@ -109,4 +148,5 @@ class ReposGoogleMap : OnMapReadyCallback {
             }
         }
     }
+
 }

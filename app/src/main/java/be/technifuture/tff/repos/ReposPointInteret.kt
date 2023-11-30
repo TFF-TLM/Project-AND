@@ -22,6 +22,7 @@ class ReposPointInteret {
                 nom = "PointInteret $i",
                 bonusLevel = 100,
                 bonusType = 1,
+                isVisible = true,
                 gpsCoordinates = GpsCoordinates(randomLatitude, randomLongitude)
             )
             itemsPointInteretShow.add(pointInteret)

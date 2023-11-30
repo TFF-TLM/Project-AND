@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Meowtopia</string>
+    <string name="app_name">TFF</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Login Fragment -->
     <string name="login">Login</string>
@@ -7,34 +9,25 @@
     <string name="retrievePassword">Mots de pass oublié ?</string>
     <string name="signUp">Crée un compte</string>
     <string name="connect">Se connecter</string>
-    <string name="remember_me">Se souvenir de moi</string>
+    <string name="LOG_ERROR">
+        Login/Mots de pass incorrect
+    </string>
 
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>
     <string name="confirm_password">Vérification du Password</string>
-    <string name="info_user">Donnée Utilisateur</string>
     <string name="create_avatar">Création de l\'avatar</string>
-    <string name="create_user">Crée le compte</string>
-    <string name="choose_clan">Choix du Clan</string>
-    <string name="say_hello">Bonjour %1$s</string>
-    <string name="explain_clan">Choisis ton camp</string>
-    <string name="explain_avatar">Choisis 3 mots qui décriron ton avatar</string>
-    <string name="question1">Quel est votre endroit préférer</string>
-    <string name="question2">Quel animal est vous ?</string>
-    <string name="question3">Quel est votre Hobbit ?</string>
-    <string name="nextButton">Suivant</string>
 
-    <!-- Alert Dialogue Custom Error -->
+    <!-- Create User Error -->
     <string name="LOGIN_RULES">
         Le login doit respecter ces régles : \n
         * Pas de chiffre en premier \n
-        * Min 5 caractéres \n
         * Max 20 caractéres \n
         * Pas de caractéres spéciaux\n
     </string>
     <string name="LOGIN_EXIST">Ce login existe déjà</string>
     <string name="PASSWORD_RULES">
-        Le Password dois respecter ces régles : \n
+        Le Login dois respecter ces régles : \n
         * Minimun une lettre majuscule \n
         * Minimun une lettre minuscule \n
         * Minimun un caractére spécial \n
@@ -42,11 +35,10 @@
     </string>
     <string name="PASSWORD_SAME">La vérification du mots de pass ne corespond pas</string>
     <string name="MAIL_RULES">
-        Adresse mail au mauvais format
+        Adresse mail aux mauvais format
     </string>
     <string name="MAIL_EXIST">Ce mail existe déjà</string>
-    <string name="NO_CONNECTION">Veuillez vous connecter à internet</string>
-    <string name="LOG_ERROR">Login/Mots de pass incorrect</string>
-
+    <string name="mes_bonus">Mes bonus</string>
+    <string name="vie">Vie</string>
 
 </resources>
