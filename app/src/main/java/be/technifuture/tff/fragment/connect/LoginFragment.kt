@@ -52,10 +52,8 @@ class LoginFragment : Fragment() {
                 binding.editTextLogin.text.toString(),
                 binding.editTextPassword.text.toString()
             ) { user ->
-
                 if (isNetworkAvailable()) {
                     if (user != null) {
-
                         navigate(user)
                     } else {
                         AlertDialogCustom(requireContext()).getAlert(ErrorValidation.LOG_ERROR)
@@ -107,6 +105,8 @@ class LoginFragment : Fragment() {
             }
         }
         UserConnected.user = user
+        Log.d("DEBUGG", "LoginFragment, navigate : ${user.clan}")
+        UserConnected.clan = NetworkService.clan.getClanById(user.clan)
 
         val intent = Intent(requireContext(), JeuxActivity::class.java)
         startActivity(intent)

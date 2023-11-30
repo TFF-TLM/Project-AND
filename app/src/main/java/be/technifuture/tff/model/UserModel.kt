@@ -10,6 +10,10 @@ class UserModel(
     val login: String,
     val mail: String,
     var urlAvatar: String,
-    val clan: Int
+    val clan: Int,
+    val level: Int,
+    var expMax: Int,
+    var expActuel: Int,
+    var nbCroquette: Int
 
 ) : Parcelable

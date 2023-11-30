@@ -12,6 +12,8 @@
     <!-- Profil Fragment -->
     <string name="level">Level %1$s</string>
     <string name="expAffiche">%1$s / %2$s</string>
+    <string name="nbCroquet">Nombre de croquette : %1$s</string>
+    <string name="nbCat">Nombre de chat : %1$s</string>
 
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>

@@ -1,5 +1,6 @@
 package be.technifuture.tff.service
 
+import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
 import java.lang.Thread.sleep
@@ -7,9 +8,11 @@ import java.lang.Thread.sleep
 class UserService {
 
     private val mockUser = UserModel(
-        1,"Tony", "user_test@tff.be",
+        643,"Tony", "user_test@tff.be",
         "12345678",
-        1
+        2, 5,530, 140,
+        345
+
     )
 
     fun isLoginAvailable(login: String): Boolean {
@@ -56,4 +59,5 @@ class UserService {
 
 object UserConnected{
     lateinit var user: UserModel
+    lateinit var clan: ClanModel
 }
