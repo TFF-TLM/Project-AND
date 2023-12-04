@@ -1,10 +1,10 @@
 package be.technifuture.tff.service
 
 import be.technifuture.tff.model.Bonus
-import be.technifuture.tff.model.BonusType
 import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.model.enums.BonusType
 import java.lang.Thread.sleep
 
 class UserService {

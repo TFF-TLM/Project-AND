@@ -3,19 +3,19 @@ package be.technifuture.tff
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import be.technifuture.tff.databinding.ActivityJeuxBinding
-import be.technifuture.tff.model.mySetting
-import be.technifuture.tff.repos.ReposGoogleMap
+import be.technifuture.tff.model.*
+import be.technifuture.tff.model.interfaces.GpsUpadateListener
 import be.technifuture.tff.repos.ReposLacolisation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class JeuxActivity : AppCompatActivity() {
+class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
 
     private lateinit var sharedPreference: SharedPreferences
     lateinit var binding: ActivityJeuxBinding
@@ -28,12 +28,14 @@ class JeuxActivity : AppCompatActivity() {
         sharedPreference = applicationContext.getSharedPreferences(ReposLacolisation.MY_SHARED_PREFERENCE, MODE_PRIVATE)
         mySetting.isFirstLaunch = sharedPreference.getBoolean(ReposLacolisation.FIRST_TIME_OPENING, true)
 
-        // Obtention de la dernière position de l'appareil
-        ReposLacolisation.getInstance().getLastLocation(this, applicationContext)
-
+        //applicationContext
+        ReposLacolisation.getInstance().getLastLocation(this, this)
         InitNav();
+    }
 
 
+    override fun onGpsChanged(gpsCoordinatesUser: GpsCoordinates) {
+        Log.d("LM", "JeuxActivity.onGpsChanged = " + gpsCoordinatesUser.toString())
     }
 
     //*********************************************************************** Navigation

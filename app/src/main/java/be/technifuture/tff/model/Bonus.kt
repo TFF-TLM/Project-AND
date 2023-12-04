@@ -1,10 +1,6 @@
 package be.technifuture.tff.model
 
-enum class BonusType {
-    Croquette,
-    Bouclier,
-    Attaque
-}
+import be.technifuture.tff.model.enums.BonusType
 
 class Bonus (
     var bonusType : BonusType = BonusType.Croquette,

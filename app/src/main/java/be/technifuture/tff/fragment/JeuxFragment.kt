@@ -3,10 +3,14 @@ package be.technifuture.tff.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
@@ -14,14 +18,21 @@ import androidx.transition.Fade
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentJeuxBinding
 import be.technifuture.tff.model.*
+import be.technifuture.tff.model.enums.ColorChoice
 import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.repos.ReposGoogleMap
+import be.technifuture.tff.repos.ReposLacolisation
+import be.technifuture.tff.service.Joystick
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.LatLng
 
-class JeuxFragment : Fragment(), LocationChangeListener, JeuxListener {
+class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     private lateinit var binding: FragmentJeuxBinding
     private lateinit var mapView: MapView
-    private lateinit var reposGoogleMap: ReposGoogleMap
+    private lateinit var gpsCoordinatesUser: GpsCoordinates
+
+    var relativeLayoutJoystick : RelativeLayout? = null
+    var joystick : Joystick? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,38 +44,79 @@ class JeuxFragment : Fragment(), LocationChangeListener, JeuxListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        reposGoogleMap = ReposGoogleMap(requireContext(),13f, this)
+        ReposGoogleMap.getInstance().Init(requireContext(),13f, this)
 
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync(reposGoogleMap)
-        //SetupListenner()
+        mapView.getMapAsync(ReposGoogleMap.getInstance())
+
+        ReposLacolisation.getInstance().setListenner(this)
+        InitJoystick()
     }
 
-    override fun onLocationChanged(gpsCoordinatesUser: GpsCoordinates) {
-        // Faites quelque chose avec les nouvelles coordonnées
-        Log.d("LM", "Nouvelles coordonnées onLocationChanged - Latitude: ${gpsCoordinatesUser.latitude}, Longitude: ${gpsCoordinatesUser.longitude}")
-        // Ajoutez le code que vous souhaitez exécuter en réponse à un changement de position
+
+    //******************************************************** Joystick
+    fun InitJoystick(){
+
+        relativeLayoutJoystick = binding.relativeLayoutJoystick as RelativeLayout
+
+        joystick = Joystick(requireContext(), relativeLayoutJoystick!!, R.drawable.inner)
+        joystick!!.setStickSize(150,150)
+        joystick!!.setLayoutSize(300,300)
+        joystick!!.setLayoutAlpha(200)
+        joystick!!.setStickAlpha(100)
+        joystick!!.setOffset(90)
+        joystick!!.setMinimumDistance(20)
+
+        relativeLayoutJoystick!!.setOnTouchListener { arg0, arg1 ->
+            joystick!!.drawStick(arg1)
+            if (arg1.action == MotionEvent.ACTION_DOWN || arg1.action == MotionEvent.ACTION_MOVE) {
+                gpsCoordinatesUser = calculateNewPosition(gpsCoordinatesUser, joystick!!.getAngle().toDouble())
+                ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser, ColorChoice.Yellow)
+            } else if (arg1.action == MotionEvent.ACTION_UP) {
+                ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser, ColorChoice.Green)
+            }
+            true
+        }
     }
 
+    //******************************************************** Events UI
     override fun onResume() {
+        if (::mapView.isInitialized) {
+            mapView.onResume()
+        }
         super.onResume()
-        mapView.onResume()
     }
 
     override fun onPause() {
+        if (::mapView.isInitialized) {
+            mapView.onPause()
+        }
         super.onPause()
-        mapView.onPause()
     }
 
     override fun onDestroy() {
+        if (::mapView.isInitialized) {
+            mapView.onDestroy()
+        }
         super.onDestroy()
-        mapView.onDestroy()
     }
 
     override fun onLowMemory() {
+        if (::mapView.isInitialized) {
+            mapView.onLowMemory()
+        }
         super.onLowMemory()
-        mapView.onLowMemory()
+    }
+
+    //******************************************************** Events Users
+
+    private fun calculateNewPosition(oldPosition: GpsCoordinates, angle: Double): GpsCoordinates {
+        val vitesse = 0.0002
+        val angleInRadians = Math.toRadians(angle)
+        val newLatitude = oldPosition.latitude + vitesse * -Math.sin(angleInRadians)
+        val newLongitude = oldPosition.longitude + vitesse * Math.cos(angleInRadians)
+        return GpsCoordinates(newLatitude, newLongitude)
     }
 
     override fun onChatOpenned(chat: Chat) {
@@ -88,14 +140,11 @@ class JeuxFragment : Fragment(), LocationChangeListener, JeuxListener {
     }
 
     override fun onClosePopUp() {
-        // Utiliser des transitions d'AndroidX
         val fadeOut = Fade()
         fadeOut.duration = 500
 
-        // Rechercher le fragment existant
         val existingFragment = childFragmentManager.findFragmentById(R.id.FragmentChat)
 
-        // Appliquer la transition de fondu lors de la suppression du fragment
         existingFragment?.let {
             it.exitTransition = fadeOut
             childFragmentManager.beginTransaction()
@@ -105,7 +154,6 @@ class JeuxFragment : Fragment(), LocationChangeListener, JeuxListener {
     }
 
     override fun onInterestOpenned(pointInteret: PointInteret) {
-        Log.d("LM","onInterestOpenned")
         binding.FragmentChat.visibility = View.INVISIBLE
         val existingFragment = childFragmentManager.findFragmentById(R.id.FragmentChat)
         existingFragment?.let {
@@ -113,6 +161,11 @@ class JeuxFragment : Fragment(), LocationChangeListener, JeuxListener {
                 .remove(it)
                 .commit()
         }
+    }
+
+    override fun onGpsChanged(gpsCoordinates: GpsCoordinates) {
+        gpsCoordinatesUser = gpsCoordinates
+        ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser, ColorChoice.Green)
     }
 
 }

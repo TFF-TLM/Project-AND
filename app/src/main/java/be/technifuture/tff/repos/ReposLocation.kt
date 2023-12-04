@@ -19,7 +19,7 @@ import kotlin.math.pow
 
 
 class ReposLacolisation : LocationListener {
-    private var locationChangeListener: LocationChangeListener? = null
+    private var gpsUpadateListener: GpsUpadateListener? = null
     private var locationManager : LocationManager? = null
 
     companion object {
@@ -62,8 +62,12 @@ class ReposLacolisation : LocationListener {
         return degrees * (Math.PI / 180)
     }
 
+    fun setListenner(Listener : GpsUpadateListener){
+        gpsUpadateListener = Listener
+    }
+
     fun getLastLocation(activity : Activity, context : Context) {
-        // Vérifiez d'abord si les autorisations de localisation sont accordées
+
         if (ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED &&
@@ -106,14 +110,12 @@ class ReposLacolisation : LocationListener {
                 )
             }
         } else {
-            if(locationManager == null){
-                locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                locationManager!!.getBestProvider(
-                    Criteria().apply { this.accuracy = Criteria.ACCURACY_FINE }, true
-                )?.let {
-                        provider -> locationManager!!.requestLocationUpdates(provider, 1000, 0f, getInstance())
-                }
-            }
+            locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1f,  getInstance())
+
+            Log.d("LM", "ReposLacolisation.getLastLocation")
+            var gpsCoordinates: GpsCoordinates = GpsCoordinates(mySetting.latitude, mySetting.longitude );
+            gpsUpadateListener?.onGpsChanged(gpsCoordinates)
         } // end Else
     }
 
@@ -124,12 +126,13 @@ class ReposLacolisation : LocationListener {
         locationManager=null
     }
 
+
     override fun onLocationChanged(location: Location) {
         mySetting.latitude = location.latitude
         mySetting.longitude = location.longitude
-
+        Log.d("LM", "ReposLacolisation.onLocationChanged")
         var gpsCoordinates: GpsCoordinates = GpsCoordinates(mySetting.latitude, mySetting.longitude );
-        locationChangeListener?.onLocationChanged(gpsCoordinates)
+        gpsUpadateListener?.onGpsChanged(gpsCoordinates)
 
     }
 

@@ -4,70 +4,99 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.util.Log
 import be.technifuture.tff.R
 import be.technifuture.tff.model.GpsCoordinates
 import be.technifuture.tff.model.PointInteret
 import be.technifuture.tff.model.ZoneChat
+import be.technifuture.tff.model.enums.ColorChoice
 import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.model.mySetting
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-
 
 private fun GpsCoordinates.toLatLng(): LatLng {
     return LatLng(latitude.toDouble(), longitude.toDouble());
 }
 
-
 class ReposGoogleMap : OnMapReadyCallback {
 
-    private var jeuxListenner: JeuxListener? = null
+    companion object {
+        private var instance: ReposGoogleMap? = null
+        fun getInstance(): ReposGoogleMap {
+            if (instance == null) {
+                instance = ReposGoogleMap()
+            }
+            return instance as ReposGoogleMap
+        }
+    }
 
+    private lateinit var googleMap: GoogleMap
+    private lateinit var myContext: Context
+    private lateinit var greenIcon: BitmapDescriptor
+    private lateinit var yellowIcon: BitmapDescriptor
+
+    private var myMarker: Marker? = null
+    private var markerPosition : LatLng? = null
+    private var isMapLoaded : Boolean = false
+    private var jeuxListenner: JeuxListener? = null
     private var itemsZoneChatShow: MutableList<ZoneChat> = mutableListOf()
     private var itemsPointInteretShow: MutableList<PointInteret> = mutableListOf()
-    private lateinit var googleMap: GoogleMap
     private var zoomLevel: Float = 13f
-    private lateinit var myContext: Context
 
     //val baseLongitude = 5.5314775
     //val baseLatitude = 50.6128178
 
-    constructor( context: Context, zoom : Float, listenner : JeuxListener) {
+    public fun Init( context: Context, zoom : Float, listenner : JeuxListener) {
         jeuxListenner = listenner
         myContext = context
         zoomLevel = zoom
+
+        itemsZoneChatShow.clear()
         itemsZoneChatShow.addAll(ReposZoneChat.getInstance().mockData(5.5314775f, 50.6128178f))
+
+        itemsPointInteretShow.clear()
         itemsPointInteretShow.addAll(ReposPointInteret.getInstance().mockData(5.5314775f, 50.6128178f))
     }
 
     override fun onMapReady(gMap: GoogleMap) {
         googleMap = gMap
         googleMap.clear()
-        val greenIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
-        val defaultPosition = LatLng(mySetting.latitude, mySetting.longitude)
+        greenIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+        yellowIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition, zoomLevel))
-        googleMap.addMarker(
+        //val baseLongitude = 5.5314775
+        //val baseLatitude = 50.6128178
+
+        if(markerPosition == null) {
+            val defaultPosition = LatLng(50.6128178, 5.5314775)
+            markerPosition = defaultPosition
+        }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition!!, zoomLevel))
+        myMarker = googleMap.addMarker(
             MarkerOptions()
-                .position(defaultPosition)
-                .title("Moi")
+                .position(markerPosition!!)
+                .title("Moi2")
                 .icon(greenIcon)
-        )?.setTag("MOI")
+        )
+        myMarker?.setTag("MOI2")
+        Log.d("LM","Référence à myMarker avec hashCode(): ${myMarker.hashCode()}")
 
         SetZoneChat()
         SetPointInteret()
         SetChat(myContext)
 
         googleMap.setOnMarkerClickListener { marker ->
-
             val pkGuid = marker.getTag().toString()
             if (pkGuid != "MOI" ) {
-
 
                 var zoneChat: ZoneChat? = itemsZoneChatShow.find { it.chat.id == pkGuid }
                 if (zoneChat != null) {
@@ -84,7 +113,34 @@ class ReposGoogleMap : OnMapReadyCallback {
             false
         }
 
+        this.isMapLoaded = true
+        Log.d("LM","onMapReady")
+        Log.d("LM","Référence à l'objet avec hashCode(): ${isMapLoaded.hashCode()}")
+    }
 
+    public fun SetPosition(gpsCoordinatesUser: GpsCoordinates, color: ColorChoice){
+
+        markerPosition = gpsCoordinatesUser.toLatLng()
+        if (this.isMapLoaded) {
+            if(myMarker == null){
+                myMarker = googleMap.addMarker(
+                    MarkerOptions()
+                        .position(markerPosition!!)
+                        .title("Moi")
+                        .icon(greenIcon)
+                )
+                myMarker?.setTag("MOI")
+            }
+
+            if(color == ColorChoice.Green) {
+                myMarker?.setIcon(greenIcon)
+            }
+            if(color == ColorChoice.Yellow) {
+                myMarker?.setIcon(yellowIcon)
+            }
+            myMarker?.position = markerPosition as LatLng
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition!!, zoomLevel))
+        }
     }
 
     private fun SetChat(context: Context) {
