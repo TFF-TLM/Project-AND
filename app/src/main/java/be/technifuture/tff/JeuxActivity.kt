@@ -13,6 +13,8 @@ import be.technifuture.tff.databinding.ActivityJeuxBinding
 import be.technifuture.tff.model.*
 import be.technifuture.tff.model.interfaces.GpsUpadateListener
 import be.technifuture.tff.repos.ReposLacolisation
+import be.technifuture.tff.repos.ReposPointInteret
+import be.technifuture.tff.repos.ReposZoneChat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
@@ -28,6 +30,8 @@ class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
         sharedPreference = applicationContext.getSharedPreferences(ReposLacolisation.MY_SHARED_PREFERENCE, MODE_PRIVATE)
         mySetting.isFirstLaunch = sharedPreference.getBoolean(ReposLacolisation.FIRST_TIME_OPENING, true)
 
+        ReposZoneChat.getInstance().mockData(5.5314775f, 50.6128178f)
+        ReposPointInteret.getInstance().mockData(5.5314775f, 50.6128178f)
         //applicationContext
         ReposLacolisation.getInstance().getLastLocation(this, this)
         InitNav();

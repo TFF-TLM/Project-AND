@@ -1,7 +1,7 @@
 package be.technifuture.tff.fragment
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,38 +12,35 @@ import be.technifuture.tff.R
 import be.technifuture.tff.adapter.RadarChatsAdapter
 import be.technifuture.tff.databinding.FragmentRadarBinding
 import be.technifuture.tff.model.*
+import be.technifuture.tff.model.interfaces.OrientationListener
 import be.technifuture.tff.model.interfaces.RadarListener
+import be.technifuture.tff.repos.ReposLacolisation
+import be.technifuture.tff.repos.ReposZoneChat
+import be.technifuture.tff.service.OrientationManager
 import be.technifuture.tff.view.*
+import kotlin.math.cos
+import kotlin.math.sin
 
 
-class RadarFragment : Fragment(), RadarListener {
+class RadarFragment : Fragment(), RadarListener, OrientationListener {
 
     private lateinit var binding: FragmentRadarBinding
     private lateinit var radarView: RadarView
+    private var gpsCoordinatesUser: GpsCoordinates? = GpsCoordinates(50.5926493,5.5539429)
 
     private var chats: MutableList<Chat>? = mutableListOf()
     private lateinit var adapter : RadarChatsAdapter
+    private lateinit var compasManager: OrientationManager
+    val objects : MutableList<ObjectData> = mutableListOf()
 
     private fun InitChats(){
-        chats?.add(Chat("1","https://www.zooplus.be/magazine/wp-content/uploads/2019/06/comprendre-le-langage-des-chats-1024x768.jpg","Chat 1 ", 80,100, 5, true,  GpsCoordinates(50.6149283418158, 5.501153571992362)))
-        chats?.add(Chat("2","https://miaoubox.s3.eu-central-1.amazonaws.com/blog/chat%20yeux%20final.jpg","Chat 2 ", 50,100, 8, true, GpsCoordinates(50.616116263548136, 5.504683378057636)))
-        chats?.add(Chat("3","https://t3t8k6v8.rocketcdn.me/wp-content/uploads/2020/05/Chat-qui-petrit-petrissage.jpg","Chat 3 ", 10,100, 15, true, GpsCoordinates(50.615551238020196, 5.5039752430043976)))
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        radarView = requireActivity().findViewById(R.id.radarView)
-
-        val radarPosition = GpsCoordinates(50.6160754324028, 5.503717766285025)
-        val objects : MutableList<ObjectData> = mutableListOf()
-        chats?.forEach { item ->
-            val localCoordinates = convertGpsToXY(item.gpsCoordinates, radarPosition)
-            objects.add(ObjectData(localCoordinates.x.toFloat(), localCoordinates.y.toFloat()))
+        ReposZoneChat.getInstance().nearChats.forEach{chatZone ->
+            chats?.add(chatZone.chat)
         }
-
-        SetupRecyclerView()
-        radarView.updateObjects(objects)
     }
+
+
+    //******************************************************** Events UI
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +49,52 @@ class RadarFragment : Fragment(), RadarListener {
         binding = FragmentRadarBinding.inflate(layoutInflater)
         InitChats()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        radarView = requireActivity().findViewById(R.id.radarView)
+        compasManager = OrientationManager(requireContext(), this)
+        gpsCoordinatesUser = mySetting.LocalisationGps
+        SetupRecyclerView()
+    }
+
+
+    override fun onResume() {
+        compasManager = OrientationManager(requireContext(), this)
+        super.onResume()
+    }
+
+    override fun onPause() {
+        compasManager.unregister()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        compasManager.unregister()
+        super.onDestroy()
+    }
+
+
+
+
+    fun UpdateRadar(azimuth: Float){
+
+        if(gpsCoordinatesUser != null){
+            objects.clear()
+            chats?.forEach { item ->
+                val localCoordinates = convertGpsToXY(gpsCoordinatesUser!!, item.gpsCoordinates)
+                val rotatedCoordinates = rotateCoordinates(localCoordinates, azimuth, 0.04F)
+                val objectData = ObjectData(rotatedCoordinates.x.toFloat(), rotatedCoordinates.y.toFloat())
+                objects.add(objectData)
+            }
+        }
+        radarView.updateObjects(objects)
+    }
+
+
+    override fun onOrientationChanged(azimuth: Float, pitch: Float, roll: Float) {
+        UpdateRadar(azimuth)
     }
 
     private fun SetupRecyclerView(){
@@ -63,12 +106,20 @@ class RadarFragment : Fragment(), RadarListener {
         }
     }
 
-    fun convertGpsToXY(gpsCoordinates: GpsCoordinates, radarPosition: GpsCoordinates): LocalCoordinates {
+    
+    fun rotateCoordinates(coordinates: LocalCoordinates, azimuth: Float, sensitivity: Float): LocalCoordinates {
+        val scaledAzimuth = azimuth * sensitivity
+        val x = coordinates.x * cos(scaledAzimuth) - coordinates.y * sin(scaledAzimuth)
+        val y = coordinates.x * sin(scaledAzimuth) + coordinates.y * cos(scaledAzimuth)
+        return LocalCoordinates(x, y)
+    }
+
+    fun convertGpsToXY(source: GpsCoordinates, target: GpsCoordinates ): LocalCoordinates {
         val earthRadius = 6371000.0
-        val lat1 = Math.toRadians(radarPosition.latitude)
-        val lon1 = Math.toRadians(radarPosition.longitude)
-        val lat2 = Math.toRadians(gpsCoordinates.latitude)
-        val lon2 = Math.toRadians(gpsCoordinates.longitude)
+        val lat1 = Math.toRadians(source.latitude)
+        val lon1 = Math.toRadians(source.longitude)
+        val lat2 = Math.toRadians(target.latitude)
+        val lon2 = Math.toRadians(target.longitude)
 
         val deltaLon = lon2 - lon1
         val deltaLat = lat2 - lat1
@@ -82,4 +133,5 @@ class RadarFragment : Fragment(), RadarListener {
     override fun onRadarClick(action: String, item: Bonus) {
         TODO("Not yet implemented")
     }
+
 }

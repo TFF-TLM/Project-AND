@@ -70,7 +70,7 @@ class RadarView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         invalidate()
     }
 
-    fun updateObjects(newObjects: List<ObjectData>) {
+    fun updateObjects(newObjects: MutableList<ObjectData>) {
         objects.clear()
         objects.addAll(newObjects)
         invalidate()

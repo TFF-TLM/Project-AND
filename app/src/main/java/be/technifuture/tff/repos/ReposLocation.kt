@@ -37,31 +37,6 @@ class ReposLacolisation : LocationListener {
         }
     }
 
-
-    fun calculateDistance(gpsCoordinates1 : GpsCoordinates, gpsCoordinates2 : GpsCoordinates): Double {
-
-        try{
-            val earthRadius = 6371.0 // Rayon moyen de la Terre en kilomètres
-            val dLat = degToRad(gpsCoordinates2.latitude - gpsCoordinates1.latitude)
-            val dLon = degToRad(gpsCoordinates2.longitude - gpsCoordinates1.longitude)
-
-            val a = Math.sin(dLat / 2).pow(2) +
-                    Math.cos(degToRad(gpsCoordinates1.latitude)) * Math.cos(degToRad(gpsCoordinates2.latitude)) *
-                    Math.sin(dLon / 2).pow(2)
-            val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
-            val distance = earthRadius * c
-            return distance
-        } catch (e: NumberFormatException){
-            Log.d("Distance", e.toString())
-            return 5000.0
-        }
-    }
-
-    private fun degToRad(degrees: Double): Double {
-        return degrees * (Math.PI / 180)
-    }
-
     fun setListenner(Listener : GpsUpadateListener){
         gpsUpadateListener = Listener
     }
@@ -113,9 +88,13 @@ class ReposLacolisation : LocationListener {
             locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1f,  getInstance())
 
-            Log.d("LM", "ReposLacolisation.getLastLocation")
-            var gpsCoordinates: GpsCoordinates = GpsCoordinates(mySetting.latitude, mySetting.longitude );
-            gpsUpadateListener?.onGpsChanged(gpsCoordinates)
+            val lastKnownLocation =
+                locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+            if (lastKnownLocation != null) {
+                val gpsCoordinates = GpsCoordinates(lastKnownLocation.latitude, lastKnownLocation.longitude)
+                gpsUpadateListener?.onGpsChanged(gpsCoordinates)
+            }
         } // end Else
     }
 
@@ -128,12 +107,10 @@ class ReposLacolisation : LocationListener {
 
 
     override fun onLocationChanged(location: Location) {
-        mySetting.latitude = location.latitude
-        mySetting.longitude = location.longitude
         Log.d("LM", "ReposLacolisation.onLocationChanged")
-        var gpsCoordinates: GpsCoordinates = GpsCoordinates(mySetting.latitude, mySetting.longitude );
+        mySetting.LocalisationGps = GpsCoordinates(location.latitude,location.longitude)
+        var gpsCoordinates = mySetting.LocalisationGps
         gpsUpadateListener?.onGpsChanged(gpsCoordinates)
-
     }
 
 }

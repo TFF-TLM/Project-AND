@@ -19,11 +19,13 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.SphericalUtil
 
-private fun GpsCoordinates.toLatLng(): LatLng {
-    return LatLng(latitude.toDouble(), longitude.toDouble());
+fun GpsCoordinates.toLatLng(): LatLng {
+    return LatLng( latitude.toDouble(), longitude.toDouble());
 }
 
 class ReposGoogleMap : OnMapReadyCallback {
@@ -44,11 +46,10 @@ class ReposGoogleMap : OnMapReadyCallback {
     private lateinit var yellowIcon: BitmapDescriptor
 
     private var myMarker: Marker? = null
-    private var markerPosition : LatLng? = null
     private var isMapLoaded : Boolean = false
     private var jeuxListenner: JeuxListener? = null
-    private var itemsZoneChatShow: MutableList<ZoneChat> = mutableListOf()
-    private var itemsPointInteretShow: MutableList<PointInteret> = mutableListOf()
+    //private var itemsZoneChatShow: MutableList<ZoneChat> = mutableListOf()
+    //private var itemsPointInteretShow: MutableList<PointInteret> = mutableListOf()
     private var zoomLevel: Float = 13f
 
     //val baseLongitude = 5.5314775
@@ -58,12 +59,6 @@ class ReposGoogleMap : OnMapReadyCallback {
         jeuxListenner = listenner
         myContext = context
         zoomLevel = zoom
-
-        itemsZoneChatShow.clear()
-        itemsZoneChatShow.addAll(ReposZoneChat.getInstance().mockData(5.5314775f, 50.6128178f))
-
-        itemsPointInteretShow.clear()
-        itemsPointInteretShow.addAll(ReposPointInteret.getInstance().mockData(5.5314775f, 50.6128178f))
     }
 
     override fun onMapReady(gMap: GoogleMap) {
@@ -71,24 +66,17 @@ class ReposGoogleMap : OnMapReadyCallback {
         googleMap.clear()
         greenIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
         yellowIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+        googleMap.uiSettings.isRotateGesturesEnabled = false
 
-        //val baseLongitude = 5.5314775
-        //val baseLatitude = 50.6128178
-
-        if(markerPosition == null) {
-            val defaultPosition = LatLng(50.6128178, 5.5314775)
-            markerPosition = defaultPosition
-        }
-
+        var markerPosition = LatLng(50.6128178, 5.5314775)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition!!, zoomLevel))
         myMarker = googleMap.addMarker(
             MarkerOptions()
                 .position(markerPosition!!)
-                .title("Moi2")
+                .title("Moi")
                 .icon(greenIcon)
         )
-        myMarker?.setTag("MOI2")
-        Log.d("LM","Référence à myMarker avec hashCode(): ${myMarker.hashCode()}")
+        myMarker?.setTag("MOI")
 
         SetZoneChat()
         SetPointInteret()
@@ -98,12 +86,12 @@ class ReposGoogleMap : OnMapReadyCallback {
             val pkGuid = marker.getTag().toString()
             if (pkGuid != "MOI" ) {
 
-                var zoneChat: ZoneChat? = itemsZoneChatShow.find { it.chat.id == pkGuid }
+                var zoneChat: ZoneChat? = ReposZoneChat.getInstance().zoneChats.find { it.chat.id == pkGuid }
                 if (zoneChat != null) {
                     jeuxListenner?.onChatOpenned(zoneChat.chat)
                 }
 
-                var pointInteret: PointInteret? = itemsPointInteretShow.find { it.id == pkGuid }
+                var pointInteret: PointInteret? = ReposPointInteret.getInstance().itemsPointInteretShow.find { it.id == pkGuid }
                 if (pointInteret != null) {
                     jeuxListenner?.onInterestOpenned(pointInteret)
                 }
@@ -114,18 +102,24 @@ class ReposGoogleMap : OnMapReadyCallback {
         }
 
         this.isMapLoaded = true
-        Log.d("LM","onMapReady")
-        Log.d("LM","Référence à l'objet avec hashCode(): ${isMapLoaded.hashCode()}")
     }
+
+
+    public fun CalculateNewPosition(oldPosition: GpsCoordinates, angle: Double, speed: Double): GpsCoordinates {
+        val angleInRadians = Math.toRadians(angle)
+        val newLatitude = oldPosition.latitude + speed * -Math.sin(angleInRadians)
+        val newLongitude = oldPosition.longitude + speed * Math.cos(angleInRadians)
+        return GpsCoordinates(newLatitude, newLongitude)
+    }
+
 
     public fun SetPosition(gpsCoordinatesUser: GpsCoordinates, color: ColorChoice){
 
-        markerPosition = gpsCoordinatesUser.toLatLng()
         if (this.isMapLoaded) {
             if(myMarker == null){
                 myMarker = googleMap.addMarker(
                     MarkerOptions()
-                        .position(markerPosition!!)
+                        .position(gpsCoordinatesUser.toLatLng())
                         .title("Moi")
                         .icon(greenIcon)
                 )
@@ -138,13 +132,13 @@ class ReposGoogleMap : OnMapReadyCallback {
             if(color == ColorChoice.Yellow) {
                 myMarker?.setIcon(yellowIcon)
             }
-            myMarker?.position = markerPosition as LatLng
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition!!, zoomLevel))
+            myMarker?.position = gpsCoordinatesUser.toLatLng()
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(gpsCoordinatesUser.toLatLng()))
         }
     }
 
     private fun SetChat(context: Context) {
-        itemsZoneChatShow.forEach { itemZoneChat: ZoneChat ->
+        ReposZoneChat.getInstance().zoneChats.forEach { itemZoneChat: ZoneChat ->
             if (itemZoneChat.chat.gpsCoordinates.latitude != null && itemZoneChat.chat.gpsCoordinates.longitude != null) {
                 val position = itemZoneChat.chat.gpsCoordinates.toLatLng()
 
@@ -163,7 +157,7 @@ class ReposGoogleMap : OnMapReadyCallback {
     }
 
     private fun SetPointInteret() {
-        itemsPointInteretShow.forEach { itemPointInteret: PointInteret ->
+        ReposPointInteret.getInstance().itemsPointInteretShow.forEach { itemPointInteret: PointInteret ->
             if (itemPointInteret.gpsCoordinates.latitude != null && itemPointInteret.gpsCoordinates.longitude != null) {
                 val position = itemPointInteret.gpsCoordinates.toLatLng()
 
@@ -181,10 +175,12 @@ class ReposGoogleMap : OnMapReadyCallback {
     }
 
     private fun SetZoneChat() {
-        itemsZoneChatShow.forEach { itemZoneChat: ZoneChat ->
+        ReposZoneChat.getInstance().zoneChats.forEach { itemZoneChat: ZoneChat ->
             if (itemZoneChat.gpsCoordinates.latitude != null && itemZoneChat.gpsCoordinates.longitude != null) {
                 val position = itemZoneChat.gpsCoordinates.toLatLng()
-                val radiusInMeters = itemZoneChat.radius.toDouble() // Utilisez la valeur de radius
+                val newLatLng = SphericalUtil.computeOffset(position, itemZoneChat.radius.toDouble(), 0.0)
+                val radiusInMeters: Double = SphericalUtil.computeDistanceBetween(position, newLatLng)
+                Log.d("Lm"," radius = " + itemZoneChat.radius.toString() + " distance = " + radiusInMeters.toString())
 
                 val circleOptions = CircleOptions()
                     .zIndex(10f)

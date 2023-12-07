@@ -8,14 +8,15 @@ import kotlin.random.Random
 
 class ReposPointInteret {
 
-    fun mockData(longitude : Float, latitude : Float): MutableList<PointInteret> {
+    public var itemsPointInteretShow = mutableListOf<PointInteret>()
+    fun mockData(longitude : Float, latitude : Float) {
         val baseLongitude = longitude
         val baseLatitude = latitude
-        val itemsPointInteretShow = mutableListOf<PointInteret>()
+        itemsPointInteretShow.clear()
 
-        for (i in 1..10) { // Créez 10 objets Chat (vous pouvez ajuster le nombre)
-            val randomLatitude = baseLatitude + Random.nextDouble(-0.03, 0.03) // Ajustez la plage de latitude
-            val randomLongitude = baseLongitude + Random.nextDouble(-0.03, 0.03) // Ajustez la plage de longitude
+        for (i in 1..100) { // Créez 10 objets Chat (vous pouvez ajuster le nombre)
+            val randomLatitude = baseLatitude + Random.nextDouble(-0.3, 0.3) // Ajustez la plage de latitude
+            val randomLongitude = baseLongitude + Random.nextDouble(-0.3, 0.3) // Ajustez la plage de longitude
 
             val pointInteret = PointInteret(
                 id = "PointInteret$i",
@@ -27,7 +28,6 @@ class ReposPointInteret {
             )
             itemsPointInteretShow.add(pointInteret)
         }
-        return itemsPointInteretShow
     }
 
     companion object {
