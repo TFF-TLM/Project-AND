@@ -9,6 +9,19 @@
     <string name="connect">Se connecter</string>
     <string name="remember_me">Se souvenir de moi</string>
 
+    <!-- Clan Name -->
+    <string name="red_clan">Flachato</string>
+    <string name="red_desc">Bonus à l\'attaque</string>
+    <string name="green_clan">Tochaxik</string>
+    <string name="green_desc">Resistance au attaque</string>
+    <string name="yellow_clan">Achamer</string>
+    <string name="yellow_desc">Bonus à l\'expansion</string>
+
+    <!-- Retrieve Password Fragment -->
+    <string name="retrieve_title">Récupération mot de pass</string>
+    <string name="explain_retrieve">Veuillez entre votre email</string>
+    <string name="retrieve_send">Envoyé</string>
+
     <!-- Profil Fragment -->
     <string name="level">Level %1$s</string>
     <string name="expAffiche">%1$s / %2$s</string>
@@ -42,6 +55,9 @@
         * Max 20 caractéres \n
         * Pas de caractéres spéciaux\n
     </string>
+
+    <string name="RETRIEVE_SEND">Mail envoyé</string>
+
     <string name="LOGIN_EXIST">Ce login existe déjà</string>
     <string name="PASSWORD_RULES">
         Le Password dois respecter ces régles : \n
@@ -57,9 +73,6 @@
     <string name="MAIL_EXIST">Ce mail existe déjà</string>
     <string name="NO_CONNECTION">Veuillez vous connecter à internet</string>
     <string name="LOG_ERROR">Login/Mots de pass incorrect</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 
 </resources>

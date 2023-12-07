@@ -38,12 +38,17 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.inflate(layoutInflater)
         sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
+        isYetConnected()
+
         binding.buttonCreateUser.setOnClickListener {
             val direction = LoginFragmentDirections.actionLoginFragmentToCreateUserFragment()
             findNavController().navigate(direction)
         }
 
-        isYetConnected()
+        binding.labelRetrievePassword.setOnClickListener {
+            val direction = LoginFragmentDirections.actionLoginFragmentToRetrieveMailFragment()
+            findNavController().navigate(direction)
+        }
 
         binding.buttonLogin.setOnClickListener {
             binding.loaderView.visibility = View.VISIBLE

@@ -20,6 +20,7 @@
         <activity
             android:name=".JeuxActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             />
 
         <meta-data

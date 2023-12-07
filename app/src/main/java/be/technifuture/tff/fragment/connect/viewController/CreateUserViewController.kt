@@ -15,6 +15,8 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
     private var password: String = ""
     private var email: String = ""
 
+    val regexMail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,4}\$".toRegex()
+
     fun validateForm(): NewUserModel? =
         if(loginIsValid() && isEmailValid() && isPasswordValid())
 
@@ -64,9 +66,9 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
     private fun isEmailValid(): Boolean {
         email = viewBinding.editTextMail.text.toString()
 
-        val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,4}\$".toRegex()
+        //val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,4}\$".toRegex()
 
-        if (!regex.matches(email)) {
+        if (!regexMail.matches(email)) {
             alert.getAlert(ErrorValidation.MAIL_RULES)
             return false
         }

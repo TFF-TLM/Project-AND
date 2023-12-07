@@ -27,7 +27,6 @@ class CreateUserFragment : Fragment() {
         binding.buttonCreateUser.setOnClickListener {
 
             val user = viewController.validateForm()
-            Log.d("DEBUGG", user.toString())
 
             if(user != null){
                 val direction = CreateUserFragmentDirections.actionCreateUserFragmentToCreateClanUserFragment(user)

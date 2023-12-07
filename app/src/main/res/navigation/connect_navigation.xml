@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_createUserFragment"
             app:destination="@id/createUserFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_retrieveMailFragment"
+            app:destination="@id/retrieveMailFragment" />
     </fragment>
     <fragment
         android:id="@+id/createUserFragment"
@@ -47,5 +50,14 @@
             android:name="user"
             app:argType="be.technifuture.tff.model.NewUserModel" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/retrieveMailFragment"
+        android:name="be.technifuture.tff.fragment.RetrieveMailFragment"
+        android:label="fragment_retrieve_mail"
+        tools:layout="@layout/fragment_retrieve_mail" >
+        <action
+            android:id="@+id/action_retrieveMailFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

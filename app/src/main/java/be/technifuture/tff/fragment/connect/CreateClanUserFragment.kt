@@ -1,5 +1,6 @@
 package be.technifuture.tff.fragment.connect
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
 import be.technifuture.tff.R
-import be.technifuture.tff.adapter.CreateClanAdapter
 import be.technifuture.tff.databinding.FragmentCreateClanUserBinding
 import be.technifuture.tff.model.NewUserModel
-import be.technifuture.tff.service.NetworkService
 
 class CreateClanUserFragment : Fragment() {
 
@@ -25,10 +23,18 @@ class CreateClanUserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateClanUserBinding.inflate(layoutInflater)
-        setupRecyclerView()
-
         user = args.user
+        
         binding.sayHello.text = getString(R.string.say_hello, user.login)
+        binding.clan1Contenair.setOnClickListener {
+            selectedContenair(1)
+        }
+        binding.clan2Contenair.setOnClickListener {
+            selectedContenair(2)
+        }
+        binding.clan3Contenair.setOnClickListener {
+            selectedContenair(3)
+        }
 
         binding.nextButton.setOnClickListener {
             val direction =
@@ -40,14 +46,25 @@ class CreateClanUserFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupRecyclerView() {
-        binding.recyclerViewChooseClan.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerViewChooseClan.adapter = CreateClanAdapter(NetworkService.clan.getClan()) { id ->
-            binding.nextButton.visibility = View.VISIBLE
-            binding.clanSelected.text = NetworkService.clan.getClanById(id).name
-            user.clan = id
-
+    private fun selectedContenair(selected: Int) {
+        when(selected){
+            1 -> {
+                binding.clan1Contenair.setBackgroundColor(Color.YELLOW)
+                binding.clan2Contenair.setBackgroundColor(Color.TRANSPARENT)
+                binding.clan3Contenair.setBackgroundColor(Color.TRANSPARENT)
+            }
+            2-> {
+                binding.clan1Contenair.setBackgroundColor(Color.TRANSPARENT)
+                binding.clan2Contenair.setBackgroundColor(Color.RED)
+                binding.clan3Contenair.setBackgroundColor(Color.TRANSPARENT)
+            }
+            3 ->{
+                binding.clan1Contenair.setBackgroundColor(Color.TRANSPARENT)
+                binding.clan2Contenair.setBackgroundColor(Color.TRANSPARENT)
+                binding.clan3Contenair.setBackgroundColor(Color.GREEN)
+            }
         }
+        user.clan = selected
+        binding.nextButton.visibility = View.VISIBLE
     }
 }
