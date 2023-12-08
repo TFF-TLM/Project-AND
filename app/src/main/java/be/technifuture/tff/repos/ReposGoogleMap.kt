@@ -4,77 +4,94 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.util.Log
 import be.technifuture.tff.R
 import be.technifuture.tff.model.GpsCoordinates
 import be.technifuture.tff.model.PointInteret
 import be.technifuture.tff.model.ZoneChat
+import be.technifuture.tff.model.enums.ColorChoice
 import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.model.mySetting
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.SphericalUtil
 
-
-private fun GpsCoordinates.toLatLng(): LatLng {
-    return LatLng(latitude.toDouble(), longitude.toDouble());
+fun GpsCoordinates.toLatLng(): LatLng {
+    return LatLng( latitude.toDouble(), longitude.toDouble());
 }
-
 
 class ReposGoogleMap : OnMapReadyCallback {
 
-    private var jeuxListenner: JeuxListener? = null
+    companion object {
+        private var instance: ReposGoogleMap? = null
+        fun getInstance(): ReposGoogleMap {
+            if (instance == null) {
+                instance = ReposGoogleMap()
+            }
+            return instance as ReposGoogleMap
+        }
+    }
 
-    private var itemsZoneChatShow: MutableList<ZoneChat> = mutableListOf()
-    private var itemsPointInteretShow: MutableList<PointInteret> = mutableListOf()
     private lateinit var googleMap: GoogleMap
-    private var zoomLevel: Float = 13f
     private lateinit var myContext: Context
+    private lateinit var greenIcon: BitmapDescriptor
+    private lateinit var yellowIcon: BitmapDescriptor
+
+    private var myMarker: Marker? = null
+    private var isMapLoaded : Boolean = false
+    private var jeuxListenner: JeuxListener? = null
+    //private var itemsZoneChatShow: MutableList<ZoneChat> = mutableListOf()
+    //private var itemsPointInteretShow: MutableList<PointInteret> = mutableListOf()
+    private var zoomLevel: Float = 13f
 
     //val baseLongitude = 5.5314775
     //val baseLatitude = 50.6128178
 
-    constructor( context: Context, zoom : Float, listenner : JeuxListener) {
+    public fun Init( context: Context, zoom : Float, listenner : JeuxListener) {
         jeuxListenner = listenner
         myContext = context
         zoomLevel = zoom
-        itemsZoneChatShow.addAll(ReposZoneChat.getInstance().mockData(5.5314775f, 50.6128178f))
-        itemsPointInteretShow.addAll(ReposPointInteret.getInstance().mockData(5.5314775f, 50.6128178f))
     }
 
     override fun onMapReady(gMap: GoogleMap) {
         googleMap = gMap
         googleMap.clear()
-        val greenIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
-        val defaultPosition = LatLng(mySetting.latitude, mySetting.longitude)
+        greenIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+        yellowIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
+        googleMap.uiSettings.isRotateGesturesEnabled = false
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultPosition, zoomLevel))
-        googleMap.addMarker(
+        var markerPosition = LatLng(50.6128178, 5.5314775)
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition!!, zoomLevel))
+        myMarker = googleMap.addMarker(
             MarkerOptions()
-                .position(defaultPosition)
+                .position(markerPosition!!)
                 .title("Moi")
                 .icon(greenIcon)
-        )?.setTag("MOI")
+        )
+        myMarker?.setTag("MOI")
 
         SetZoneChat()
         SetPointInteret()
         SetChat(myContext)
 
         googleMap.setOnMarkerClickListener { marker ->
-
             val pkGuid = marker.getTag().toString()
             if (pkGuid != "MOI" ) {
 
-
-                var zoneChat: ZoneChat? = itemsZoneChatShow.find { it.chat.id == pkGuid }
+                var zoneChat: ZoneChat? = ReposZoneChat.getInstance().zoneChats.find { it.chat.id == pkGuid }
                 if (zoneChat != null) {
                     jeuxListenner?.onChatOpenned(zoneChat.chat)
                 }
 
-                var pointInteret: PointInteret? = itemsPointInteretShow.find { it.id == pkGuid }
+                var pointInteret: PointInteret? = ReposPointInteret.getInstance().itemsPointInteretShow.find { it.id == pkGuid }
                 if (pointInteret != null) {
                     jeuxListenner?.onInterestOpenned(pointInteret)
                 }
@@ -84,11 +101,44 @@ class ReposGoogleMap : OnMapReadyCallback {
             false
         }
 
+        this.isMapLoaded = true
+    }
 
+
+    public fun CalculateNewPosition(oldPosition: GpsCoordinates, angle: Double, speed: Double): GpsCoordinates {
+        val angleInRadians = Math.toRadians(angle)
+        val newLatitude = oldPosition.latitude + speed * -Math.sin(angleInRadians)
+        val newLongitude = oldPosition.longitude + speed * Math.cos(angleInRadians)
+        return GpsCoordinates(newLatitude, newLongitude)
+    }
+
+
+    public fun SetPosition(gpsCoordinatesUser: GpsCoordinates, color: ColorChoice){
+
+        if (this.isMapLoaded) {
+            if(myMarker == null){
+                myMarker = googleMap.addMarker(
+                    MarkerOptions()
+                        .position(gpsCoordinatesUser.toLatLng())
+                        .title("Moi")
+                        .icon(greenIcon)
+                )
+                myMarker?.setTag("MOI")
+            }
+
+            if(color == ColorChoice.Green) {
+                myMarker?.setIcon(greenIcon)
+            }
+            if(color == ColorChoice.Yellow) {
+                myMarker?.setIcon(yellowIcon)
+            }
+            myMarker?.position = gpsCoordinatesUser.toLatLng()
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(gpsCoordinatesUser.toLatLng()))
+        }
     }
 
     private fun SetChat(context: Context) {
-        itemsZoneChatShow.forEach { itemZoneChat: ZoneChat ->
+        ReposZoneChat.getInstance().zoneChats.forEach { itemZoneChat: ZoneChat ->
             if (itemZoneChat.chat.gpsCoordinates.latitude != null && itemZoneChat.chat.gpsCoordinates.longitude != null) {
                 val position = itemZoneChat.chat.gpsCoordinates.toLatLng()
 
@@ -107,7 +157,7 @@ class ReposGoogleMap : OnMapReadyCallback {
     }
 
     private fun SetPointInteret() {
-        itemsPointInteretShow.forEach { itemPointInteret: PointInteret ->
+        ReposPointInteret.getInstance().itemsPointInteretShow.forEach { itemPointInteret: PointInteret ->
             if (itemPointInteret.gpsCoordinates.latitude != null && itemPointInteret.gpsCoordinates.longitude != null) {
                 val position = itemPointInteret.gpsCoordinates.toLatLng()
 
@@ -125,10 +175,12 @@ class ReposGoogleMap : OnMapReadyCallback {
     }
 
     private fun SetZoneChat() {
-        itemsZoneChatShow.forEach { itemZoneChat: ZoneChat ->
+        ReposZoneChat.getInstance().zoneChats.forEach { itemZoneChat: ZoneChat ->
             if (itemZoneChat.gpsCoordinates.latitude != null && itemZoneChat.gpsCoordinates.longitude != null) {
                 val position = itemZoneChat.gpsCoordinates.toLatLng()
-                val radiusInMeters = itemZoneChat.radius.toDouble() // Utilisez la valeur de radius
+                val newLatLng = SphericalUtil.computeOffset(position, itemZoneChat.radius.toDouble(), 0.0)
+                val radiusInMeters: Double = SphericalUtil.computeDistanceBetween(position, newLatLng)
+                Log.d("Lm"," radius = " + itemZoneChat.radius.toString() + " distance = " + radiusInMeters.toString())
 
                 val circleOptions = CircleOptions()
                     .zIndex(10f)

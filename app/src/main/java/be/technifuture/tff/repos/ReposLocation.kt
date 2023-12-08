@@ -19,7 +19,7 @@ import kotlin.math.pow
 
 
 class ReposLacolisation : LocationListener {
-    private var locationChangeListener: LocationChangeListener? = null
+    private var gpsUpadateListener: GpsUpadateListener? = null
     private var locationManager : LocationManager? = null
 
     companion object {
@@ -37,33 +37,12 @@ class ReposLacolisation : LocationListener {
         }
     }
 
-
-    fun calculateDistance(gpsCoordinates1 : GpsCoordinates, gpsCoordinates2 : GpsCoordinates): Double {
-
-        try{
-            val earthRadius = 6371.0 // Rayon moyen de la Terre en kilomètres
-            val dLat = degToRad(gpsCoordinates2.latitude - gpsCoordinates1.latitude)
-            val dLon = degToRad(gpsCoordinates2.longitude - gpsCoordinates1.longitude)
-
-            val a = Math.sin(dLat / 2).pow(2) +
-                    Math.cos(degToRad(gpsCoordinates1.latitude)) * Math.cos(degToRad(gpsCoordinates2.latitude)) *
-                    Math.sin(dLon / 2).pow(2)
-            val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
-            val distance = earthRadius * c
-            return distance
-        } catch (e: NumberFormatException){
-            Log.d("Distance", e.toString())
-            return 5000.0
-        }
-    }
-
-    private fun degToRad(degrees: Double): Double {
-        return degrees * (Math.PI / 180)
+    fun setListenner(Listener : GpsUpadateListener){
+        gpsUpadateListener = Listener
     }
 
     fun getLastLocation(activity : Activity, context : Context) {
-        // Vérifiez d'abord si les autorisations de localisation sont accordées
+
         if (ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED &&
@@ -106,13 +85,15 @@ class ReposLacolisation : LocationListener {
                 )
             }
         } else {
-            if(locationManager == null){
-                locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                locationManager!!.getBestProvider(
-                    Criteria().apply { this.accuracy = Criteria.ACCURACY_FINE }, true
-                )?.let {
-                        provider -> locationManager!!.requestLocationUpdates(provider, 1000, 0f, getInstance())
-                }
+            locationManager = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1f,  getInstance())
+
+            val lastKnownLocation =
+                locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+            if (lastKnownLocation != null) {
+                val gpsCoordinates = GpsCoordinates(lastKnownLocation.latitude, lastKnownLocation.longitude)
+                gpsUpadateListener?.onGpsChanged(gpsCoordinates)
             }
         } // end Else
     }
@@ -124,13 +105,12 @@ class ReposLacolisation : LocationListener {
         locationManager=null
     }
 
+
     override fun onLocationChanged(location: Location) {
-        mySetting.latitude = location.latitude
-        mySetting.longitude = location.longitude
-
-        var gpsCoordinates: GpsCoordinates = GpsCoordinates(mySetting.latitude, mySetting.longitude );
-        locationChangeListener?.onLocationChanged(gpsCoordinates)
-
+        Log.d("LM", "ReposLacolisation.onLocationChanged")
+        mySetting.LocalisationGps = GpsCoordinates(location.latitude,location.longitude)
+        var gpsCoordinates = mySetting.LocalisationGps
+        gpsUpadateListener?.onGpsChanged(gpsCoordinates)
     }
 
 }

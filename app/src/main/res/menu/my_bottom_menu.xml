@@ -5,13 +5,13 @@
         android:icon="@drawable/ico_game"
         android:title="Jeux" />
     <item
-        android:id="@+id/chatInteractionFragment"
-        android:icon="@drawable/ico_history"
-        android:title="Historique" />
-    <item
         android:id="@+id/radarFragment"
         android:icon="@drawable/ico_radar"
         android:title="Radar" />
+    <item
+        android:id="@+id/chatInteractionFragment"
+        android:icon="@drawable/ico_history"
+        android:title="Historique" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ico_user"

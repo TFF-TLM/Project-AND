@@ -1,12 +1,8 @@
 package be.technifuture.tff.repos
 
 import be.technifuture.tff.model.Bonus
-import be.technifuture.tff.model.BonusType
-import be.technifuture.tff.model.Chat
-import be.technifuture.tff.model.ClanModel
-import be.technifuture.tff.model.GpsCoordinates
 import be.technifuture.tff.model.UserModel
-import kotlin.random.Random
+import be.technifuture.tff.model.enums.BonusType
 
 class ReposUser {
     fun mockData(): UserModel {
@@ -25,8 +21,6 @@ class ReposUser {
                 Bonus(BonusType.Bouclier, 2, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBZG_ry2wJ5uNGBqeHpupjJ2uH4daVZtW29hqd4tSZLyhvPREQlfsClKY7irR7UEqlL-4&usqp=CAU")
             )
         )
-
-
         return userModel
     }
 
@@ -40,9 +34,6 @@ class ReposUser {
             }
             return instance as ReposUser
         }
-
-
     }
-
 }
 
