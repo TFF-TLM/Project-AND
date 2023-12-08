@@ -7,6 +7,7 @@
     android:background="@color/grey"
     tools:context=".fragment.jeu.ProfileFragment">
 
+    <include layout="@layout/include_background"/>
 
     <LinearLayout
         android:id="@+id/imgBanner"
@@ -148,7 +149,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_margin="20dp"
-                android:src="@drawable/gamelle" />
+                android:src="@drawable/patte" />
 
             <TextView
                 android:id="@+id/nbr_cat"

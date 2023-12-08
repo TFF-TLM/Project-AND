@@ -38,8 +38,6 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.inflate(layoutInflater)
         sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
-        isYetConnected()
-
         binding.buttonCreateUser.setOnClickListener {
             val direction = LoginFragmentDirections.actionLoginFragmentToCreateUserFragment()
             findNavController().navigate(direction)
@@ -71,8 +69,11 @@ class LoginFragment : Fragment() {
             }
 
         }
+        //TODO: Fait planter l'app
+        isYetConnected()
         return binding.root
     }
+
 
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager =
@@ -89,7 +90,7 @@ class LoginFragment : Fragment() {
 
     private fun isYetConnected() {
         val userId = sharedPref.getInt(configID, -1)
-        val timestamp = sharedPref.getInt(configTime, 0)
+        val timestamp = sharedPref.getLong(configTime, 0)
 
         if (timestamp < Date().time && userId != -1) {
             NetworkService.user.getUserById(userId) { user ->
@@ -110,7 +111,6 @@ class LoginFragment : Fragment() {
             }
         }
         UserConnected.user = user
-        Log.d("DEBUGG", "LoginFragment, navigate : ${user.clan}")
         UserConnected.clan = NetworkService.clan.getClanById(user.clan)
 
         val intent = Intent(requireContext(), JeuxActivity::class.java)

@@ -35,7 +35,17 @@
           <theme>@style/Theme.TFF</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml">
+        <config>
+          <theme>@style/Theme.TFF</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_retrieve_mail.xml">
+        <config>
+          <theme>@style/Theme.TFF</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/include_background.xml">
         <config>
           <theme>@style/Theme.TFF</theme>
         </config>
@@ -56,29 +66,28 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fe86bd8-aa7d-4145-a68c-8e267f86c822" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/migrations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/RetrieveMailFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_retrieve_mail.xml" afterDir="false" />
+    <list default="true" id="0fe86bd8-aa7d-4145-a68c-8e267f86c822" name="Changes" comment="Modification du Screen selected Clan">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ico_img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/patte.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/include_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/background.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Doc de Presentation/PresTFF.key" beforeDir="false" afterPath="$PROJECT_DIR$/Doc de Presentation/PresTFF.key" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/adapter/CreateClanAdapter.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/CreateClanUserFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/CreateClanUserFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/CreateUserFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/CreateUserFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/LoginFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/LoginFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/viewController/CreateUserViewController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/viewController/CreateUserViewController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/AlertDialogCustom.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/AlertDialogCustom.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_avatar_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_avatar_user.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_clan_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_clan_user.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/connect_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/connect_navigation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_user.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_user.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_retrieve_mail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_retrieve_mail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +97,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[77e214e5]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-77e214e5-TKwQ82._adb-tls-connect._tcp.]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -167,6 +176,11 @@
       <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
       <recent name="C:\Users\Hellana\Desktop\Project-AND\app\src\main\res\values" />
       <recent name="C:\Users\Hellana\Desktop\Project-AND\app\src\main\res\drawable" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/raw" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/animator" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/anim" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="be.technifuture.tff.fragment" />
@@ -501,7 +515,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701252284504</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Modification du Screen selected Clan">
+      <option name="closed" value="true" />
+      <created>1701935401128</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1701935401128</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -529,7 +551,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Ajout de la cell + adapter/ViewHolder Pour la creation d'Avatar" />
     <MESSAGE value="Repris du code aprés l'arret de 2 semaine" />
     <MESSAGE value="Import des dépendence de navigation + De rooms qui paurria etre util plus tard." />
     <MESSAGE value="Mise en place des régles de validation du login.&#10;Lien du Login vers la création de compte" />
@@ -554,6 +575,7 @@
     <MESSAGE value="Rajout du Singleton pour user + Utilisation lors du login" />
     <MESSAGE value="Rajout de la page ProfileFragment" />
     <MESSAGE value="Petit modification dans le design de la page Profil" />
-    <option name="LAST_COMMIT_MESSAGE" value="Petit modification dans le design de la page Profil" />
+    <MESSAGE value="Modification du Screen selected Clan" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modification du Screen selected Clan" />
   </component>
 </project>

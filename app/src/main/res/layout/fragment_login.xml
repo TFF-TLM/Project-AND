@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
     tools:context=".fragment.connect.LoginFragment">
+
+    <include layout="@layout/include_background"/>
 
     <ImageView
         android:id="@+id/logo"
@@ -28,7 +29,6 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/grey"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout

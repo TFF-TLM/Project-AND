@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.connect.CreateUserFragment"
-    android:background="@color/grey">
+    tools:context=".fragment.connect.CreateUserFragment">
+
+    <include layout="@layout/include_background"/>
 
     ,<ImageView
         android:id="@+id/imageAvatar"
