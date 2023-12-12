@@ -5,6 +5,11 @@
       <config />
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_jeux.xml">
+        <config>
+          <theme>@style/Theme.TFF</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/cell_create_avatar.xml">
         <config>
           <theme>@style/Theme.TFF</theme>
@@ -66,10 +71,17 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0fe86bd8-aa7d-4145-a68c-8e267f86c822" name="Changes" comment="Modification du Screen selected Clan">
+    <list default="true" id="0fe86bd8-aa7d-4145-a68c-8e267f86c822" name="Changes" comment="Mise ne place des premier element de retrofit">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/wave.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/NetworkService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/NetworkService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/UserService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/raw/background.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/background.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -508,7 +520,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701935401128</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Mise ne place des premier element de retrofit">
+      <option name="closed" value="true" />
+      <created>1702367451522</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1702367451522</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -536,7 +556,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Repris du code aprés l'arret de 2 semaine" />
     <MESSAGE value="Import des dépendence de navigation + De rooms qui paurria etre util plus tard." />
     <MESSAGE value="Mise en place des régles de validation du login.&#10;Lien du Login vers la création de compte" />
     <MESSAGE value="Validation des champs Implementer. Message d'erreur/Alert non inclus" />
@@ -561,6 +580,7 @@
     <MESSAGE value="Rajout de la page ProfileFragment" />
     <MESSAGE value="Petit modification dans le design de la page Profil" />
     <MESSAGE value="Modification du Screen selected Clan" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modification du Screen selected Clan" />
+    <MESSAGE value="Mise ne place des premier element de retrofit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mise ne place des premier element de retrofit" />
   </component>
 </project>
