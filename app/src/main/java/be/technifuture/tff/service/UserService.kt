@@ -5,6 +5,7 @@ import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.model.enums.BonusType
+import retrofit2.Response
 import java.lang.Thread.sleep
 
 class UserService {
@@ -61,6 +62,19 @@ class UserService {
         sleep(3000)
         onComplet("url_de_api")
     }
+
+    suspend fun dataRandom(): Response<UserModel> =
+        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).dataRandom()
+
+    suspend fun dataByName(name: String): Response<UserModel> =
+        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).dataByName(name)
+
+    suspend fun listOfCategory(): Response<UserModel> =
+        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).listOfCategory()
+
+
+    suspend fun listOfIngredient(): Response<UserModel> =
+        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).listOfIngredient()
 }
 
 object UserConnected{
