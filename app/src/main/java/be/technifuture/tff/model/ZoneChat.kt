@@ -18,7 +18,7 @@ data class ZoneChat(
         parcel.readInt(),
         parcel.readParcelable(ChatRGB::class.java.classLoader) ?: ChatRGB(0, 0, 0),
         parcel.readParcelable(GpsCoordinates::class.java.classLoader) ?: GpsCoordinates(0.0, 0.0),
-        parcel.readParcelable(Chat::class.java.classLoader) ?: Chat("", "", "", 0, 100, 1, false, GpsCoordinates(0.0, 0.0))
+        parcel.readParcelable(Chat::class.java.classLoader) ?: Chat("", "", "", 0, 100, 1, false, GpsCoordinates(0.0, 0.0),0)
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -85,7 +85,8 @@ data class Chat(
     var maxVie: Int,
     var level: Int,
     var isVisible : Boolean,
-    var gpsCoordinates: GpsCoordinates
+    var gpsCoordinates: GpsCoordinates,
+    var distanceFromUser: Int,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -96,7 +97,8 @@ data class Chat(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readByte() != 0.toByte(),
-        parcel.readParcelable(GpsCoordinates::class.java.classLoader) ?: GpsCoordinates(0.0, 0.0)
+        parcel.readParcelable(GpsCoordinates::class.java.classLoader) ?: GpsCoordinates(0.0, 0.0),
+        parcel.readInt(),
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -108,6 +110,7 @@ data class Chat(
         parcel.writeInt(level)
         parcel.writeByte(if (isVisible) 1 else 0)
         parcel.writeParcelable(gpsCoordinates, flags)
+        parcel.writeInt(distanceFromUser)
     }
 
     override fun describeContents(): Int {

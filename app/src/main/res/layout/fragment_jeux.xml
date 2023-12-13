@@ -20,6 +20,68 @@
         tools:ignore="SpeakableTextPresentCheck"/>
 
 
+    <LinearLayout
+        android:elevation="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mapView"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/BtnJoystick"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_background"
+            android:importantForAccessibility="no"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ico_joystick"
+            android:tint="@color/design_default_color_error"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/BtnProfil"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_background"
+            android:importantForAccessibility="no"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ico_user"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/BtnAddChat"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/rounded_background"
+            android:importantForAccessibility="no"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ico_chat"
+            android:visibility="visible"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:background="@drawable/rounded_background"
+            android:id="@+id/BtnRadar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ico_radar"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:importantForAccessibility="no" />
+
+    </LinearLayout>
+
+
     <ImageView
         android:id="@+id/imgCompas"
         android:layout_width="80dp"
@@ -29,20 +91,9 @@
         android:scaleType="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ico_direction" />
+        app:srcCompat="@drawable/ico_direction"
+        android:importantForAccessibility="no" />
 
-
-    <Switch
-        android:id="@+id/switchDemo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:elevation="8dp"
-        android:minHeight="48dp"
-        android:text="Mode demo "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayoutJoystick"
@@ -61,17 +112,19 @@
 
 
     <androidx.fragment.app.FragmentContainerView
-        android:elevation="15dp"
         android:id="@+id/FragmentChat"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#00FFFFFF"
+        android:elevation="15dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

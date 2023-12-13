@@ -13,6 +13,13 @@ class ReposZoneChat  {
     public var zoneChats = mutableListOf<ZoneChat>()
     public var nearChats = mutableListOf<ZoneChat>()
 
+    public fun getDistance(source:GpsCoordinates, destination:GpsCoordinates): Double{
+        val distance: Double = SphericalUtil.computeDistanceBetween(
+            source!!.toLatLng(), destination.toLatLng()
+        )
+        return distance
+    }
+
     public fun getNearChat(CoordinatesUser:GpsCoordinates): GpsCoordinates? {
 
         var gpsCoordinatesTarget: GpsCoordinates? = null
@@ -88,7 +95,8 @@ class ReposZoneChat  {
                         maxVie = 0,
                         level = kotlin.random.Random.nextInt(1, 10),
                         isVisible = true,
-                        gpsCoordinates = GpsCoordinates(randomLatitude, randomLongitude)
+                        gpsCoordinates = GpsCoordinates(randomLatitude, randomLongitude),
+                        0
                     )
                 )
 
