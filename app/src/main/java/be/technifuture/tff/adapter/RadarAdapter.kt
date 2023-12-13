@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
 import be.technifuture.tff.model.Chat
+import be.technifuture.tff.model.interfaces.RadarCellListener
 import be.technifuture.tff.model.interfaces.RadarListener
 import com.bumptech.glide.Glide
 
@@ -36,7 +37,7 @@ class RadarChatsAdapter(
 }
 
 
-class RadarChatsViewHolder(
+class RadarChatsViewHolder (
     private val view: View,
     private val onClickListener: RadarListener
 ) : RecyclerView.ViewHolder(view) {
@@ -51,7 +52,7 @@ class RadarChatsViewHolder(
         hp.max = 100
         hp.progress = item.vie
         nom.text = item.nom
-        distance.text = "50 M"
+        distance.text = item.distanceFromUser.toString() + " m"
         level.text  = item.level.toString()
 
         if (!item.urlImage.isNullOrEmpty()) {
@@ -66,5 +67,7 @@ class RadarChatsViewHolder(
         }
         */
     }
+
+
 }
 
