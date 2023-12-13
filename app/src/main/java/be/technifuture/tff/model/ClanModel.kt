@@ -6,13 +6,14 @@ class ClanModel(
 
     val id: Int,
     val name: String,
-    val image: Int,
-    val description: String
+    val image: Int
+)
 
-   /* @SerializedName("id")
-    val id: Int,
-    @SerializedName("name")
-    val name: String,
-    @SerializedName("effect_id")
-    var bonus: Boolean */
+class ClanModelAPI(
+    @SerializedName("id")
+     val id: Int,
+     @SerializedName("name")
+     val name: String,
+     @SerializedName("effect_id")
+     var bonus: Boolean
 )

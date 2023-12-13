@@ -8,9 +8,9 @@ import be.technifuture.tff.model.UserModel
 class ClanService {
 
     private val listOfClan = mutableListOf(
-        ClanModel(1, "Achamer", R.drawable.clan_jaune, "Bonus à l'expension"),
-        ClanModel(2, "Flachato", R.drawable.clan_rouge, "Bonus à l'attaque"),
-        ClanModel(3, "Tochaxik", R.drawable.clan_vert, "Resistance au attaque")
+        ClanModel(1, "Achamer", R.drawable.clan_jaune),
+        ClanModel(2, "Flachato", R.drawable.clan_rouge),
+        ClanModel(3, "Tochaxik", R.drawable.clan_vert)
     )
 
     fun getClan(): MutableList<ClanModel> {

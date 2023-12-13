@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import java.net.URL
 
 class UserModel(
-
     @SerializedName("user_id")
     val id: Int,
     val login: String,
@@ -15,17 +14,19 @@ class UserModel(
     var expMax: Int,
     var expActuel: Int,
     var nbCroquette: Int,
+)
 
-    /*@SerializedName("id")
+class UserModelAPI(
+    @SerializedName("id")
     val id: Int,
     @SerializedName("username")
     val login: String,
     @SerializedName("is_active")
     var isActive: Boolean,
     @SerializedName("data")
-    var data: DataUser*/
-
+    var data: DataUser
 )
+
 
 class DataUser(
     @SerializedName("clan")
