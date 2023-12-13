@@ -102,7 +102,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fe86bd8-aa7d-4145-a68c-8e267f86c822" name="Changes" comment="Mise en place du design sur RetrieveMailFragment">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/authenticator/AuthAuthenticator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Auth.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Clan.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/User.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/interceptor/ApiKeyInterceptor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/interceptor/AuthInterceptor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/AuthManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/AuthApiService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/CatApiService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/ClanApiService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/InteractApiService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/SurroundingsApiService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/UserApiService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/utils/ClientBuilder.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/utils/ServiceBuilder.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/utils/UrlApi.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +134,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/tony/.android/avd/Nexus_One_API_34.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/student07/.android/avd/Nexus_9_API_34.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -163,8 +185,8 @@
         <option value="Class" />
         <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
-        <option value="Kotlin Class" />
         <option value="resourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -210,7 +232,7 @@
     "cidr.known.project.marker": "true",
     "com.google.services.firebase.aqiPopupShown": "true",
     "git-widget-placeholder": "develop",
-    "last_opened_file_path": "C:/Users/laure/Downloads/Compass-master",
+    "last_opened_file_path": "/Users/student07/Documents/TECHNIFUTUR-DEVMOBILE/Projet Personnel/TFF_APP_AND/Project-AND",
     "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
   }
 }]]></component>
@@ -255,7 +277,6 @@
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
       <option name="CLEAR_APP_STORAGE" value="false" />
-      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
@@ -606,7 +627,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="feat/Cree_un_compte" />
+                        <option value="feat/AuthApiService" />
                       </list>
                     </value>
                   </entry>
