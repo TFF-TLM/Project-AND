@@ -32,6 +32,7 @@ class CreateAvatarUserFragment : Fragment() {
         binding = FragmentCreateAvatarUserBinding.inflate(layoutInflater)
         binding.buttonCreateUser.setOnClickListener { createUser() }
         binding.buttonGenerateAvatar.setOnClickListener { createAvatar() }
+        binding.header.title.text = getString(R.string.choose_clan)
 
         binding.question1.text = getString(R.string.question1)
         setupRecyclerView(chooseAvatar[0], binding.recyclerViewQ1, 1)

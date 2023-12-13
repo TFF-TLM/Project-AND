@@ -36,6 +36,8 @@ class CreateClanUserFragment : Fragment() {
             selectedContenair(3)
         }
 
+        binding.header.title.text = getString(R.string.choose_clan)
+
         binding.nextButton.setOnClickListener {
             val direction =
                 CreateClanUserFragmentDirections.actionFragmentCreateClanUserToCreateAvatarUserFragment(

@@ -48,6 +48,8 @@ class LoginFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
+        binding.header.title.visibility = View.GONE
+
         binding.buttonLogin.setOnClickListener {
             binding.loaderView.visibility = View.VISIBLE
 

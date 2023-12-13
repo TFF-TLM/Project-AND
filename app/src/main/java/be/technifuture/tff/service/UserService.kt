@@ -5,6 +5,11 @@ import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.model.enums.BonusType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import retrofit2.Response
 import java.lang.Thread.sleep
 
@@ -13,13 +18,7 @@ class UserService {
     private val mockUser = UserModel(
         643,"Tony", "user_test@tff.be",
         "12345678",
-        2, 5,530, 140,
-        345,
-        mutableListOf(
-            Bonus(BonusType.Croquette, 10, "https://img1.freepng.fr/20180715/piy/kisspng-cat-chicken-as-food-elderly-crispy-fried-chicken-s-croquette-5b4b0a2245a2b8.5912826215316444502852.jpg"),
-            Bonus(BonusType.Bouclier, 2, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBZG_ry2wJ5uNGBqeHpupjJ2uH4daVZtW29hqd4tSZLyhvPREQlfsClKY7irR7UEqlL-4&usqp=CAU")
-        )
-
+        2, 5,53
     )
 
     fun isLoginAvailable(login: String): Boolean {
@@ -35,7 +34,7 @@ class UserService {
 
     fun getUserByLogin(login: String, pass: String, onCompletion: (UserModel?) -> Unit) {
         //TODO: Appel pour verifier l'user
-        val mockUserLogin = mutableListOf("tony", "medhi", "laurent", "user")
+        /*val mockUserLogin = mutableListOf("tony", "medhi", "laurent", "user")
         val mockMdp = "12345678"
 
         return if (mockUserLogin.contains(login.lowercase()) &&
@@ -44,6 +43,21 @@ class UserService {
             onCompletion(mockUser)
         } else {
             onCompletion(null)
+        }*/
+        //TODO: Implementation API
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = getUser(login, pass)
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        onCompletion(response.body())
+                    }
+                } catch (e: HttpException) {
+                    print(e)
+                } catch (e: Throwable) {
+                    print(e)
+                }
+            }
         }
 
     }
@@ -63,8 +77,8 @@ class UserService {
         onComplet("url_de_api")
     }
 
-    suspend fun dataRandom(): Response<UserModel> =
-        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).dataRandom()
+    suspend fun getUser(login: String, password: String): Response<UserModel?> =
+        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).getUser(login, password)
 
     suspend fun dataByName(name: String): Response<UserModel> =
         NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).dataByName(name)

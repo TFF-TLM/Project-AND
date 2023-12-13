@@ -29,4 +29,9 @@
             android:name="chat"
             app:argType="be.technifuture.tff.model.Chat" />
     </fragment>
+    <fragment
+        android:id="@+id/historiqueFragment"
+        android:name="be.technifuture.tff.fragment.jeu.HistoriqueFragment"
+        android:label="fragment_historique"
+        tools:layout="@layout/fragment_historique" />
 </navigation>

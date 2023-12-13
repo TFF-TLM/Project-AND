@@ -34,8 +34,10 @@ class ProfileFragment : Fragment() {
 
         binding.labelNiv.text = getString(R.string.level, UserConnected.user.level.toString())
 
+        /*binding.labelExp.text = getString(R.string.expAffiche,
+            UserConnected.user.expActuel.toString(), UserConnected.user.expMax.toString())*/
         binding.labelExp.text = getString(R.string.expAffiche,
-            UserConnected.user.expActuel.toString(), UserConnected.user.expMax.toString())
+            "100", "200")
 
         binding.nbrCroquette.text = getString(R.string.nbCroquet, UserConnected.user.nbCroquette.toString())
         binding.nbrCat.text = getString(R.string.nbCat, "5")
@@ -47,7 +49,8 @@ class ProfileFragment : Fragment() {
 
     private fun revealExpBar(){
         val widthMax = binding.backExp.layoutParams.width
-        val ratio = (UserConnected.user.expActuel.toDouble() / UserConnected.user.expMax.toDouble())
+        //val ratio = (UserConnected.user.expActuel.toDouble() / UserConnected.user.expMax.toDouble())
+        val ratio = (100.toDouble() / 200.toDouble())
         binding.frontExp.layoutParams.width = (widthMax * ratio).toInt()
     }
 

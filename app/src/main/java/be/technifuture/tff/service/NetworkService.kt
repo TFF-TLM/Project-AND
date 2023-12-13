@@ -5,8 +5,11 @@ import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
@@ -14,7 +17,7 @@ object NetworkService {
 
     val user = UserService()
     val clan = ClanService()
-    private const val URL_API = "https://www.thecocktaildb.com/api/json/v1/1/"
+    private const val URL_API = "https://tony.servegame.com/API_TFF/"
 
      internal fun getRetrofit(): Retrofit {
         val okBuilder = OkHttpClient().newBuilder().apply {
@@ -34,9 +37,20 @@ object NetworkService {
 
 interface NetworkServiceInterface{
 
+    @Headers("x-api-key: django-insecure-_@m)6&to2+hch54h9n@e^yy^debo0oi11%oz(n-w#lki8t#p")
+    @POST("/auth/login/")
+    @FormUrlEncoded
+    suspend fun getLogin(
+        @Field("email") fName: String,
+        @Field("password") lName: String)
+        : Response<UserModel?>
+
     @Headers("Content-type: application/json")
-    @GET("random.php")
-    suspend fun dataRandom(): Response<UserModel>
+    @GET("user&login={login}&password={password}")
+    suspend fun getUser(
+        @Path("login") name: String,
+        @Path("password") password: String)
+    : Response<UserModel?>
 
     @Headers("Content-type: application/json")
     @GET("search.php?s={name}")

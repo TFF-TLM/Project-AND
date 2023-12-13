@@ -4,38 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragment.connect.CreateUserFragment">
+    tools:context=".fragment.connect.CreateUserFragment"
+    android:background="@color/backgroundColor">
 
-    <include layout="@layout/include_background"/>
-
-    ,<ImageView
-        android:id="@+id/imageAvatar"
-        android:src="@drawable/logo"
-
-        android:layout_margin="20dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:alpha="0.5"
-        />
-    <TextView
-        android:id="@+id/title"
-        android:text="@string/info_user"
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/header"
+        layout="@layout/include_header"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/imageAvatar"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        />
+        android:layout_width="match_parent" />
 
 <ScrollView
     android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@id/imageAvatar"
+    app:layout_constraintTop_toBottomOf="@id/header"
     app:layout_constraintBottom_toTopOf="@id/buttonCreateUser">
     <LinearLayout
         android:id="@+id/linearTop"
