@@ -45,6 +45,15 @@ interface NetworkServiceInterface{
         @Field("password") lName: String)
         : Response<UserModel?>
 
+    @Headers("x-api-key: django-insecure-_@m)6&to2+hch54h9n@e^yy^debo0oi11%oz(n-w#lki8t#p")
+    @POST("/auth/register/")
+    @FormUrlEncoded
+    suspend fun setRegister(
+        @Field("username") login: String,
+        @Field("email") mail: String,
+        @Field("password") password: String)
+            : Response<UserModel?>
+
     @Headers("Content-type: application/json")
     @GET("user&login={login}&password={password}")
     suspend fun getUser(

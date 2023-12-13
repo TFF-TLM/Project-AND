@@ -1,15 +1,8 @@
 package be.technifuture.tff.service
 
-import be.technifuture.tff.model.Bonus
 import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
-import be.technifuture.tff.model.enums.BonusType
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import retrofit2.Response
 import java.lang.Thread.sleep
 
@@ -34,7 +27,7 @@ class UserService {
 
     fun getUserByLogin(login: String, pass: String, onCompletion: (UserModel?) -> Unit) {
         //TODO: Appel pour verifier l'user
-        /*val mockUserLogin = mutableListOf("tony", "medhi", "laurent", "user")
+        val mockUserLogin = mutableListOf("tony", "medhi", "laurent", "user")
         val mockMdp = "12345678"
 
         return if (mockUserLogin.contains(login.lowercase()) &&
@@ -43,9 +36,9 @@ class UserService {
             onCompletion(mockUser)
         } else {
             onCompletion(null)
-        }*/
+        }
         //TODO: Implementation API
-        CoroutineScope(Dispatchers.IO).launch {
+        /*CoroutineScope(Dispatchers.IO).launch {
             val response = getUser(login, pass)
             withContext(Dispatchers.Main) {
                 try {
@@ -58,7 +51,7 @@ class UserService {
                     print(e)
                 }
             }
-        }
+        }*/
 
     }
 
