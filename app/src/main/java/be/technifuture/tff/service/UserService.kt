@@ -76,7 +76,12 @@ class UserService {
 
     fun generateAvatar(list: MutableList<String>, onComplet: (String) -> Unit) {
         sleep(3000)
-        onComplet("url_de_api")
+        val urlAvatar = mutableListOf(
+            "https://img.getimg.ai/generated/img-t5OD7O05ksIz34xRXipoO.jpeg",
+            "https://img.getimg.ai/generated/img-4nKJPBr3Xiw26BlAuiA8y.jpeg",
+            "https://img.getimg.ai/generated/img-Xe7GNQfa4F2PzSTv0XQ4N.jpeg"
+            )
+        onComplet(urlAvatar.random())
     }
 
     suspend fun getUser(login: String, password: String): Response<UserModel?> =
