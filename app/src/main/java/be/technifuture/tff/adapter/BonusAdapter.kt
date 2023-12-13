@@ -45,10 +45,13 @@ class BonusViewHolder(
     fun setupData(item: Bonus) {
         titre.text = item.nombreItem.toString()
 
-        if (!item.urlImage.isNullOrEmpty()) {
+        val resourceName = "drawable/${item.urlImage}"
+        val drawableResId = view.context.resources.getIdentifier(resourceName, "drawable", view.context.packageName)
+
+        if (drawableResId != 0) {
             Glide.with(view)
-                .load(item.urlImage) // Chargez l'URL de l'image
-                .into(photo) // Affichez l'image dans la vue 'photo'
+                .load(drawableResId)
+                .into(photo)
         }
 
         view.setOnClickListener {

@@ -4,7 +4,7 @@
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:layout_margin="5dp"
-    android:background="@drawable/input_rounded_background">
+    android:background="@drawable/background_cell">
 
         <ImageView
             android:id="@+id/cellChatBonusImage"

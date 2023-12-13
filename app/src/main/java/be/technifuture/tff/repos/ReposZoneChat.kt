@@ -51,7 +51,7 @@ class ReposZoneChat  {
             val centerLongitude = longitude
             val maxRadius = 1500.0
 
-            for (i in 1..50) {
+            for (i in 1..20) {
 
                 val randomLatitude = centerLatitude + kotlin.random.Random.nextDouble(
                     -0.03,

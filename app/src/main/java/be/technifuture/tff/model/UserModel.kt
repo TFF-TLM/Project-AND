@@ -13,7 +13,7 @@ class UserModel(
     val level: Int,
     var expMax: Int,
     var expActuel: Int,
-    var nbCroquette: Int,
+    var bonus: MutableList<Bonus>
 )
 
 class UserModelAPI(

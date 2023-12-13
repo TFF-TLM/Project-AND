@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
 import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.model.enums.BonusType
 import be.technifuture.tff.service.NetworkService
 import be.technifuture.tff.service.UserConnected
 import com.squareup.picasso.Picasso
@@ -38,7 +39,7 @@ class ProfileFragment : Fragment() {
             UserConnected.user.expActuel.toString(), UserConnected.user.expMax.toString())
         //binding.labelExp.text = getString(R.string.expAffiche, "100", "200")
 
-        binding.nbrCroquette.text = getString(R.string.nbCroquet, UserConnected.user.nbCroquette.toString())
+        binding.nbrCroquette.text = getString(R.string.nbCroquet, UserConnected.user.bonus.count { it.bonusType == BonusType.Croquette }.toString())
         binding.nbrCat.text = getString(R.string.nbCat, "5")
 
         revealExpBar()
