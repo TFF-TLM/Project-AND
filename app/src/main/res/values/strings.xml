@@ -41,7 +41,7 @@
     <string name="confirm_password">Vérification du Password</string>
     <string name="info_user">Donnée Utilisateur</string>
     <string name="create_avatar">Création de l\'avatar</string>
-    <string name="create_user">Crée le compte</string>
+    <string name="create_user">Valider</string>
     <string name="choose_clan">Choix du Clan</string>
     <string name="say_hello">Bonjour %1$s</string>
     <string name="explain_clan">Choisis ton camp</string>

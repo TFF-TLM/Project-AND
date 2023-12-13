@@ -15,6 +15,8 @@ import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.service.NetworkService
+import be.technifuture.tff.service.UserConnected
+import com.squareup.picasso.Picasso
 
 class CreateAvatarUserFragment : Fragment() {
 
@@ -94,11 +96,14 @@ class CreateAvatarUserFragment : Fragment() {
     private fun createAvatar() {
         binding.loaderView.visibility = View.VISIBLE
         NetworkService.user.generateAvatar(answerSelected){ url ->
+            Picasso.get()
+                .load(url)
+                .into(binding.avatarUser)
             user.urlAvatar = url
             binding.loaderView.visibility = View.GONE
+            binding.boxOfRecycler.visibility = View.GONE
             binding.buttonGenerateAvatar.visibility = View.GONE
             binding.buttonCreateUser.visibility = View.VISIBLE
-            Log.d("DEBUGG", "Creation avatar Finie")
         }
 
         //TODO :
