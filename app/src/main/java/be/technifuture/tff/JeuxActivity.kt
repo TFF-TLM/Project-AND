@@ -64,7 +64,7 @@ class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
         navController.addOnDestinationChangedListener{controller, destination, argumetn ->
             when(destination.id){
                 R.id.radarFragment -> {toolbar.isVisible = false; toolbar.title = "Radar"; navView.isVisible = true;}
-                R.id.jeuxFragment ->  {toolbar.isVisible = false; toolbar.title = "Jeux"; navView.isVisible = true;}
+                R.id.jeuxFragment ->  {toolbar.isVisible = false; toolbar.title = "Jeux"; navView.isVisible = false;}
                 R.id.loginFragment -> {toolbar.isVisible = false; toolbar.title = ""; navView.isVisible = false;}
                 else -> toolbar.title = null
             }

@@ -1,6 +1,7 @@
 package be.technifuture.tff.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,10 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.transition.Fade
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentJeuxBinding
 import be.technifuture.tff.model.*
+import be.technifuture.tff.model.enums.ChoixPopUp
 import be.technifuture.tff.model.enums.ColorChoice
 import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.repos.*
@@ -52,23 +57,44 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         InitJoystick()
         OnInitListener()
 
+        if(ReposUser.getInstance().getChatNb() > 0) {
+            binding.BtnAddChat.visibility = View.GONE
+        } else {
+            binding.BtnAddChat.visibility = View.VISIBLE
+        }
         orientationArrow = OrientationArrow()
-
+        binding.BtnRadar.visibility = View.GONE
+        binding.BtnAddChat.visibility =  View.INVISIBLE
         ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun OnInitListener(){
+        binding.BtnAddChat.setOnClickListener {
 
-        binding.switchDemo.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                isModeDemo = true
+        }
+
+        binding.BtnRadar.setOnClickListener {
+            OpenPopUp(ChoixPopUp.Radar, null)
+            //val action = JeuxFragmentDirections.actionJeuxFragmentToRadarFragment()
+            //findNavController().navigate(action)
+        }
+
+        binding.BtnProfil.setOnClickListener {
+
+        }
+
+        binding.BtnJoystick.setOnClickListener {
+            isModeDemo = !isModeDemo
+            if (isModeDemo) {
                 binding.relativeLayoutJoystick.visibility = View.VISIBLE
+                binding.BtnJoystick.setColorFilter(Color.rgb(80, 255, 80)) // Assurez-vous que votre couleur est définie correctement
             } else {
-                isModeDemo = false
-                binding.relativeLayoutJoystick?.visibility = View.INVISIBLE
+                binding.relativeLayoutJoystick?.visibility = View.GONE
+                binding.BtnJoystick.setColorFilter(Color.rgb(255, 80, 80)) // Assurez-vous que votre couleur est définie correctement
             }
         }
+
 
         binding.relativeLayoutJoystick.setOnTouchListener { arg0, arg1 ->
              joystick!!.drawStick(arg1)
@@ -86,10 +112,15 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                  } else if (arg1.action == MotionEvent.ACTION_UP) {
                      ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
                  }
-
-                 Log.d("LM","relativeLayoutJoystick.setOnTouchListener = " + gpsCoordinatesUser.toString())
+                 gpsCoordinatesTarget = null;
                  mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
                  gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinatesUser!!)
+
+                 if(gpsCoordinatesTarget != null) {
+                     binding.BtnRadar.visibility = View.VISIBLE
+                 } else {
+                     binding.BtnRadar.visibility = View.GONE
+                 }
 
                  binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
                      gpsCoordinatesUser!!, gpsCoordinatesTarget!!
@@ -110,27 +141,44 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         joystick!!.setMinimumDistance(20)
     }
 
+
+
     //******************************************************** Events Users
 
+
     override fun onChatOpenned(chat: Chat) {
+        OpenPopUp(ChoixPopUp.Chat, chat)
+    }
+
+    fun OpenPopUp(PopUpType:ChoixPopUp ,chat: Chat? = null){
         binding.FragmentChat.visibility = View.VISIBLE
 
-        val bundle = Bundle()
-        bundle.putParcelable("chat", chat)
+        var chatInteractionFragment: Fragment? = null
 
-        val chatInteractionFragment = ChatInteractionFragment()
-        chatInteractionFragment.arguments = bundle
-        chatInteractionFragment.setOnButtonClickListener(this)
+        if(PopUpType == ChoixPopUp.Chat && chat != null) {
+            val bundle = Bundle()
+            bundle.putParcelable("chat", chat)
+            chatInteractionFragment = ChatInteractionFragment()
+            chatInteractionFragment.arguments = bundle
+            chatInteractionFragment.setOnButtonClickListener(this)
+        }
+
+        if(PopUpType == ChoixPopUp.Radar) {
+            chatInteractionFragment = RadarFragment()
+            chatInteractionFragment.setOnButtonClickListener(this)
+        }
 
         val fadeIn = Fade()
         fadeIn.duration = 800
-        chatInteractionFragment.enterTransition = fadeIn
 
-        childFragmentManager.beginTransaction()
-            .replace(R.id.FragmentChat, chatInteractionFragment)
-            .commit()
-
+        if (chatInteractionFragment != null) {
+            chatInteractionFragment.enterTransition = fadeIn
+            childFragmentManager.beginTransaction()
+                .replace(R.id.FragmentChat, chatInteractionFragment)
+                .commit()
+        }
     }
+
 
     override fun onClosePopUp() {
         val fadeOut = Fade()
@@ -159,8 +207,6 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     //******************************************************** delegate
     override fun onGpsChanged(gpsCoordinates: GpsCoordinates) {
         if(isModeDemo == false){
-            Log.d("LM","onGpsChanged gpsCoordinatesUser " + gpsCoordinatesUser.toString())
-            Log.d("LM","onGpsChanged gpsCoordinates " + gpsCoordinates.toString())
             gpsCoordinatesUser = gpsCoordinates
             ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
 
@@ -169,6 +215,9 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                     gpsCoordinatesUser!!, gpsCoordinatesTarget!!
                 )
             }
+            
+            (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(gpsCoordinates)
+
         }
     }
 

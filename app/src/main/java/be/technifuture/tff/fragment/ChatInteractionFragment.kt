@@ -67,12 +67,11 @@ class ChatInteractionFragment : Fragment(), BonusListener {
     }
 
     private fun SetupRecyclerView(){
-        bonus = ReposUser.getInstance().mockData().bonus
+        bonus = ReposUser.getInstance().getUser().bonus
         adapter = BonusAdapter(bonus, this)
         binding.chatRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         binding.chatRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
-
     }
 
     override fun onBonusClick(action: String, item: Bonus) {

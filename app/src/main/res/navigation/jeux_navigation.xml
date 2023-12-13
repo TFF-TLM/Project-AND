@@ -14,7 +14,17 @@
         android:id="@+id/jeuxFragment"
         android:name="be.technifuture.tff.fragment.JeuxFragment"
         android:label="fragment_jeux"
-        tools:layout="@layout/fragment_jeux" />
+        tools:layout="@layout/fragment_jeux" >
+        <action
+            android:id="@+id/action_jeuxFragment_to_radarFragment"
+            app:destination="@id/radarFragment" />
+        <action
+            android:id="@+id/action_jeuxFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_jeuxFragment_to_chatInteractionFragment2"
+            app:destination="@id/chatInteractionFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="be.technifuture.tff.fragment.jeu.ProfileFragment"
