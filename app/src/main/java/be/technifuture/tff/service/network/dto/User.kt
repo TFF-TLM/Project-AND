@@ -56,7 +56,18 @@ data class UserDataResponse(
     @SerializedName("limite_exp")
     val expLimit: Int,
     val image: String
-)
+){
+    fun updateUserModel(user: UserModel): UserModel {
+        user.urlAvatar = this.image
+        user.clan = this.clan.toClanModel()
+        user.level = this.lvl
+        user.expMax = this.expLimit
+        user.expActuel = this.exp
+        user.nbCroquette = this.food
+        user.croquetteMax = this.foodLimit
+        return user
+    }
+}
 
 data class UserDataRequestBody(
     @SerializedName("clan_id")
