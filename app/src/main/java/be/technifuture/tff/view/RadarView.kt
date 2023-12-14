@@ -17,18 +17,18 @@ class RadarView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val objects = mutableListOf<ObjectData>()
 
     private val radarPaint = Paint().apply {
-        color = Color.GREEN
+        color = Color.rgb(52, 156, 212)
         style = Paint.Style.STROKE
         strokeWidth = 3f
     }
 
     private val objectPaint = Paint().apply {
-        color = Color.RED
+        color = Color.BLUE
         style = Paint.Style.FILL
     }
 
     private val scanPaint = Paint().apply {
-        color = Color.WHITE
+        color = Color.BLUE
         style = Paint.Style.STROKE
         strokeWidth = 2f
     }

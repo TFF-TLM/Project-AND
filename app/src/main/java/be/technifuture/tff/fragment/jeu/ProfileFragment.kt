@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
 import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.model.enums.BonusType
 import be.technifuture.tff.service.NetworkService
 import be.technifuture.tff.service.UserConnected
 import com.squareup.picasso.Picasso

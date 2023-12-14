@@ -14,7 +14,7 @@ class ReposPointInteret {
         val baseLatitude = latitude
         itemsPointInteretShow.clear()
 
-        for (i in 1..100) { // Créez 10 objets Chat (vous pouvez ajuster le nombre)
+        for (i in 1..20) { // Créez 10 objets Chat (vous pouvez ajuster le nombre)
             val randomLatitude = baseLatitude + Random.nextDouble(-0.3, 0.3) // Ajustez la plage de latitude
             val randomLongitude = baseLongitude + Random.nextDouble(-0.3, 0.3) // Ajustez la plage de longitude
 

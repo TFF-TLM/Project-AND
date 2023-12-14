@@ -20,12 +20,15 @@ import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
 import be.technifuture.tff.service.NetworkService
 import be.technifuture.tff.service.UserConnected
+import be.technifuture.tff.service.network.manager.AuthDataManager
 import java.util.Date
+import be.technifuture.tff.service.network.dto.Auth
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var sharedPref: SharedPreferences
+    private val authManager = AuthDataManager.instance
 
     private val configID = "USER_ID"
     private val configTime = "TIMESTAMP_ID"
@@ -51,7 +54,7 @@ class LoginFragment : Fragment() {
         binding.header.title.visibility = View.GONE
 
         binding.buttonLogin.setOnClickListener {
-            binding.loaderView.visibility = View.VISIBLE
+/*            binding.loaderView.visibility = View.VISIBLE
 
             NetworkService.user.getUserByLogin(
                 binding.editTextLogin.text.toString(),
@@ -68,12 +71,17 @@ class LoginFragment : Fragment() {
                     AlertDialogCustom(requireContext()).getAlert(ErrorValidation.NO_CONNECTION)
                     binding.loaderView.visibility = View.GONE
                 }
-            }
-
+            }*/
+            login()
         }
         //TODO: Fait planter l'app
-        isYetConnected()
+        //isYetConnected()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        isAlreadyConnected()
     }
 
 
@@ -103,19 +111,52 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun navigate(user: UserModel) {
-        if(binding.checkSave.isChecked){
-            with(sharedPref.edit()) {
-                putInt(configID, user.id)
-                putLong(configTime, Date().time + timeToReconnect)
-                apply()
-                Log.d("DEBUGG", "fct Sauvegarde, Login Fragment : On sauvegarde")
+    private fun isAlreadyConnected() {
+        authManager.isAlreadyConnected(binding.loaderView) { user, error, code ->
+            if (user != null && error == null && code == 200) {
+                navigate(user)
             }
         }
+    }
+
+    private fun login() {
+        binding.loaderView.visibility = View.VISIBLE
+        if (isNetworkAvailable()) {
+            authManager.login(
+                Auth(
+                    binding.editTextLogin.text.toString(),
+                    binding.editTextPassword.text.toString()
+                ),
+                binding.checkSave.isChecked
+            ) { user, error, code ->
+                if (user != null && error == null && code == 200) {
+                    navigate(user)
+                } else {
+                    activity?.let { AlertDialogCustom(it).getAlert(ErrorValidation.LOG_ERROR) }
+                    binding.loaderView.visibility = View.GONE
+                }
+            }
+        } else {
+            activity?.let { AlertDialogCustom(it).getAlert(ErrorValidation.NO_CONNECTION) }
+            binding.loaderView.visibility = View.GONE
+        }
+    }
+
+    private fun navigate(user: UserModel) {
+        /*        if(binding.checkSave.isChecked){
+                    with(sharedPref.edit()) {
+                        putInt(configID, user.id)
+                        putLong(configTime, Date().time + timeToReconnect)
+                        apply()
+                        Log.d("DEBUGG", "fct Sauvegarde, Login Fragment : On sauvegarde")
+                    }
+                }*/
         UserConnected.user = user
         UserConnected.clan = NetworkService.clan.getClanById(user.clan)
 
         val intent = Intent(requireContext(), JeuxActivity::class.java)
-        startActivity(intent)
+        startActivity(intent).also {
+            activity?.finish()
+        }
     }
 }

@@ -6,7 +6,8 @@ class ClanModel(
 
     val id: Int,
     val name: String,
-    val image: Int
+    val image: Int,
+    val description: String
 )
 
 class ClanModelAPI(
