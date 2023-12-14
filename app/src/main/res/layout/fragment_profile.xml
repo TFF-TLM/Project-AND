@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".fragment.jeu.ProfileFragment">
+    tools:context=".fragment.jeu.ProfileFragment"
+    android:id="@+id/full_screen">
 
     <include
         android:id="@+id/header"
@@ -116,7 +117,7 @@
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/groupLabelExp"
-        app:layout_constraintBottom_toTopOf="@id/contenair_navigation">
+        app:layout_constraintBottom_toTopOf="@id/BtnHistorique">
         >
 
     <LinearLayout
@@ -133,7 +134,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_margin="20dp"
-                android:src="@drawable/gamelle" />
+                android:src="@drawable/croquette" />
 
             <TextView
                 android:id="@+id/nbr_croquette"
@@ -168,27 +169,26 @@
         </LinearLayout>
     </LinearLayout>
     </ScrollView>
-<LinearLayout
-    android:id="@+id/contenair_navigation"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <ImageButton
-        android:id="@+id/BtnProfil"
-        style="@style/round_button"
-        android:src="@drawable/ico_user"
-        tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/BtnHistorique"
         style="@style/round_button"
+        app:tint="@color/TintTwo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ico_chat"
         tools:ignore="SpeakableTextPresentCheck" />
-</LinearLayout>
+
+    <ImageButton
+        android:id="@+id/BtnClose"
+        android:alpha="0.5"
+        style="@style/round_button"
+        app:tint="@color/TintTwo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,12 +34,13 @@
             style="@style/round_button"
             android:src="@drawable/ico_joystick"
             tools:ignore="SpeakableTextPresentCheck"
-            app:tint="@color/design_default_color_error" />
+            app:tint="@color/TintTwo"/>
 
         <ImageButton
             android:id="@+id/BtnProfil"
             style="@style/round_button"
             android:src="@drawable/ico_user"
+            app:tint="@color/TintTwo"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
@@ -47,6 +48,7 @@
             style="@style/round_button"
             android:src="@drawable/ico_chat"
             android:visibility="visible"
+            app:tint="@color/TintTwo"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
@@ -54,6 +56,7 @@
             style="@style/round_button"
             android:src="@drawable/ico_radar"
             tools:ignore="SpeakableTextPresentCheck"
+            app:tint="@color/TintTwo"
             android:importantForAccessibility="no" />
 
     </LinearLayout>
@@ -69,6 +72,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ico_direction"
+        app:tint="@color/TintTwo"
         android:importantForAccessibility="no" />
 
 

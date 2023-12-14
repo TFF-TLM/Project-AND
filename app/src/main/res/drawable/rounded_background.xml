@@ -4,10 +4,11 @@
     android:shape="oval"
     android:padding="5dp">
 
-    <solid android:color="@color/backgroundColor" />
+    <solid android:color="@color/TintFour" />
     <stroke
         android:width="2dp"
-        android:color="@color/black" />
+        android:color="@color/TintTwo"
+        />
     <corners
         android:bottomRightRadius="@dimen/input_corner_radius"
         android:bottomLeftRadius="@dimen/input_corner_radius"

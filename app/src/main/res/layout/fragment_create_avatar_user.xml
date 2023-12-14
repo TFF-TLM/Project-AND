@@ -29,16 +29,20 @@
         android:text="@string/explain_avatar"
         android:textAlignment="center"
         />
-
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/explain_screen"
+    app:layout_constraintBottom_toTopOf="@id/buttonCreateUser"
+    android:scrollbars="none">
     <LinearLayout
         tools:visibility="visible"
         android:id="@+id/boxOfRecycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/explain_screen"
         android:textAlignment="center">
 
         <TextView
@@ -135,7 +139,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-
+</ScrollView>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonCreateUser"
         style="@style/button_util"

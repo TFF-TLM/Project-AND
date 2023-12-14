@@ -49,4 +49,24 @@
         android:textAlignment="center"
         android:text="@string/titleBottom_historique" />
 
+    <ImageButton
+        android:id="@+id/BtnProfil"
+        style="@style/round_button"
+        app:tint="@color/TintTwo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ico_user"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/BtnClose"
+        android:alpha="0.5"
+        style="@style/round_button"
+        app:tint="@color/TintTwo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        tools:ignore="SpeakableTextPresentCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

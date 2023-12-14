@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
@@ -53,7 +54,7 @@ class CreateAvatarUserFragment : Fragment() {
 
     private fun setupRecyclerView(list: MutableList<String>, recyclerView: RecyclerView, qSelected: Int) {
         recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            GridLayoutManager(context,3)
         recyclerView.adapter = CreateAvatarAdapter(list) { item ->
             insertAnswer(item, qSelected)
         }
@@ -115,17 +116,15 @@ class CreateAvatarUserFragment : Fragment() {
 
 private val chooseAvatar = mutableListOf(
     mutableListOf( // Lieux
-        "Espace", "Montagne", "Plage", "Piscine", "Maison",
+        "Espace", "Montagne", "Plage", "Maison",
         "Forêt", "Desert", "Campagne", "Lune", "Mer"
     ),
     mutableListOf( // Animaux
-        "Serpent", "Chien", "Licorne", "Dragon", "Hibou",
-        "Aigle", "Araignée", "Pieuvre", "Requin", "Tigre",
-        "Lion", "Orque", "Quokka", "Phoenix", "Pangolin",
-        "Griffon", "Kraken", "Axolotl", "Okapi", "Chimère"
+        "Serpent", "Licorne", "Dragon", "Hibou", "Phoenix",
+        "Aigle", "Requin", "Tigre", "Krakker"
     ),
     mutableListOf( // Hobbit
         "Football", "Jeu vidéo", "Judo", "Natation", "Vélo",
-        "Basket", "Voiture", "Courrir", "Combat Spatiaux", "Jeu de societer"
+        "Basket", "Voiture", "Courrir", "Hockey"
     )
 )
