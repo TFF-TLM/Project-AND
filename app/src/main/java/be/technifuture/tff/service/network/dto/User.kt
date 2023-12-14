@@ -1,5 +1,7 @@
 package be.technifuture.tff.service.network.dto
 
+import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.service.network.utils.ClanBuilder
 import com.google.gson.annotations.SerializedName
 
 data class UserResponse(
@@ -23,7 +25,26 @@ data class UserDetailsResponse(
     @SerializedName("is_active")
     val isActive: Boolean,
     val data: UserDataResponse?
-)
+) {
+    fun toUserModel(): UserModel? {
+        var user: UserModel? = null
+        this.data?.let { userData ->
+            user = UserModel(
+                this.id,
+                this.username,
+                "",
+                userData.image,
+                userData.clan.id,
+                userData.lvl,
+                userData.expLimit,
+                userData.exp,
+                userData.food,
+                userData.foodLimit
+            )
+        }
+        return user
+    }
+}
 
 data class UserDataResponse(
     val clan: ClanResponse,

@@ -1,5 +1,6 @@
 package be.technifuture.tff.service.network.manager
 
+import android.view.View
 import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.network.service.AuthApiServiceImpl
@@ -7,7 +8,6 @@ import be.technifuture.tff.service.network.service.UserApiServiceImpl
 import be.technifuture.tff.utils.sharedPref.SharedPrefManager
 import be.technifuture.tff.service.network.dto.Auth
 import be.technifuture.tff.service.network.dto.ErrorDetailsResponse
-import be.technifuture.tff.service.network.utils.ClanBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +47,7 @@ class AuthDataManager {
         }
     }
 
-    fun getUserId(): Int {
+    private fun getUserId(): Int {
         return sharedPrefManager.sharedPref.getInt(
             SharedPrefManager.KeyPref.USER_ID.value,
             -1
@@ -61,7 +61,14 @@ class AuthDataManager {
         }
     }
 
-    fun getExpirationTime(): Long {
+    private fun deleteUserId() {
+        with(sharedPrefManager.editor) {
+            remove(SharedPrefManager.KeyPref.USER_ID.value)
+            apply()
+        }
+    }
+
+    private fun getExpirationTime(): Long {
         return sharedPrefManager.sharedPref.getLong(
             SharedPrefManager.KeyPref.EXPIRATION_TIME.value,
             -0
@@ -71,6 +78,13 @@ class AuthDataManager {
     private fun updateExpirationTime() {
         with(sharedPrefManager.editor) {
             putLong(SharedPrefManager.KeyPref.EXPIRATION_TIME.value, Date().time + timeToReconnect)
+            apply()
+        }
+    }
+
+    private fun deleteExpirationTime() {
+        with(sharedPrefManager.editor) {
+            remove(SharedPrefManager.KeyPref.EXPIRATION_TIME.value)
             apply()
         }
     }
@@ -85,34 +99,27 @@ class AuthDataManager {
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let { userResponse ->
-                            userResponse.data?.let { userData ->
-                                user = UserModel(
-                                    userResponse.id,
-                                    userResponse.username,
-                                    "",
-                                    userData.image,
-                                    userData.clan.id,
-                                    userData.lvl,
-                                    userData.expLimit,
-                                    userData.exp,
-                                    userData.food,
-                                    userData.foodLimit
-                                )
-                                clan = ClanBuilder.buildClan(userData.clan.id, userData.clan.name)
+                            user = userResponse.toUserModel()
+                            userResponse.data?.clan?.let { clanResponse ->
+                                clan = clanResponse.toClanModel()
                             }
                             handler(user, null, response.code())
                         }
-                    }
-                } catch (e: HttpException) {
-                    if (response.code() == 404) {
-                        val errorResponse = Gson().fromJson(
-                            response.errorBody().toString(),
-                            ErrorDetailsResponse::class.java
-                        )
+                    } else {
+                        var errorResponse: ErrorDetailsResponse? = null
+                        if (response.code() == 404) {
+                            errorResponse = Gson().fromJson(
+                                response.body().toString(),
+                                ErrorDetailsResponse::class.java
+                            )
+                        }
                         handler(null, errorResponse, response.code())
                     }
+                } catch (e: HttpException) {
+                    handler(null, null, response.code())
                     print(e)
                 } catch (e: Throwable) {
+                    handler(null, null, response.code())
                     print(e)
                 }
             }
@@ -121,6 +128,7 @@ class AuthDataManager {
 
     fun login(
         auth: Auth,
+        remember: Boolean,
         handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -130,36 +138,48 @@ class AuthDataManager {
                     if (response.isSuccessful) {
                         response.body()?.let { authResponse ->
                             saveRefreshToken(authResponse.refresh)
-                            saveUserId(authResponse.user.id)
-                            updateExpirationTime()
+                            if (remember) {
+                                saveUserId(authResponse.user.id)
+                                updateExpirationTime()
+                            } else {
+                                deleteUserId()
+                                deleteExpirationTime()
+                            }
                             accessToken = authResponse.access
                             getUserDetailsById(authResponse.user.id) { user, error, code ->
-                                handler(user, error, code)
+                                    handler(user, error, code)
                             }
                         }
-                    }
-                } catch (e: HttpException) {
-                    if (response.code() == 401) {
-                        val errorResponse = Gson().fromJson(
-                            response.errorBody().toString(),
-                            ErrorDetailsResponse::class.java
-                        )
+                    } else {
+                        var errorResponse: ErrorDetailsResponse? = null
+                        if (response.code() == 401) {
+                            errorResponse = Gson().fromJson(
+                                response.body().toString(),
+                                ErrorDetailsResponse::class.java
+                            )
+                        }
                         handler(null, errorResponse, response.code())
                     }
+                } catch (e: HttpException) {
+                    handler(null, null, response.code())
                     print(e)
                 } catch (e: Throwable) {
+                    handler(null, null, response.code())
                     print(e)
                 }
             }
         }
     }
 
-    fun isAlreadyConnected(handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit) {
+    fun isAlreadyConnected(loader: View? = null, handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit) {
         val userId = getUserId()
         val timestamp = getExpirationTime()
+        val refreshToken = getRefreshToken()
 
-        if (timestamp < Date().time && userId != -1) {
+        if (timestamp > Date().time && userId != -1 && refreshToken != null) {
+            loader?.visibility = View.VISIBLE
             getUserDetailsById(userId) { user, error, code ->
+                loader?.visibility = View.GONE
                 handler(user, error, code)
             }
         }
