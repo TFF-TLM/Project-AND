@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_jeuxFragment_to_chatInteractionFragment2"
             app:destination="@id/chatInteractionFragment2" />
+        <action
+            android:id="@+id/action_jeuxFragment_to_marketFragment"
+            app:destination="@id/marketFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -44,4 +47,9 @@
         android:name="be.technifuture.tff.fragment.jeu.HistoriqueFragment"
         android:label="fragment_historique"
         tools:layout="@layout/fragment_historique" />
+    <fragment
+        android:id="@+id/marketFragment"
+        android:name="be.technifuture.tff.fragment.MarketFragment"
+        android:label="fragment_market"
+        tools:layout="@layout/fragment_market" />
 </navigation>
