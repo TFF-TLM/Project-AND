@@ -95,12 +95,10 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
             }
         }
 
-
         binding.relativeLayoutJoystick.setOnTouchListener { arg0, arg1 ->
              joystick!!.drawStick(arg1)
 
              if(isModeDemo == true && gpsCoordinatesUser != null) {
-
                  if (arg1.action == MotionEvent.ACTION_DOWN || arg1.action == MotionEvent.ACTION_MOVE) {
                      gpsCoordinatesUser = ReposGoogleMap.getInstance().CalculateNewPosition(
                          gpsCoordinatesUser!!,
@@ -112,19 +110,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                  } else if (arg1.action == MotionEvent.ACTION_UP) {
                      ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
                  }
-                 gpsCoordinatesTarget = null;
-                 mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
-                 gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinatesUser!!)
-
-                 if(gpsCoordinatesTarget != null) {
-                     binding.BtnRadar.visibility = View.VISIBLE
-                 } else {
-                     binding.BtnRadar.visibility = View.GONE
-                 }
-
-                 binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                     gpsCoordinatesUser!!, gpsCoordinatesTarget!!
-                 )
+                 UpdateCompatRadar()
              }
             true
         }
@@ -140,8 +126,6 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         joystick!!.setOffset(90)
         joystick!!.setMinimumDistance(20)
     }
-
-
 
     //******************************************************** Events Users
 
@@ -208,19 +192,30 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     override fun onGpsChanged(gpsCoordinates: GpsCoordinates) {
         if(isModeDemo == false){
             gpsCoordinatesUser = gpsCoordinates
+            UpdateCompatRadar()
             ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
-
-            if(gpsCoordinatesUser != null && gpsCoordinatesTarget != null){
-                binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                    gpsCoordinatesUser!!, gpsCoordinatesTarget!!
-                )
-            }
-            
             (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(gpsCoordinates)
-
         }
     }
 
+    fun UpdateCompatRadar(){
+
+        mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
+
+        gpsCoordinatesTarget = null;
+        gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinatesUser!!)
+
+        binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
+            gpsCoordinatesUser!!, gpsCoordinatesTarget!!
+        )
+
+        if(ReposZoneChat.getInstance().nearChats.count() > 0) {
+            binding.BtnRadar.visibility = View.VISIBLE
+        } else {
+            binding.BtnRadar.visibility = View.GONE
+        }
+
+    }
 
 
     //******************************************************** Events UI

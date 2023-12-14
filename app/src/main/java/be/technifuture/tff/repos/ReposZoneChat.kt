@@ -26,12 +26,9 @@ class ReposZoneChat  {
 
         nearChats.clear()
         zoneChats.forEach { zoneChat ->
-
             val distance: Double = SphericalUtil.computeDistanceBetween(
                 CoordinatesUser!!.toLatLng(), zoneChat.gpsCoordinates.toLatLng()
             )
-
-            Log.d("LM","distance = " + distance.toString() + " raduis = " + zoneChat.radius.toString())
 
             if (distance <= zoneChat.radius) {
                 nearChats.add(zoneChat)
