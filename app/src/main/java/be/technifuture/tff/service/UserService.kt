@@ -5,6 +5,7 @@ import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.model.enums.BonusType
+import be.technifuture.tff.service.network.utils.ClanBuilder
 import retrofit2.Response
 import java.lang.Thread.sleep
 
@@ -13,7 +14,7 @@ class UserService {
     private val mockUser = UserModel(
         643,"Tony", "user_test@tff.be",
         "\"https://cdn.artphotolimited.com/images/60df3a8fbd40b852ce5e0fff/300x300/big-smile-please.jpg",
-        1,
+        ClanBuilder.buildClan(1, "achamer"),
         10,
         150,
         50,

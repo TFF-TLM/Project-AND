@@ -28,9 +28,7 @@ class CreateUserFragment : Fragment() {
 
         binding.buttonCreateUser.setOnClickListener {
 
-            val user = viewController.validateForm()
-
-            if(user != null){
+            viewController.validateForm { user ->
                 val direction = CreateUserFragmentDirections.actionCreateUserFragmentToCreateClanUserFragment(user)
                 findNavController().navigate(direction)
             }
