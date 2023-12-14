@@ -67,7 +67,7 @@ class ChatInteractionFragment : Fragment(), BonusListener {
     }
 
     private fun SetupRecyclerView(){
-        bonus = ReposUser.getInstance().getUser().bonus
+        bonus = mutableListOf()//ReposUser.getInstance().getUser().bonus
         adapter = BonusAdapter(bonus, this)
         binding.chatRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         binding.chatRecyclerView.adapter = adapter
