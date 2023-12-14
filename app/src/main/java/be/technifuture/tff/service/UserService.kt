@@ -5,15 +5,16 @@ import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.model.enums.BonusType
+import be.technifuture.tff.service.network.utils.ClanBuilder
 import retrofit2.Response
 import java.lang.Thread.sleep
 
 class UserService {
 
     private val mockUser = UserModel(
-        643,"Tony", "user_test@tff.be",
+        643, "Tony", "user_test@tff.be",
         "\"https://cdn.artphotolimited.com/images/60df3a8fbd40b852ce5e0fff/300x300/big-smile-please.jpg",
-        2,
+        ClanBuilder.buildClan(2, "achamer"),
         10,
         150,
         50,
@@ -66,12 +67,12 @@ class UserService {
 
     }
 
-    fun getUserById(id: Int, onCompletion: (UserModel) -> Unit){
+    fun getUserById(id: Int, onCompletion: (UserModel) -> Unit) {
         onCompletion(mockUser)
 
     }
 
-    fun insertUser(user: NewUserModel, onComplet: (UserModel) -> Unit){
+    fun insertUser(user: NewUserModel, onComplet: (UserModel) -> Unit) {
         onComplet(mockUser)
         //TODO: Insertien d'un user à l'API
     }
@@ -82,12 +83,13 @@ class UserService {
             "https://img.getimg.ai/generated/img-t5OD7O05ksIz34xRXipoO.jpeg",
             "https://img.getimg.ai/generated/img-4nKJPBr3Xiw26BlAuiA8y.jpeg",
             "https://img.getimg.ai/generated/img-Xe7GNQfa4F2PzSTv0XQ4N.jpeg"
-            )
+        )
         onComplet(urlAvatar.random())
     }
 
     suspend fun getUser(login: String, password: String): Response<UserModel?> =
-        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).getUser(login, password)
+        NetworkService.getRetrofit().create(NetworkServiceInterface::class.java)
+            .getUser(login, password)
 
     suspend fun dataByName(name: String): Response<UserModel> =
         NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).dataByName(name)
@@ -100,7 +102,7 @@ class UserService {
         NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).listOfIngredient()
 }
 
-object UserConnected{
+object UserConnected {
     lateinit var user: UserModel
     lateinit var clan: ClanModel
 }
