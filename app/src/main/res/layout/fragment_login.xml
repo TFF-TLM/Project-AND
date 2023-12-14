@@ -44,7 +44,7 @@
                     android:hint="@string/login"
                     android:inputType="text"
                     android:lines="1"
-                    android:text="Tony" />
+                    android:text="lm@gmail.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -65,7 +65,7 @@
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:lines="1"
-                    android:text="12345678" />
+                    android:text="lmlm1122" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <CheckBox
@@ -74,29 +74,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:text="@string/remember_me"
-                android:textColor="@color/black"/>
+                android:textColor="@color/TintThree"
+                android:buttonTint="@color/TintThree"
+                />
 
 
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonLogin"
+                style="@style/button_util"
+                app:icon="@drawable/patte"
+                app:iconSize="45dp"
+                app:iconGravity="start"
+                app:iconPadding="5dp"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:padding="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:contentDescription="Send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:backgroundTint="@color/secondaryColor"
                 android:text="@string/connect"
                 app:layout_constraintBottom_toTopOf="@+id/buttonCreateUser"
              />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonCreateUser"
+                style="@style/button_util"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:elevation="10dp"
                 android:text="@string/signUp"
                 app:layout_constraintBottom_toTopOf="@+id/labelRetrievePassword" />

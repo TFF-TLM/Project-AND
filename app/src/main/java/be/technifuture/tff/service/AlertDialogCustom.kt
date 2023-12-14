@@ -32,7 +32,6 @@ class AlertDialogCustom (private val viewContext: Context){
             builder.dismiss()
         }
 
-        view.findViewById<TextView>(R.id.title).text = "Error"
         view.findViewById<TextView>(R.id.desc).text = when(error){
             ErrorValidation.LOGIN_EXIST ->
                 view.resources.getString(R.string.LOGIN_EXIST)

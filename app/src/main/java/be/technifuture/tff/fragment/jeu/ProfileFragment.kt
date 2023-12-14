@@ -1,5 +1,6 @@
 package be.technifuture.tff.fragment.jeu
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -40,10 +41,13 @@ class ProfileFragment : Fragment() {
 
         binding.labelNiv.text = getString(R.string.level, UserConnected.user.level.toString())
 
-        binding.labelExp.text = getString(R.string.expAffiche,
-            UserConnected.user.expActuel.toString(), UserConnected.user.expMax.toString())
+        binding.labelExp.text = getString(
+            R.string.expAffiche,
+            UserConnected.user.expActuel.toString(), UserConnected.user.expMax.toString()
+        )
 
-        binding.nbrCroquette.text = getString(R.string.nbCroquet, UserConnected.user.nbCroquette.toString())
+        binding.nbrCroquette.text =
+            getString(R.string.nbCroquet, UserConnected.user.nbCroquette.toString())
         binding.nbrCat.text = getString(R.string.nbCat, "5")
 
         revealExpBar()
@@ -51,14 +55,12 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    private fun revealExpBar(){
+    private fun revealExpBar() {
         val widthMax = binding.backExp.layoutParams.width
         //val ratio = (UserConnected.user.expActuel.toDouble() / UserConnected.user.expMax.toDouble())
-        val ratio = (100.toDouble() / 200.toDouble())
-        binding.frontExp.layoutParams.width = (widthMax * ratio).toInt()
+        val ratio = 0.5
+        binding.frontExp.layoutParams.width = (widthMax * if( ratio>0.1 ) ratio else 0.1).toInt()
     }
-
-
 
 
 }

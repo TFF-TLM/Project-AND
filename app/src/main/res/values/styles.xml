@@ -9,4 +9,9 @@
         <item name="android:padding">5dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
+    <style name="button_util">
+        <item name="android:backgroundTint">@color/TintFour</item>
+        <item name="android:textColor">@color/TintThree</item>
+        <item name="iconTint">@color/TintFive</item>
+    </style>
 </resources>

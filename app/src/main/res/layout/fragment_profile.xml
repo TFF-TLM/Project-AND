@@ -105,7 +105,7 @@
         android:layout_width="100dp"
         android:layout_height="0dp"
         android:background="@drawable/input_rounded_background"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/TintFive"
         app:layout_constraintBottom_toBottomOf="@id/backExp"
         app:layout_constraintStart_toStartOf="@id/backExp"
         app:layout_constraintTop_toTopOf="@id/backExp"
@@ -166,67 +166,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/ico_chats"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_margin="20dp"
-                android:src="@drawable/gamelle" />
-
-            <TextView
-                android:id="@+id/nbr_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/nbCroquet"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_margin="20dp"
-                android:src="@drawable/gamelle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/nbCroquet"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_margin="20dp"
-                android:src="@drawable/gamelle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/nbCroquet"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
     </LinearLayout>
     </ScrollView>
 <LinearLayout

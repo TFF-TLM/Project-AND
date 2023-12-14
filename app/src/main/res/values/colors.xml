@@ -9,6 +9,16 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F0F0F0</color>
     <color name="darkGrey">#646564</color>
+
+    <color name="TintOne">#349CD4</color>
+    <color name="TintTwo">#C03221</color>
+    <color name="TintThree">#1C1F33</color>
+    <color name="TintFour">#FCD0A1</color>
+    <color name="TintFive">#FFAE03</color>
+
+
+    <color name="transparent">#00000000</color>
+
     <color name="backgroundColor">#349CD4</color>
     <color name="secondaryColor">#0b7285</color>
     <color name="RadarBcg">#8DD7FF</color>

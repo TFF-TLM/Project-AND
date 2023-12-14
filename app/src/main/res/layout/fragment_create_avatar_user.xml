@@ -31,7 +31,7 @@
         />
 
     <LinearLayout
-        tools:visibility="gone"
+        tools:visibility="visible"
         android:id="@+id/boxOfRecycler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -138,13 +138,18 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonCreateUser"
+        style="@style/button_util"
+
+        app:icon="@drawable/ic_create_user"
+        app:iconSize="30dp"
+        app:iconGravity="end"
+        app:iconPadding="5dp"
+
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-        android:background="@drawable/input_rounded_background"
-        android:contentDescription="Send"
+        android:contentDescription="Validation du formulaire"
         android:text="@string/create_user"
-        android:drawableEnd="@drawable/ic_create_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="invisible"
@@ -165,10 +170,18 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonGenerateAvatar"
+
+        app:icon="@drawable/ic_generate"
+        app:iconSize="30dp"
+        app:iconGravity="end"
+        app:iconPadding="5dp"
+
+        style="@style/button_util"
+
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-        android:background="@drawable/input_rounded_background"
+
         android:contentDescription="Send"
         android:text="@string/create_avatar"
         android:drawableEnd="@drawable/ic_generate"

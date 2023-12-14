@@ -104,18 +104,23 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </ScrollView>
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonCreateUser"
+        style="@style/button_util"
+
+        app:icon="@drawable/ic_stat_name"
+        app:iconSize="30dp"
+        app:iconGravity="end"
+        app:iconPadding="5dp"
+
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-        android:background="@drawable/input_rounded_background"
         android:contentDescription="Send"
         android:text="@string/nextButton"
-        android:drawableEnd="@drawable/ic_stat_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/black" />
+        />
 
 
 
