@@ -15,6 +15,7 @@ class UserModel(
     var expMax: Int,
     var expActuel: Int,
     var nbCroquette: Int,
+    var croquetteMax: Int = 0
 
     /*@SerializedName("id")
     val id: Int,

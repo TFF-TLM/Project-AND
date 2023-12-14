@@ -10,10 +10,10 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
 
-class AuthAuthenticator (): Authenticator {
+class AuthAuthenticator : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        val refreshToken = AuthDataManager.instance.refreshToken
+        val refreshToken = AuthDataManager.instance.getRefreshToken()
         return runBlocking {
             val newToken = getNewToken(refreshToken)
             newToken.body()?.let {
