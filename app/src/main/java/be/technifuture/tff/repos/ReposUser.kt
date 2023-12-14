@@ -3,6 +3,7 @@ package be.technifuture.tff.repos
 import be.technifuture.tff.model.Bonus
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.model.enums.BonusType
+import be.technifuture.tff.service.network.utils.ClanBuilder
 
 class ReposUser {
     private var user: UserModel? = null
@@ -29,7 +30,7 @@ class ReposUser {
             "Lm",
             "Lm@LM.LM",
             "\"https://cdn.artphotolimited.com/images/60df3a8fbd40b852ce5e0fff/300x300/big-smile-please.jpg",
-            1,
+            ClanBuilder.buildClan(1, "achamer"),
             10,
             150,
             50,

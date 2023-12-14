@@ -34,7 +34,7 @@ data class UserDetailsResponse(
                 this.username,
                 "",
                 userData.image,
-                userData.clan.id,
+                userData.clan.toClanModel(),
                 userData.lvl,
                 userData.expLimit,
                 userData.exp,

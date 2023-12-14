@@ -27,19 +27,13 @@ import be.technifuture.tff.service.network.dto.Auth
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private lateinit var sharedPref: SharedPreferences
     private val authManager = AuthDataManager.instance
-
-    private val configID = "USER_ID"
-    private val configTime = "TIMESTAMP_ID"
-    private val timeToReconnect = (60 * 60 * 24 * 7) // 1 semaine
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(layoutInflater)
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(requireContext())
 
         binding.buttonCreateUser.setOnClickListener {
             val direction = LoginFragmentDirections.actionLoginFragmentToCreateUserFragment()
@@ -54,28 +48,8 @@ class LoginFragment : Fragment() {
         binding.header.title.visibility = View.GONE
 
         binding.buttonLogin.setOnClickListener {
-/*            binding.loaderView.visibility = View.VISIBLE
-
-            NetworkService.user.getUserByLogin(
-                binding.editTextLogin.text.toString(),
-                binding.editTextPassword.text.toString()
-            ) { user ->
-                if (isNetworkAvailable()) {
-                    if (user != null) {
-                        navigate(user)
-                    } else {
-                        AlertDialogCustom(requireContext()).getAlert(ErrorValidation.LOG_ERROR)
-                        binding.loaderView.visibility = View.GONE
-                    }
-                } else {
-                    AlertDialogCustom(requireContext()).getAlert(ErrorValidation.NO_CONNECTION)
-                    binding.loaderView.visibility = View.GONE
-                }
-            }*/
             login()
         }
-        //TODO: Fait planter l'app
-        //isYetConnected()
         return binding.root
     }
 
@@ -98,23 +72,10 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun isYetConnected() {
-        val userId = sharedPref.getInt(configID, -1)
-        val timestamp = sharedPref.getLong(configTime, 0)
-
-        if (timestamp < Date().time && userId != -1) {
-            NetworkService.user.getUserById(userId) { user ->
-                navigate(user)
-            }
-        }
-        Log.d("DEBUGG", userId.toString())
-
-    }
-
     private fun isAlreadyConnected() {
         authManager.isAlreadyConnected(binding.loaderView) { user, error, code ->
             if (user != null && error == null && code == 200) {
-                navigate(user)
+                navigate()
             }
         }
     }
@@ -130,7 +91,7 @@ class LoginFragment : Fragment() {
                 binding.checkSave.isChecked
             ) { user, error, code ->
                 if (user != null && error == null && code == 200) {
-                    navigate(user)
+                    navigate()
                 } else {
                     activity?.let { AlertDialogCustom(it).getAlert(ErrorValidation.LOG_ERROR) }
                     binding.loaderView.visibility = View.GONE
@@ -142,18 +103,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun navigate(user: UserModel) {
-        /*        if(binding.checkSave.isChecked){
-                    with(sharedPref.edit()) {
-                        putInt(configID, user.id)
-                        putLong(configTime, Date().time + timeToReconnect)
-                        apply()
-                        Log.d("DEBUGG", "fct Sauvegarde, Login Fragment : On sauvegarde")
-                    }
-                }*/
-        UserConnected.user = user
-        UserConnected.clan = NetworkService.clan.getClanById(user.clan)
-
+    private fun navigate() {
         val intent = Intent(requireContext(), JeuxActivity::class.java)
         startActivity(intent).also {
             activity?.finish()
