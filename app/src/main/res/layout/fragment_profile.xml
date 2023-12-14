@@ -4,10 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/backgroundColor"
     tools:context=".fragment.jeu.ProfileFragment">
 
-    <include layout="@layout/include_background"/>
+    <include
+        android:id="@+id/header"
+        layout="@layout/include_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
 
     <LinearLayout
         android:id="@+id/imgBanner"
@@ -17,7 +21,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/header">
 
         <ImageView
             android:id="@+id/imgAvatar"
@@ -109,9 +113,10 @@
         />
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/groupLabelExp">
+        app:layout_constraintTop_toBottomOf="@id/groupLabelExp"
+        app:layout_constraintBottom_toTopOf="@id/contenair_navigation">
         >
 
     <LinearLayout
@@ -149,7 +154,8 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_margin="20dp"
-                android:src="@drawable/patte" />
+                android:src="@drawable/patte"
+                android:contentDescription="Logo en forme de patte de chat"/>
 
             <TextView
                 android:id="@+id/nbr_cat"
@@ -161,17 +167,89 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ico_chats"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/gamelle" />
+
+            <TextView
+                android:id="@+id/nbr_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/nbCroquet"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/gamelle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/nbCroquet"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/gamelle" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/nbCroquet"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+
     </LinearLayout>
     </ScrollView>
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/my_bottom_menu"
-        tools:ignore="VisualLintBottomNav"
-        android:background="@color/backgroundColor" />
+<LinearLayout
+    android:id="@+id/contenair_navigation"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/BtnProfil"
+        style="@style/round_button"
+        android:src="@drawable/ico_user"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/BtnHistorique"
+        style="@style/round_button"
+        android:src="@drawable/ico_chat"
+        tools:ignore="SpeakableTextPresentCheck" />
+</LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

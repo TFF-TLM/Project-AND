@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/retrieveMailFragment"
-        android:name="be.technifuture.tff.fragment.RetrieveMailFragment"
+        android:name="be.technifuture.tff.fragment.connect.RetrieveMailFragment"
         android:label="fragment_retrieve_mail"
         tools:layout="@layout/fragment_retrieve_mail" >
         <action

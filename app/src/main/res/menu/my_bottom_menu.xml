@@ -8,5 +8,4 @@
         android:id="@+id/historiqueFragment"
         android:icon="@drawable/patte"
         android:title="Historique" />
-
 </menu>

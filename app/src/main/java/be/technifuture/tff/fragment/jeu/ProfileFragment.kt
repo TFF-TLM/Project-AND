@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.ui.setupWithNavController
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
 import be.technifuture.tff.model.UserModel
@@ -29,6 +31,9 @@ class ProfileFragment : Fragment() {
 
         binding.imgClan.setImageResource(UserConnected.clan.image)
 
+        binding.header.logo.layoutParams.height = binding.backExp.layoutParams.width / 3
+        binding.header.title.visibility = View.GONE
+
         binding.labelLogin.text = UserConnected.user.login
         binding.labelClan.text = UserConnected.clan.name
 
@@ -36,7 +41,6 @@ class ProfileFragment : Fragment() {
 
         binding.labelExp.text = getString(R.string.expAffiche,
             UserConnected.user.expActuel.toString(), UserConnected.user.expMax.toString())
-        //binding.labelExp.text = getString(R.string.expAffiche, "100", "200")
 
         binding.nbrCroquette.text = getString(R.string.nbCroquet, UserConnected.user.nbCroquette.toString())
         binding.nbrCat.text = getString(R.string.nbCat, "5")

@@ -11,7 +11,7 @@ class UserService {
     private val mockUser = UserModel(
         643,"Tony", "user_test@tff.be",
         "\"https://cdn.artphotolimited.com/images/60df3a8fbd40b852ce5e0fff/300x300/big-smile-please.jpg",
-        1,
+        2,
         10,
         150,
         50,

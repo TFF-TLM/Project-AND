@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.transition.Fade
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentJeuxBinding
+import be.technifuture.tff.fragment.connect.LoginFragmentDirections
 import be.technifuture.tff.model.*
 import be.technifuture.tff.model.enums.ChoixPopUp
 import be.technifuture.tff.model.enums.ColorChoice
@@ -56,6 +57,11 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
 
         InitJoystick()
         OnInitListener()
+
+        binding.BtnProfil.setOnClickListener {
+            val direction = JeuxFragmentDirections.actionJeuxFragmentToProfileFragment()
+            findNavController().navigate(direction)
+        }
 
         if(ReposUser.getInstance().getChatNb() > 0) {
             binding.BtnAddChat.visibility = View.GONE

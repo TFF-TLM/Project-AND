@@ -83,14 +83,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
+                android:padding="20dp"
                 android:contentDescription="Send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@color/purple_200"
+                android:backgroundTint="@color/secondaryColor"
                 android:text="@string/connect"
                 app:layout_constraintBottom_toTopOf="@+id/buttonCreateUser"
-                android:foregroundTint="@color/black"
-                android:drawableTint="@color/white"/>
+             />
 
             <Button
                 android:id="@+id/buttonCreateUser"

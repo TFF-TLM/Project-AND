@@ -27,54 +27,31 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/mapView"
-        app:layout_constraintTop_toTopOf="parent">
+>
 
         <ImageButton
             android:id="@+id/BtnJoystick"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/rounded_background"
-            android:importantForAccessibility="no"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
+            style="@style/round_button"
             android:src="@drawable/ico_joystick"
-            android:tint="@color/design_default_color_error"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"
+            app:tint="@color/design_default_color_error" />
 
         <ImageButton
             android:id="@+id/BtnProfil"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/rounded_background"
-            android:importantForAccessibility="no"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
+            style="@style/round_button"
             android:src="@drawable/ico_user"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/BtnAddChat"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/rounded_background"
-            android:importantForAccessibility="no"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
+            style="@style/round_button"
             android:src="@drawable/ico_chat"
             android:visibility="visible"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
-            android:background="@drawable/rounded_background"
             android:id="@+id/BtnRadar"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
+            style="@style/round_button"
             android:src="@drawable/ico_radar"
             tools:ignore="SpeakableTextPresentCheck"
             android:importantForAccessibility="no" />

@@ -1,4 +1,4 @@
-package be.technifuture.tff.fragment
+package be.technifuture.tff.fragment.connect
 
 import android.os.Bundle
 import android.view.LayoutInflater

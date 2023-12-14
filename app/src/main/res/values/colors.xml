@@ -10,5 +10,6 @@
     <color name="grey">#F0F0F0</color>
     <color name="darkGrey">#646564</color>
     <color name="backgroundColor">#349CD4</color>
+    <color name="secondaryColor">#0b7285</color>
     <color name="RadarBcg">#023507</color>
 </resources>

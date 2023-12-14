@@ -16,7 +16,4 @@
         <item name="android:textColorHint">@color/darkGrey</item>
         <item name="android:editTextColor">@color/black</item>
     </style>
-    <style name="ScreenBackground">
-        <item name="backgroundColor">@color/grey</item>
-    </style>
 </resources>
