@@ -1,19 +1,12 @@
 package be.technifuture.tff.fragment.jeu
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.ui.setupWithNavController
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
-import be.technifuture.tff.model.UserModel
-import be.technifuture.tff.model.enums.BonusType
-import be.technifuture.tff.service.NetworkService
 import be.technifuture.tff.service.UserConnected
 import com.squareup.picasso.Picasso
 
