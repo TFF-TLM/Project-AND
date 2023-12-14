@@ -33,11 +33,12 @@ class ReposUser {
             10,
             150,
             50,
-            mutableListOf(
+            10,
+            /*mutableListOf(
                 Bonus(BonusType.Soins, 3, "ico_health"),
                 Bonus(BonusType.Croquette, 10, "ico_food"),
                 Bonus(BonusType.Bouclier, 2, "ico_shield")
-            )
+            )*/
         )
         return userModel
     }

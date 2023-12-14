@@ -17,11 +17,12 @@ class UserService {
         10,
         150,
         50,
-        mutableListOf(
+        10,
+        /*mutableListOf(
             Bonus(BonusType.Soins, 3, "https://img1.freepng.fr/20180715/piy/kisspng-cat-chicken-as-food-elderly-crispy-fried-chicken-s-croquette-5b4b0a2245a2b8.5912826215316444502852.jpg"),
             Bonus(BonusType.Croquette, 10, "https://img1.freepng.fr/20180715/piy/kisspng-cat-chicken-as-food-elderly-crispy-fried-chicken-s-croquette-5b4b0a2245a2b8.5912826215316444502852.jpg"),
             Bonus(BonusType.Bouclier, 2, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBZG_ry2wJ5uNGBqeHpupjJ2uH4daVZtW29hqd4tSZLyhvPREQlfsClKY7irR7UEqlL-4&usqp=CAU")
-        )
+        )*/
     )
 
     fun isLoginAvailable(login: String): Boolean {
