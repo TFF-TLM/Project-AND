@@ -14,9 +14,7 @@ class ReposShop {
         val existingItem = panier.find { it.bonusType == item.bonusType }
         if (existingItem != null) {
             if (existingItem.prix == item.prix) {
-                panier.remove(existingItem)
-                existingItem.quantite = item.quantite+1
-                panier.add(existingItem)
+                existingItem.quantite ++
             } else {
                 panier.add(item)
             }
@@ -35,9 +33,7 @@ class ReposShop {
 
     fun PanierRemove(item: PanierItemBoutique){
         val existingItem = panier.find { it.bonusType == item.bonusType }
-        panier.remove(existingItem)
-        item.quantite --
-        panier.add(item)
+        existingItem?.quantite = existingItem?.quantite!! - 1
     }
 
     fun PanierDel(item: PanierItemBoutique){
@@ -46,9 +42,7 @@ class ReposShop {
 
     fun PanierAdd(item: PanierItemBoutique) {
         val existingItem = panier.find { it.bonusType == item.bonusType }
-        panier.remove(existingItem)
-        item.quantite ++
-        panier.add(item)
+        existingItem?.quantite = existingItem?.quantite!! + 1
     }
 
 
