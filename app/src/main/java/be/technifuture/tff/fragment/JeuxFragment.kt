@@ -58,10 +58,6 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         InitJoystick()
         OnInitListener()
 
-        binding.BtnProfil.setOnClickListener {
-            val direction = JeuxFragmentDirections.actionJeuxFragmentToProfileFragment()
-            findNavController().navigate(direction)
-        }
 
         if(ReposUser.getInstance().getChatNb() > 0) {
             binding.BtnAddChat.visibility = View.GONE
@@ -76,6 +72,11 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun OnInitListener(){
+        binding.BtnShop.setOnClickListener {
+
+            val direction = JeuxFragmentDirections.actionJeuxFragmentToMarketFragment()
+            findNavController().navigate(direction)
+        }
         binding.BtnAddChat.setOnClickListener {
 
         }
@@ -87,7 +88,8 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         }
 
         binding.BtnProfil.setOnClickListener {
-
+            val direction = JeuxFragmentDirections.actionJeuxFragmentToProfileFragment()
+            findNavController().navigate(direction)
         }
 
         binding.BtnJoystick.setOnClickListener {

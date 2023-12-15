@@ -37,13 +37,6 @@
             app:tint="@color/TintTwo"/>
 
         <ImageButton
-            android:id="@+id/BtnProfil"
-            style="@style/round_button"
-            android:src="@drawable/ico_user"
-            app:tint="@color/TintTwo"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <ImageButton
             android:id="@+id/BtnAddChat"
             style="@style/round_button"
             android:src="@drawable/ico_chat"
@@ -58,6 +51,20 @@
             tools:ignore="SpeakableTextPresentCheck"
             app:tint="@color/TintTwo"
             android:importantForAccessibility="no" />
+
+        <ImageButton
+            android:id="@+id/BtnProfil"
+            style="@style/round_button"
+            android:src="@drawable/ico_user"
+            app:tint="@color/TintTwo"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/BtnShop"
+            style="@style/round_button"
+            android:src="@drawable/ico_euro"
+            app:tint="@color/TintTwo"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </LinearLayout>
 
