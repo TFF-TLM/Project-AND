@@ -55,14 +55,19 @@ class MarketFragment : Fragment(), BoutiqueListener {
     }
 
     override fun onBonusClick(action: String, item: PanierItemBoutique) {
+        if(action == "ADD_TO_PANIER"){
+            ReposShop.getInstance().PanierAddFromShop(item);
+        }
         if(action == "ADD_PANIER"){
             ReposShop.getInstance().PanierAdd(item);
         }
         if(action == "DEL_PANIER"){
-            ReposShop.getInstance().PanierDel()
+            ReposShop.getInstance().PanierDel(item)
         }
-        if(action == "VALIDATE_PANIER"){
+        if(action == "REMOVE_PANIER"){
+            ReposShop.getInstance().PanierRemove(item);
         }
-        SetupPanierRecyclerView()
+        adapterPanier.notifyDataSetChanged()
+        binding.txtPrixTotal.text = ReposShop.getInstance().getTotal()
     }
 }

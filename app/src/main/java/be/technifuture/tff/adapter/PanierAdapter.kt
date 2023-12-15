@@ -38,17 +38,30 @@ class PanierViewHolder(
 ) : RecyclerView.ViewHolder(view) {
 
     val info: TextView = view.findViewById(R.id.CellPanierName)
-    val nombre: TextView = view.findViewById(R.id.CellPanierItemNB)
-    val btnValidate: ImageButton = view.findViewById(R.id.CellPanierBtnAdd)
+    val qte: TextView = view.findViewById(R.id.CellPanierQte)
+    val prix: TextView = view.findViewById(R.id.CellPanierPrix)
+    val btnAdd: ImageButton = view.findViewById(R.id.CellPanierBtnAdd)
+    val btnRemove: ImageButton = view.findViewById(R.id.CellPanierBtnRemove)
     val btnDelete: ImageButton = view.findViewById(R.id.CellPanierBtnDel)
 
     fun setupData(item: PanierItemBoutique) {
-        info.text = item.bonusType.toString() + "\n" + "prix : " + (item.prix * nombre.text.toString().toInt()).toString()
-        nombre.text = "1"
 
-        btnValidate.setOnClickListener {
-            onClickListener.onBonusClick("VALIDATE_PANIER", item)
-            item.quantite = nombre.text.toString().toInt()
+        val Value: Double = (item.quantite * item.prix)
+
+        info.text = item.bonusType.toString() + "\n" + "prix : " + (item.prix).toString()
+        qte.text = item.quantite.toString()
+        prix.text = String.format("%.2f", Value.toDouble())
+
+        btnAdd.setOnClickListener {
+            onClickListener.onBonusClick("ADD_PANIER", item)
+        }
+
+        btnRemove.setOnClickListener {
+            if((item.quantite - 1) <= 0) {
+                onClickListener.onBonusClick("DEL_PANIER", item)
+            } else {
+                onClickListener.onBonusClick("REMOVE_PANIER", item)
+            }
         }
 
         btnDelete.setOnClickListener {

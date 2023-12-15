@@ -1,5 +1,6 @@
 package be.technifuture.tff.repos
 
+import android.util.Log
 import be.technifuture.tff.model.*
 import be.technifuture.tff.model.enums.BonusType
 
@@ -8,24 +9,49 @@ class ReposShop {
     public var panier = mutableListOf<PanierItemBoutique>()
     public var shop = mutableListOf<PanierItemBoutique>()
 
-    fun PanierDel(){
-        panier.clear()
-    }
 
-    fun PanierAdd(shopItem: PanierItemBoutique) {
-        val existingItem = panier.find { it.bonusType == shopItem.bonusType }
-
+    fun PanierAddFromShop(item: PanierItemBoutique){
+        val existingItem = panier.find { it.bonusType == item.bonusType }
         if (existingItem != null) {
-            if (existingItem.prix == shopItem.prix) {
-                existingItem.quantite += shopItem.quantite
-                existingItem.prix = existingItem.prix * existingItem.quantite
+            if (existingItem.prix == item.prix) {
+                panier.remove(existingItem)
+                existingItem.quantite = item.quantite+1
+                panier.add(existingItem)
             } else {
-                panier.add(shopItem)
+                panier.add(item)
             }
         } else {
-            panier.add(shopItem)
+            panier.add(item)
         }
     }
+
+    fun getTotal(): String{
+        var Prix: Double = 0.0
+        panier.forEach{it ->
+            Prix += (it.prix * it.quantite)
+        }
+        return String.format("%.2f", Prix.toDouble())
+    }
+
+    fun PanierRemove(item: PanierItemBoutique){
+        val existingItem = panier.find { it.bonusType == item.bonusType }
+        panier.remove(existingItem)
+        item.quantite --
+        panier.add(item)
+    }
+
+    fun PanierDel(item: PanierItemBoutique){
+        panier.remove(item)
+    }
+
+    fun PanierAdd(item: PanierItemBoutique) {
+        val existingItem = panier.find { it.bonusType == item.bonusType }
+        panier.remove(existingItem)
+        item.quantite ++
+        panier.add(item)
+    }
+
+
 
     fun mockData() {
         shop.clear()

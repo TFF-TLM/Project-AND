@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/txtPrixTotal"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:background="@color/backgroundColor"
@@ -43,7 +43,7 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView12"
+        app:layout_constraintEnd_toStartOf="@+id/txtPrixTotal"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView

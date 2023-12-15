@@ -46,14 +46,10 @@ class BoutiqueViewHolder(
 
     val photo: ImageView = view.findViewById(R.id.CellShopImage)
     val info: TextView = view.findViewById(R.id.CellShopName)
-    val nombre: TextView = view.findViewById(R.id.CellShopItemNB)
     val btnValidate: ImageButton = view.findViewById(R.id.CellShopBtnAdd)
-
 
     fun setupData(item: PanierItemBoutique) {
         info.text = item.bonusType.toString() + "\n" + "prix : " + item.prix.toString()
-        nombre.text = "0"
-
         val resourceName = "drawable/${item.urlImage}"
         val drawableResId = view.context.resources.getIdentifier(resourceName, "drawable", view.context.packageName)
 
@@ -64,7 +60,7 @@ class BoutiqueViewHolder(
         }
 
         btnValidate.setOnClickListener {
-            onClickListener.onBonusClick("ADD_PANIER", item)
+            onClickListener.onBonusClick("ADD_TO_PANIER", item)
         }
 
     }

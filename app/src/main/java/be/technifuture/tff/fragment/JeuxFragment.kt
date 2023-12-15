@@ -72,6 +72,11 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun OnInitListener(){
+        binding.BtnShop.setOnClickListener {
+
+            val direction = JeuxFragmentDirections.actionJeuxFragmentToMarketFragment()
+            findNavController().navigate(direction)
+        }
         binding.BtnAddChat.setOnClickListener {
 
         }
