@@ -44,7 +44,7 @@ class RadarChatsViewHolder (
 
     val nom: TextView = view.findViewById(R.id.CellRadarChatNom)
     val distance: TextView = view.findViewById(R.id.CellRadarChatDistance)
-    val photo: ImageView = view.findViewById(R.id.CellRadarChatImage)
+    val photo: ImageView = view.findViewById(R.id.img_cat)
     val level: TextView = view.findViewById(R.id.CellRadarChatLevel)
     val hp: ProgressBar = view.findViewById(R.id.CellRadarChatHP)
 

@@ -1,6 +1,5 @@
 package be.technifuture.tff.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +11,10 @@ import be.technifuture.tff.R
 import be.technifuture.tff.adapter.RadarChatsAdapter
 import be.technifuture.tff.databinding.FragmentRadarBinding
 import be.technifuture.tff.model.*
-import be.technifuture.tff.model.interfaces.BonusListener
 import be.technifuture.tff.model.interfaces.GpsUpadateListener
 import be.technifuture.tff.model.interfaces.JeuxListener
 import be.technifuture.tff.model.interfaces.OrientationListener
 import be.technifuture.tff.model.interfaces.RadarListener
-import be.technifuture.tff.repos.ReposLacolisation
 import be.technifuture.tff.repos.ReposZoneChat
 import be.technifuture.tff.service.OrientationManager
 import be.technifuture.tff.view.*
@@ -95,9 +92,9 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
 
 
     override fun onOrientationChanged(azimuth: Float, pitch: Float, roll: Float) {
-        UpdateRadar(azimuth)
+        updateRadar(azimuth)
     }
-    fun UpdateRadar(azimuth: Float){
+    private fun updateRadar(azimuth: Float){
 
         if(gpsCoordinatesUser != null){
             objects.clear()
@@ -111,7 +108,7 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
         radarView.updateObjects(objects)
     }
 
-    fun rotateCoordinates(coordinates: LocalCoordinates, azimuth: Float, sensitivity: Float): LocalCoordinates {
+    private fun rotateCoordinates(coordinates: LocalCoordinates, azimuth: Float, sensitivity: Float): LocalCoordinates {
         val scaledAzimuth = azimuth * sensitivity
         val x = coordinates.x * cos(scaledAzimuth) - coordinates.y * sin(scaledAzimuth)
         val y = coordinates.x * sin(scaledAzimuth) + coordinates.y * cos(scaledAzimuth)
@@ -119,7 +116,7 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
     }
 
 
-    fun convertGpsToXY(source: GpsCoordinates, target: GpsCoordinates ): LocalCoordinates {
+    private fun convertGpsToXY(source: GpsCoordinates, target: GpsCoordinates ): LocalCoordinates {
         val earthRadius = 6371000.0
         val lat1 = Math.toRadians(source.latitude)
         val lon1 = Math.toRadians(source.longitude)

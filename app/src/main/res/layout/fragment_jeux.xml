@@ -32,6 +32,7 @@
         <ImageButton
             android:id="@+id/BtnJoystick"
             style="@style/round_button"
+            android:alpha="0.3"
             android:src="@drawable/ico_joystick"
             tools:ignore="SpeakableTextPresentCheck"
             app:tint="@color/TintTwo"/>
@@ -39,14 +40,17 @@
         <ImageButton
             android:id="@+id/BtnAddChat"
             style="@style/round_button"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:src="@drawable/ico_chat"
-            android:visibility="visible"
             app:tint="@color/TintTwo"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageButton
             android:id="@+id/BtnRadar"
             style="@style/round_button"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:src="@drawable/ico_radar"
             tools:ignore="SpeakableTextPresentCheck"
             app:tint="@color/TintTwo"

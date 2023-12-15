@@ -16,6 +16,10 @@
     <color name="TintFour">#FCD0A1</color>
     <color name="TintFive">#FFAE03</color>
 
+    <color name="ColorClanRed">#FF0000</color>
+    <color name="ColorClanYellow">#FFFF00</color>
+    <color name="ColorClanGreen">#00FF00</color>
+
     <color name="backgroundColor">#349CD4</color>
     <color name="secondaryColor">#0b7285</color>
     <color name="RadarBcg">#8DD7FF</color>
