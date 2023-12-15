@@ -50,6 +50,11 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
+        binding.BtnClose.setOnClickListener{
+            val direction = ProfileFragmentDirections.actionProfileFragmentToJeuxFragment()
+            findNavController().navigate(direction)
+        }
+
         return binding.root
     }
 

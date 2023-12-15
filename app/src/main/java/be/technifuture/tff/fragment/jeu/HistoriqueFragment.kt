@@ -24,6 +24,10 @@ class HistoriqueFragment : Fragment() {
             val direction = HistoriqueFragmentDirections.actionHistoriqueFragmentToProfileFragment()
             findNavController().navigate(direction)
         }
+        binding.BtnClose.setOnClickListener{
+            val direction = HistoriqueFragmentDirections.actionHistoriqueFragmentToJeuxFragment()
+            findNavController().navigate(direction)
+        }
 
         return binding.root
     }
