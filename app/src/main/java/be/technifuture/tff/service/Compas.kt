@@ -15,7 +15,7 @@ import kotlin.math.sin
 
 class OrientationArrow() {
 
-    public fun updateArrowRotationDemo1(source:GpsCoordinates, target:GpsCoordinates) : Float {
+    public fun updateArrowRotationDemo1(source:GpsCoordinates?, target:GpsCoordinates?) : Float {
         var bearing : Float = 0F
         if(source != null && target != null){
             bearing = calculateBearing(source, target).toFloat()

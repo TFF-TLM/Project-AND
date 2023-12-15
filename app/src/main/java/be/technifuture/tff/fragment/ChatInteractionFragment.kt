@@ -21,7 +21,6 @@ import be.technifuture.tff.model.interfaces.JeuxListener
 class ChatInteractionFragment(id: String) : Fragment(), BonusListener {
     private var jeuxListenner: JeuxListener? = null
     private lateinit var binding: FragmentChatInteractionBinding
-    private val args: ChatInteractionFragmentArgs by navArgs()
     private lateinit var adapter : BonusAdapter
     private lateinit var chat: Chat
     private lateinit var bonus : MutableList<Bonus>
@@ -37,7 +36,7 @@ class ChatInteractionFragment(id: String) : Fragment(), BonusListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         SetupRecyclerView()
-        chat = args.chat!!
+        chat
         SetupUI();
         SetupListenner()
     }

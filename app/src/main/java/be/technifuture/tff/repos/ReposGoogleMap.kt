@@ -14,6 +14,7 @@ import be.technifuture.tff.model.enums.ColorChoice
 import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.model.mySetting
 import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.location.LocationManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -50,15 +51,9 @@ class ReposGoogleMap : OnMapReadyCallback {
     private var isMapLoaded: Boolean = false
     private var jeuxListenner: JeuxListener? = null
     private var markerList = mutableListOf<Marker>()
-
-    //private var itemsZoneChatShow: MutableList<ZoneChat> = mutableListOf()
-    //private var itemsPointInteretShow: MutableList<PointInteret> = mutableListOf()
     private var zoomLevel: Float = 16f
 
-    //val baseLongitude = 5.5314775
-    //val baseLatitude = 50.6128178
-
-    public fun Init(zoom: Float, listenner: JeuxListener) {
+    fun Init(zoom: Float, listenner: JeuxListener) {
         jeuxListenner = listenner
         zoomLevel = zoom
     }
@@ -77,6 +72,9 @@ class ReposGoogleMap : OnMapReadyCallback {
         googleMap.moveCamera(
             CameraUpdateFactory.zoomTo(zoomLevel)
         )
+
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
+        Log.d("LM", "callback launch = ")
 
         this.isMapLoaded = true
     }

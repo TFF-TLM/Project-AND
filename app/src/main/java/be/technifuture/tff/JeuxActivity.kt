@@ -3,55 +3,30 @@ package be.technifuture.tff
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import be.technifuture.tff.databinding.ActivityJeuxBinding
-import be.technifuture.tff.model.*
-import be.technifuture.tff.model.interfaces.GpsUpadateListener
-import be.technifuture.tff.repos.ReposLacolisation
 import be.technifuture.tff.utils.location.LocationManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 
-class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
+class JeuxActivity : AppCompatActivity() {
 
-    private lateinit var sharedPreference: SharedPreferences
     lateinit var binding: ActivityJeuxBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJeuxBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        //region test
-        LocationManager(
-            this,
-            null,
-            LocationManager.LOCATION_PERMISSION_REQUEST_CODE,
-            LocationManager.KEY_LOCATION_MANAGER
-        )
-        //endregion
-
-        sharedPreference = applicationContext.getSharedPreferences(
-            ReposLacolisation.MY_SHARED_PREFERENCE,
-            MODE_PRIVATE
-        )
-        mySetting.isFirstLaunch =
-            sharedPreference.getBoolean(ReposLacolisation.FIRST_TIME_OPENING, true)
-
-
-        //applicationContext
-        ReposLacolisation.getInstance().getLastLocation(this, this)
         InitNav();
     }
 
-
-    override fun onGpsChanged(gpsCoordinatesUser: GpsCoordinates) {
-        Log.d("LM", "JeuxActivity.onGpsChanged = " + gpsCoordinatesUser.toString())
+    override fun onDestroy() {
+        super.onDestroy()
+        LocationManager.removeInstance(LocationManager.KEY_LOCATION_MANAGER)
     }
 
     //*********************************************************************** Navigation
@@ -92,7 +67,6 @@ class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
         }
     }
 
-    //region test
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -107,5 +81,4 @@ class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
             }
         }
     }
-    //endregion
 }

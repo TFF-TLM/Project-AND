@@ -27,9 +27,11 @@ import be.technifuture.tff.repos.*
 import be.technifuture.tff.service.*
 import be.technifuture.tff.service.network.manager.GameDataManager
 import be.technifuture.tff.utils.location.LocationManager
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.MapView
 
-class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
+class JeuxFragment : Fragment(), JeuxListener {
 
     private lateinit var binding: FragmentJeuxBinding
     private lateinit var mapView: MapView
@@ -41,26 +43,25 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     private var gpsCoordinatesTarget: GpsCoordinates? = null
     private var gpsCoordinatesLastCall: GpsCoordinates? = null
 
-    var joystick: Joystick? = null
-
     private var locationManager: LocationManager? = null
+
+    var joystick: Joystick? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setupLocationManager()
         binding = FragmentJeuxBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ReposGoogleMap.getInstance().Init(16f, this) 
+        ReposGoogleMap.getInstance().Init(16f, this)
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(ReposGoogleMap.getInstance())
-        ReposLacolisation.getInstance().setListenner(this)
 
         InitJoystick()
         OnInitListener()
@@ -152,7 +153,10 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                 gpsCoordinatesTarget = null;
                 mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
                 gpsCoordinatesUser?.let { coordUser ->
-                    GameDataManager.instance.getNearestCats(coordUser.latitude.toFloat(), coordUser.longitude.toFloat())?.let { cat ->
+                    GameDataManager.instance.getNearestCats(
+                        coordUser.latitude.toFloat(),
+                        coordUser.longitude.toFloat()
+                    )?.let { cat ->
                         cat.gpsCoordinates?.let { coordTarget ->
                             gpsCoordinatesTarget = coordTarget
                         }
@@ -166,7 +170,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                 }
 
                 binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                    gpsCoordinatesUser!!, gpsCoordinatesTarget!!
+                    gpsCoordinatesUser, gpsCoordinatesTarget
                 )
             }
             true
@@ -245,7 +249,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     }
 
     private fun shouldCall(limite: Float): Boolean {
-        var distance = 0f
+        var distance = limite
         gpsCoordinatesUser?.let { user ->
             gpsCoordinatesLastCall?.let { lastCall ->
                 val results = FloatArray(1)
@@ -259,7 +263,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                 distance = results[0]
             }
         }
-        return distance > limite
+        return distance >= limite
     }
 
     private fun updateOnGpsChanged(gpsCoordinates: GpsCoordinates) {
@@ -287,15 +291,25 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         }
     }
 
-    //******************************************************** delegate
-    override fun onGpsChanged(gpsCoordinates: GpsCoordinates) {
-        updateOnGpsChanged(gpsCoordinates)
+    private fun setupLocationManager() {
+        activity?.let {
+            LocationManager(
+                it,
+                null,
+                LocationManager.LOCATION_PERMISSION_REQUEST_CODE,
+                LocationManager.KEY_LOCATION_MANAGER
+            )
+        }
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.let {
+            locationManager = it
+            it.setCallback { location ->
+                updateOnGpsChanged(GpsCoordinates(location.latitude, location.longitude))
+            }
+        }
     }
-
 
     //******************************************************** Events UI
     override fun onResume() {
-        ReposLacolisation.getInstance().setListenner(this)
         if (::mapView.isInitialized) {
             mapView.onResume()
         }
@@ -303,7 +317,6 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     }
 
     override fun onPause() {
-        ReposLacolisation.getInstance().onResumed()
         if (::mapView.isInitialized) {
             mapView.onPause()
         }
@@ -311,7 +324,6 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     }
 
     override fun onDestroy() {
-        ReposLacolisation.getInstance().onResumed()
         locationManager?.removeUpdates()
         if (::mapView.isInitialized) {
             mapView.onDestroy()
