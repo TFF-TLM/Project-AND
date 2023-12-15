@@ -4,5 +4,6 @@ enum class BonusType {
     Croquette,
     Bouclier,
     Attaque,
-    Soins
+    Soins,
+    Chat,Radar
 }

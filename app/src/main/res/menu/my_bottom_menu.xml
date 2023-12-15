@@ -8,4 +8,8 @@
         android:id="@+id/historiqueFragment"
         android:icon="@drawable/patte"
         android:title="Historique" />
+    <item
+        android:id="@+id/marketFragment"
+        android:icon="@drawable/ico_euro"
+        android:title="Boutique" />
 </menu>

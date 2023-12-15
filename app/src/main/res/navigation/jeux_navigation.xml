@@ -24,19 +24,15 @@
         <action
             android:id="@+id/action_jeuxFragment_to_chatInteractionFragment2"
             app:destination="@id/chatInteractionFragment2" />
+        <action
+            android:id="@+id/action_jeuxFragment_to_marketFragment"
+            app:destination="@id/marketFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="be.technifuture.tff.fragment.jeu.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
-        <action
-            android:id="@+id/action_profileFragment_to_historiqueFragment"
-            app:destination="@id/historiqueFragment" />
-        <action
-            android:id="@+id/action_profileFragment_to_jeuxFragment"
-            app:destination="@id/jeuxFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/chatInteractionFragment2"
         android:name="be.technifuture.tff.fragment.ChatInteractionFragment"
@@ -50,12 +46,10 @@
         android:id="@+id/historiqueFragment"
         android:name="be.technifuture.tff.fragment.jeu.HistoriqueFragment"
         android:label="fragment_historique"
-        tools:layout="@layout/fragment_historique" >
-        <action
-            android:id="@+id/action_historiqueFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_historiqueFragment_to_jeuxFragment"
-            app:destination="@id/jeuxFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_historique" />
+    <fragment
+        android:id="@+id/marketFragment"
+        android:name="be.technifuture.tff.fragment.MarketFragment"
+        android:label="fragment_market"
+        tools:layout="@layout/fragment_market" />
 </navigation>
