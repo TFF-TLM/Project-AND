@@ -1,13 +1,16 @@
 package be.technifuture.tff.service.network.manager
 
 import android.view.View
-import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.network.service.AuthApiServiceImpl
 import be.technifuture.tff.service.network.service.UserApiServiceImpl
 import be.technifuture.tff.utils.sharedPref.SharedPrefManager
 import be.technifuture.tff.service.network.dto.Auth
 import be.technifuture.tff.service.network.dto.ErrorDetailsResponse
+import be.technifuture.tff.service.network.dto.ErrorRegisterResponse
+import be.technifuture.tff.service.network.dto.Register
+import be.technifuture.tff.service.network.dto.UserDataRequestBody
+import be.technifuture.tff.service.network.dto.UserDataResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +27,7 @@ class AuthDataManager {
     private val timeToReconnect = (60 * 60 * 24 * 7)
 
     var accessToken: String? = null
-    var user: UserModel? = null
-    var clan: ClanModel? = null
+    lateinit var user: UserModel
 
     companion object {
         val instance: AuthDataManager by lazy {
@@ -99,9 +101,8 @@ class AuthDataManager {
                 try {
                     if (response.isSuccessful) {
                         response.body()?.let { userResponse ->
-                            user = userResponse.toUserModel()
-                            userResponse.data?.clan?.let { clanResponse ->
-                                clan = clanResponse.toClanModel()
+                            userResponse.toUserModel()?.let {
+                                user = it
                             }
                             handler(user, null, response.code())
                         }
@@ -147,7 +148,7 @@ class AuthDataManager {
                             }
                             accessToken = authResponse.access
                             getUserDetailsById(authResponse.user.id) { user, error, code ->
-                                    handler(user, error, code)
+                                handler(user, error, code)
                             }
                         }
                     } else {
@@ -171,7 +172,10 @@ class AuthDataManager {
         }
     }
 
-    fun isAlreadyConnected(loader: View? = null, handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit) {
+    fun isAlreadyConnected(
+        loader: View? = null,
+        handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit
+    ) {
         val userId = getUserId()
         val timestamp = getExpirationTime()
         val refreshToken = getRefreshToken()
@@ -185,4 +189,126 @@ class AuthDataManager {
         }
     }
 
+    fun isAvailableAndValid(
+        register: Register,
+        handler: (available: Boolean?, error: ErrorRegisterResponse?, code: Int) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = authService.verification(register)
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        response.body()?.let { verificationResponse ->
+                            handler(verificationResponse.available, null, response.code())
+                        }
+                    } else {
+                        var errorResponse: ErrorRegisterResponse? = null
+                        if (response.code() == 400) {
+                            errorResponse = Gson().fromJson(
+                                response.body().toString(),
+                                ErrorRegisterResponse::class.java
+                            )
+                        }
+                        handler(null, errorResponse, response.code())
+                    }
+                } catch (e: HttpException) {
+                    handler(null, null, response.code())
+                    print(e)
+                } catch (e: Throwable) {
+                    handler(null, null, response.code())
+                    print(e)
+                }
+            }
+        }
+    }
+
+    private fun createUserData(
+        userData: UserDataRequestBody,
+        handler: (userData: UserDataResponse?, code: Int) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = userService.createUserData(userData)
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        response.body()?.let { userDataResponse ->
+                            handler(userDataResponse, response.code())
+                        }
+                    } else {
+                        handler(null, response.code())
+                    }
+                } catch (e: HttpException) {
+                    handler(null, response.code())
+                    print(e)
+                } catch (e: Throwable) {
+                    handler(null, response.code())
+                    print(e)
+                }
+            }
+        }
+    }
+
+    fun register(
+        register: Register,
+        userData: UserDataRequestBody,
+        handler: (
+            user: UserModel?,
+            errorRegister: ErrorRegisterResponse?,
+            errorDetails: ErrorDetailsResponse?,
+            codeRegister: Int,
+            codeUserData: Int?,
+            codeDetails: Int?
+        ) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = authService.register(register)
+            withContext(Dispatchers.Main) {
+                try {
+                    if (response.isSuccessful) {
+                        response.body()?.let { authResponse ->
+                            saveRefreshToken(authResponse.refresh)
+                            createUserData(userData) { userDataResponse, userDataCode ->
+                                userDataResponse?.let {
+                                    getUserDetailsById(authResponse.user.id) { user, errorDetails, detailsCode ->
+                                        handler(
+                                            user,
+                                            null,
+                                            errorDetails,
+                                            response.code(),
+                                            userDataCode,
+                                            detailsCode
+                                        )
+                                    }
+                                } ?: run {
+                                    handler(
+                                        user,
+                                        null,
+                                        null,
+                                        response.code(),
+                                        userDataCode,
+                                        null
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        var errorResponse: ErrorRegisterResponse? = null
+                        if (response.code() == 400) {
+                            errorResponse = Gson().fromJson(
+                                response.body().toString(),
+                                ErrorRegisterResponse::class.java
+                            )
+                        }
+                        handler(null, errorResponse, null, response.code(), null, null)
+                    }
+                } catch (e: HttpException) {
+                    handler(null, null, null, response.code(), null, null)
+                    print(e)
+                } catch (e: Throwable) {
+                    handler(null, null, null, response.code(), null, null)
+                    print(e)
+                }
+            }
+        }
+    }
 }

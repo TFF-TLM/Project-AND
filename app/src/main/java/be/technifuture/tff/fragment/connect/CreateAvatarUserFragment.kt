@@ -1,5 +1,6 @@
 package be.technifuture.tff.fragment.connect
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,12 +12,17 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import be.technifuture.tff.JeuxActivity
 import be.technifuture.tff.R
 import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 import be.technifuture.tff.model.NewUserModel
+import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.NetworkService
 import be.technifuture.tff.service.UserConnected
+import be.technifuture.tff.service.network.dto.Register
+import be.technifuture.tff.service.network.dto.UserDataRequestBody
+import be.technifuture.tff.service.network.manager.AuthDataManager
 import com.squareup.picasso.Picasso
 
 class CreateAvatarUserFragment : Fragment() {
@@ -24,17 +30,17 @@ class CreateAvatarUserFragment : Fragment() {
     private val args: CreateAvatarUserFragmentArgs by navArgs()
     private lateinit var user: NewUserModel
     private lateinit var binding: FragmentCreateAvatarUserBinding
+    private val authManager = AuthDataManager.instance
 
-    private var urlAvatar: String? = null
-    private var answerSelected = mutableListOf("","","")
+    private var answerSelected = mutableListOf("", "", "")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateAvatarUserBinding.inflate(layoutInflater)
-        binding.buttonCreateUser.setOnClickListener { createUser() }
-        binding.buttonGenerateAvatar.setOnClickListener { createAvatar() }
+        binding.buttonCreateUser.setOnClickListener { navigate() }
+        binding.buttonGenerateAvatar.setOnClickListener { register() }
         binding.header.title.text = getString(R.string.choose_clan)
 
         binding.question1.text = getString(R.string.question1)
@@ -52,7 +58,11 @@ class CreateAvatarUserFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupRecyclerView(list: MutableList<String>, recyclerView: RecyclerView, qSelected: Int) {
+    private fun setupRecyclerView(
+        list: MutableList<String>,
+        recyclerView: RecyclerView,
+        qSelected: Int
+    ) {
         recyclerView.layoutManager =
             GridLayoutManager(context,3)
         recyclerView.adapter = CreateAvatarAdapter(list) { item ->
@@ -60,57 +70,66 @@ class CreateAvatarUserFragment : Fragment() {
         }
     }
 
-    private fun insertAnswer(answer: String, question: Int){
-        answerSelected[question-1] = answer
+    private fun insertAnswer(answer: String, question: Int) {
+        answerSelected[question - 1] = answer
 
-        when(question){
-            1 ->{
+        when (question) {
+            1 -> {
                 binding.answer1.text = answer
                 binding.answer1.visibility = View.VISIBLE
                 binding.recyclerViewQ1.visibility = View.GONE
             }
-            2 ->{
+
+            2 -> {
                 binding.answer2.text = answer
                 binding.answer2.visibility = View.VISIBLE
                 binding.recyclerViewQ2.visibility = View.GONE
             }
-            3 ->{
+
+            3 -> {
                 binding.answer3.text = answer
                 binding.answer3.visibility = View.VISIBLE
                 binding.recyclerViewQ3.visibility = View.GONE
             }
         }
-        if(!answerSelected.contains("")){
+        if (!answerSelected.contains("")) {
             binding.buttonGenerateAvatar.visibility = View.VISIBLE
         }
     }
 
-    private fun createUser() {
-        NetworkService.user.insertUser(user){ user ->
-            //TODO: Stocker l'user dans un singleton
-            val direction = CreateAvatarUserFragmentDirections.actionCreateAvatarUserFragmentToLoginFragment()
-            findNavController().navigate(direction)
+    private fun navigate() {
+        val intent = Intent(requireContext(), JeuxActivity::class.java)
+        startActivity(intent).also {
+            activity?.finish()
         }
-        Log.d("DEBUGG", user.urlAvatar)
     }
 
-    private fun createAvatar() {
+    private fun register() {
         binding.loaderView.visibility = View.VISIBLE
-        NetworkService.user.generateAvatar(answerSelected){ url ->
-            Picasso.get()
-                .load(url)
-                .into(binding.avatarUser)
-            user.urlAvatar = url
-            binding.loaderView.visibility = View.GONE
-            binding.boxOfRecycler.visibility = View.GONE
-            binding.buttonGenerateAvatar.visibility = View.GONE
-            binding.buttonCreateUser.visibility = View.VISIBLE
+        authManager.register(
+            Register(user.login, user.mail, user.password),
+            UserDataRequestBody(user.clan, answerSelected[0], answerSelected[1], answerSelected[2])
+        ) { user, errorRegister, _, codeRegister, _, _ ->
+            errorRegister?.let { error ->
+                if (codeRegister == 400) {
+                    error.username?.isNotEmpty()?.let {
+                        activity?.let { AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.LOGIN_EXIST) }
+                    }
+                    error.email?.isNotEmpty()?.let {
+                        activity?.let { AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.LOGIN_EXIST) }
+                    }
+                }
+            }
+            user?.let {
+                Picasso.get()
+                    .load(it.urlAvatar)
+                    .into(binding.avatarUser)
+                binding.loaderView.visibility = View.GONE
+                binding.boxOfRecycler.visibility = View.GONE
+                binding.buttonGenerateAvatar.visibility = View.GONE
+                binding.buttonCreateUser.visibility = View.VISIBLE
+            }
         }
-
-        //TODO :
-        // 1. Verifier que les 3 questions on été répondu
-        // 2. Demander la création de l'avatar
-        // 3. Récuperer l'image et la mettre en entête
     }
 }
 

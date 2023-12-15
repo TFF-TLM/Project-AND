@@ -4,25 +4,43 @@ import be.technifuture.tff.databinding.FragmentCreateUserBinding
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
-import be.technifuture.tff.service.NetworkService
+import be.technifuture.tff.service.network.dto.Register
+import be.technifuture.tff.service.network.manager.AuthDataManager
 
 
 class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
                            private val alert: AlertDialogCustom
 ) {
 
+    private val authManager = AuthDataManager.instance
+
     private var login: String = ""
     private var password: String = ""
     private var email: String = ""
 
-    val regexMail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,4}\$".toRegex()
+    private val regexMail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9-]+\\.[A-Za-z]{1,4}\$".toRegex()
 
-    fun validateForm(): NewUserModel? =
-        if(loginIsValid() && isEmailValid() && isPasswordValid())
-
-            NewUserModel(login, email, password, 0, "")
-        else
-            null
+    fun validateForm(handler: (user: NewUserModel) -> Unit) {
+        if (loginIsValid() && isEmailValid() && isPasswordValid()) {
+            authManager.isAvailableAndValid(Register(login, email, password)) { available, error, code ->
+                error?.let {errorRegister ->
+                    if (code == 400){
+                        errorRegister.username?.isNotEmpty()?.let {
+                            alert.getAlert(ErrorValidation.LOGIN_EXIST)
+                        }
+                        errorRegister.email?.isNotEmpty()?.let {
+                            alert.getAlert(ErrorValidation.MAIL_EXIST)
+                        }
+                    }
+                }
+                available?.let {
+                    if(it) {
+                        handler(NewUserModel(login, email, password))
+                    }
+                }
+            }
+        }
+    }
 
     private fun loginIsValid(): Boolean {
         login = viewBinding.editTextLogin.text.toString()
@@ -36,10 +54,6 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
             return false
         }
 
-        if (!NetworkService.user.isLoginAvailable(login)) {
-            alert.getAlert(ErrorValidation.LOGIN_EXIST)
-            return false
-        }
         return true
     }
 
@@ -73,10 +87,6 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
             return false
         }
 
-        if (!NetworkService.user.isEmailAvailable(email)) {
-            alert.getAlert(ErrorValidation.MAIL_EXIST)
-            return false
-        }
         return true
 
     }

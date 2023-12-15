@@ -23,5 +23,7 @@
     <color name="secondaryColor">#0b7285</color>
     <color name="RadarBcg">#8DD7FF</color>
     <color name="blue">#0000FF</color>
+    <color name="dark_blue">#1C1F33</color>
+    <color name="transparent">#00FFFFFF</color>
     <!--<color name="RadarBcg">#023507</color>-->
 </resources>
