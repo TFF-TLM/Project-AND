@@ -36,7 +36,6 @@ class LocationManager(
     init {
         if (instance[instanceKey] == null) {
             instance[instanceKey] = this
-            Log.d("LM", "init locmanager = ")
         }
     }
 

@@ -51,7 +51,7 @@ class ReposGoogleMap : OnMapReadyCallback {
     private var isMapLoaded: Boolean = false
     private var jeuxListenner: JeuxListener? = null
     private var markerList = mutableListOf<Marker>()
-    private var zoomLevel: Float = 16f
+    private var zoomLevel: Float = 20f
 
     fun Init(zoom: Float, listenner: JeuxListener) {
         jeuxListenner = listenner
@@ -67,14 +67,13 @@ class ReposGoogleMap : OnMapReadyCallback {
         googleMap.uiSettings.isRotateGesturesEnabled = false
 
         googleMap.uiSettings.isScrollGesturesEnabled = false
-        googleMap.setMinZoomPreference(14f)
-        googleMap.setMaxZoomPreference(20f)
+        googleMap.setMinZoomPreference(18f)
+        googleMap.setMaxZoomPreference(21f)
         googleMap.moveCamera(
             CameraUpdateFactory.zoomTo(zoomLevel)
         )
 
         LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
-        Log.d("LM", "callback launch = ")
 
         this.isMapLoaded = true
     }
@@ -91,11 +90,16 @@ class ReposGoogleMap : OnMapReadyCallback {
         return GpsCoordinates(newLatitude, newLongitude)
     }
 
+    fun resetMyMarker(){
+        myMarker = null
+    }
 
-    public fun SetPosition(gpsCoordinatesUser: GpsCoordinates, color: ColorChoice) {
 
+    fun SetPosition(gpsCoordinatesUser: GpsCoordinates, color: ColorChoice) {
+        Log.d("LM", "set position")
         if (this.isMapLoaded) {
             if (myMarker == null) {
+                Log.d("LM", "add user marker")
                 myMarker = googleMap.addMarker(
                     MarkerOptions()
                         .position(gpsCoordinatesUser.toLatLng())

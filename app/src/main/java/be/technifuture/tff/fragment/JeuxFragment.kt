@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -46,7 +47,6 @@ class JeuxFragment : Fragment(), JeuxListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setupLocationManager()
         binding = FragmentJeuxBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -296,6 +296,7 @@ class JeuxFragment : Fragment(), JeuxListener {
 
     //******************************************************** Events UI
     override fun onResume() {
+        setupLocationManager()
         if (::mapView.isInitialized) {
             mapView.onResume()
         }
@@ -303,6 +304,8 @@ class JeuxFragment : Fragment(), JeuxListener {
     }
 
     override fun onPause() {
+        locationManager?.removeUpdates()
+        ReposGoogleMap.getInstance().resetMyMarker()
         if (::mapView.isInitialized) {
             mapView.onPause()
         }
