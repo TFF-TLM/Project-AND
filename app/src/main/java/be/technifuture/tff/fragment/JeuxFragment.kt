@@ -69,7 +69,6 @@ class JeuxFragment : Fragment(), JeuxListener {
         }
         orientationArrow = OrientationArrow()
         binding.BtnRadar.visibility = View.GONE
-        ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
     }
 
     @SuppressLint("ClickableViewAccessibility")
