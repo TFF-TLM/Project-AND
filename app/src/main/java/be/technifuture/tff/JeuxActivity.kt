@@ -3,52 +3,39 @@ package be.technifuture.tff
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import be.technifuture.tff.databinding.ActivityJeuxBinding
-import be.technifuture.tff.model.*
-import be.technifuture.tff.model.interfaces.GpsUpadateListener
-import be.technifuture.tff.repos.ReposLacolisation
-import be.technifuture.tff.repos.ReposPointInteret
-import be.technifuture.tff.repos.ReposZoneChat
+import be.technifuture.tff.utils.location.LocationManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 
-class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
+class JeuxActivity : AppCompatActivity() {
 
-    private lateinit var sharedPreference: SharedPreferences
     lateinit var binding: ActivityJeuxBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJeuxBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        sharedPreference = applicationContext.getSharedPreferences(ReposLacolisation.MY_SHARED_PREFERENCE, MODE_PRIVATE)
-        mySetting.isFirstLaunch = sharedPreference.getBoolean(ReposLacolisation.FIRST_TIME_OPENING, true)
-
-        ReposZoneChat.getInstance().mockData(5.5314775f, 50.6128178f)
-        ReposPointInteret.getInstance().mockData(5.5314775f, 50.6128178f)
-        //applicationContext
-        ReposLacolisation.getInstance().getLastLocation(this, this)
         InitNav();
     }
 
-
-    override fun onGpsChanged(gpsCoordinatesUser: GpsCoordinates) {
-        Log.d("LM", "JeuxActivity.onGpsChanged = " + gpsCoordinatesUser.toString())
+    override fun onDestroy() {
+        super.onDestroy()
+        LocationManager.removeInstance(LocationManager.KEY_LOCATION_MANAGER)
     }
 
     //*********************************************************************** Navigation
-    override fun onSupportNavigateUp() : Boolean {
+    override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragmentContainerView)
-        return  navController.navigateUp()
+        return navController.navigateUp()
     }
 
-    private fun InitNav(){
+    private fun InitNav() {
         val navView: BottomNavigationView = binding.bottomNavigationView
         val navController = findNavController(R.id.fragmentContainerView)
         val toolbar = binding.toolbar
@@ -61,12 +48,36 @@ class JeuxActivity : AppCompatActivity(), GpsUpadateListener {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener{controller, destination, argumetn ->
-            when(destination.id){
-                R.id.radarFragment -> {toolbar.isVisible = false; toolbar.title = "Radar"; navView.isVisible = true;}
-                R.id.jeuxFragment ->  {toolbar.isVisible = false; toolbar.title = "Jeux"; navView.isVisible = false;}
-                R.id.loginFragment -> {toolbar.isVisible = false; toolbar.title = ""; navView.isVisible = false;}
+        navController.addOnDestinationChangedListener { controller, destination, argumetn ->
+            when (destination.id) {
+                R.id.radarFragment -> {
+                    toolbar.isVisible = false; toolbar.title = "Radar"; navView.isVisible = true;
+                }
+
+                R.id.jeuxFragment -> {
+                    toolbar.isVisible = false; toolbar.title = "Jeux"; navView.isVisible = false;
+                }
+
+                R.id.loginFragment -> {
+                    toolbar.isVisible = false; toolbar.title = ""; navView.isVisible = false;
+                }
+
                 else -> toolbar.title = null
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (grantResults.first() == PERMISSION_GRANTED) {
+            when (requestCode) {
+                LocationManager.LOCATION_PERMISSION_REQUEST_CODE -> LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
+                else -> return
             }
         }
     }

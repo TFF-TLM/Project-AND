@@ -61,7 +61,7 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
         SetupListenner()
 
         chats?.forEach{ chat ->
-            chat.distanceFromUser = ReposZoneChat.getInstance().getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates).toInt()
+            chat.distanceFromUser = ReposZoneChat.getInstance().getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates!!).toInt()
         }
     }
 
@@ -99,7 +99,7 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
         if(gpsCoordinatesUser != null){
             objects.clear()
             chats?.forEach { item ->
-                val localCoordinates = convertGpsToXY(gpsCoordinatesUser!!, item.gpsCoordinates)
+                val localCoordinates = convertGpsToXY(gpsCoordinatesUser!!, item.gpsCoordinates!!)
                 val rotatedCoordinates = rotateCoordinates(localCoordinates, azimuth, 0.04F)
                 val objectData = ObjectData(rotatedCoordinates.x.toFloat(), rotatedCoordinates.y.toFloat())
                 objects.add(objectData)
@@ -154,7 +154,7 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
 
     override fun onGpsChanged(gpsCoordinatesUser: GpsCoordinates) {
         chats?.forEach{ chat ->
-            chat.distanceFromUser = ReposZoneChat.getInstance().getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates).toInt()
+            chat.distanceFromUser = ReposZoneChat.getInstance().getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates!!).toInt()
         }
     }
 

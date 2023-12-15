@@ -114,7 +114,7 @@ class CreateAvatarUserFragment : Fragment() {
                         activity?.let { AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.LOGIN_EXIST) }
                     }
                     error.email?.isNotEmpty()?.let {
-                        activity?.let { AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.LOGIN_EXIST) }
+                        activity?.let { AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.MAIL_EXIST) }
                     }
                 }
             }

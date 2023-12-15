@@ -42,9 +42,6 @@
         android:name="be.technifuture.tff.fragment.ChatInteractionFragment"
         android:label="fragment_chat_interaction"
         tools:layout="@layout/fragment_chat_interaction" >
-        <argument
-            android:name="chat"
-            app:argType="be.technifuture.tff.model.Chat" />
     </fragment>
     <fragment
         android:id="@+id/historiqueFragment"

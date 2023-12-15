@@ -1,6 +1,8 @@
 package be.technifuture.tff.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -10,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.transition.Fade
 import be.technifuture.tff.R
+import be.technifuture.tff.application.MyApp
 import be.technifuture.tff.databinding.FragmentJeuxBinding
 import be.technifuture.tff.model.*
 import be.technifuture.tff.model.enums.ChoixPopUp
@@ -17,9 +20,13 @@ import be.technifuture.tff.model.enums.ColorChoice
 import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.repos.*
 import be.technifuture.tff.service.*
+import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.location.LocationManager
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.MapView
 
-class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
+class JeuxFragment : Fragment(), JeuxListener {
 
     private lateinit var binding: FragmentJeuxBinding
     private lateinit var mapView: MapView
@@ -27,8 +34,11 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     private var isModeDemo: Boolean = false
     private lateinit var orientationArrow: OrientationArrow
 
-    private var gpsCoordinatesUser: GpsCoordinates? = GpsCoordinates(50.5926493, 5.5539429)
+    private var gpsCoordinatesUser: GpsCoordinates? = null
     private var gpsCoordinatesTarget: GpsCoordinates? = null
+    private var gpsCoordinatesLastCall: GpsCoordinates? = null
+
+    private var locationManager: LocationManager? = null
 
     var joystick: Joystick? = null
 
@@ -36,18 +46,17 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setupLocationManager()
         binding = FragmentJeuxBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        ReposGoogleMap.getInstance().Init(requireContext(), 13f, this)
+        ReposGoogleMap.getInstance().Init(16f, this)
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(ReposGoogleMap.getInstance())
-        ReposLacolisation.getInstance().setListenner(this)
 
         InitJoystick()
         OnInitListener()
@@ -117,9 +126,29 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                     ReposGoogleMap.getInstance()
                         .SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
                 }
+
+                if (shouldCall(5f)) {
+                    gpsCoordinatesUser?.let {
+                        ReposGoogleMap.getInstance().updateCatsAndPoints(
+                            it.latitude.toFloat(),
+                            it.longitude.toFloat()
+                        )
+                        gpsCoordinatesLastCall = it
+                    }
+                }
+
                 gpsCoordinatesTarget = null;
                 mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
-                gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinatesUser!!)
+                gpsCoordinatesUser?.let { coordUser ->
+                    GameDataManager.instance.getNearestCats(
+                        coordUser.latitude.toFloat(),
+                        coordUser.longitude.toFloat()
+                    )?.let { cat ->
+                        cat.gpsCoordinates?.let { coordTarget ->
+                            gpsCoordinatesTarget = coordTarget
+                        }
+                    }
+                }
 
                 if (gpsCoordinatesTarget != null) {
                     binding.BtnRadar.visibility = View.VISIBLE
@@ -128,7 +157,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                 }
 
                 binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                    gpsCoordinatesUser!!, gpsCoordinatesTarget!!
+                    gpsCoordinatesUser, gpsCoordinatesTarget
                 )
             }
             true
@@ -150,20 +179,18 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     //******************************************************** Events Users
 
 
-    override fun onChatOpenned(chat: Chat) {
-        OpenPopUp(ChoixPopUp.Chat, chat)
+    override fun onChatOpenned(id: String) {
+        OpenPopUp(ChoixPopUp.Chat, id)
     }
 
-    fun OpenPopUp(PopUpType: ChoixPopUp, chat: Chat? = null) {
+    fun OpenPopUp(PopUpType: ChoixPopUp, catId: String? = null) {
         binding.FragmentChat.visibility = View.VISIBLE
 
         var chatInteractionFragment: Fragment? = null
 
-        if (PopUpType == ChoixPopUp.Chat && chat != null) {
-            val bundle = Bundle()
-            bundle.putParcelable("chat", chat)
-            chatInteractionFragment = ChatInteractionFragment()
-            chatInteractionFragment.arguments = bundle
+        if (PopUpType == ChoixPopUp.Chat && catId != null) {
+
+            chatInteractionFragment = ChatInteractionFragment(catId)
             chatInteractionFragment.setOnButtonClickListener(this)
         }
 
@@ -198,7 +225,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         }
     }
 
-    override fun onInterestOpenned(pointInteret: PointInteret) {
+    override fun onInterestOpenned(id: String) {
         binding.FragmentChat.visibility = View.INVISIBLE
         val existingFragment = childFragmentManager.findFragmentById(R.id.FragmentChat)
         existingFragment?.let {
@@ -208,11 +235,36 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         }
     }
 
-    //******************************************************** delegate
-    override fun onGpsChanged(gpsCoordinates: GpsCoordinates) {
-        if (isModeDemo == false) {
+    private fun shouldCall(limite: Float): Boolean {
+        var distance = limite
+        gpsCoordinatesUser?.let { user ->
+            gpsCoordinatesLastCall?.let { lastCall ->
+                val results = FloatArray(1)
+                Location.distanceBetween(
+                    user.latitude,
+                    user.longitude,
+                    lastCall.latitude,
+                    lastCall.longitude,
+                    results
+                )
+                distance = results[0]
+            }
+        }
+        return distance >= limite
+    }
+
+    private fun updateOnGpsChanged(gpsCoordinates: GpsCoordinates) {
+        if (!isModeDemo) {
             gpsCoordinatesUser = gpsCoordinates
-            ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
+            ReposGoogleMap.getInstance().SetPosition(gpsCoordinates, ColorChoice.Green)
+
+            if (shouldCall(5f)) {
+                ReposGoogleMap.getInstance().updateCatsAndPoints(
+                    gpsCoordinates.latitude.toFloat(),
+                    gpsCoordinates.longitude.toFloat()
+                )
+                gpsCoordinatesLastCall = gpsCoordinates
+            }
 
             if (gpsCoordinatesUser != null && gpsCoordinatesTarget != null) {
                 binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
@@ -223,14 +275,28 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
             (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(
                 gpsCoordinates
             )
-
         }
     }
 
+    private fun setupLocationManager() {
+        activity?.let {
+            LocationManager(
+                it,
+                null,
+                LocationManager.LOCATION_PERMISSION_REQUEST_CODE,
+                LocationManager.KEY_LOCATION_MANAGER
+            )
+        }
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.let {
+            locationManager = it
+            it.setCallback { location ->
+                updateOnGpsChanged(GpsCoordinates(location.latitude, location.longitude))
+            }
+        }
+    }
 
     //******************************************************** Events UI
     override fun onResume() {
-        ReposLacolisation.getInstance().setListenner(this)
         if (::mapView.isInitialized) {
             mapView.onResume()
         }
@@ -238,7 +304,6 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     }
 
     override fun onPause() {
-        ReposLacolisation.getInstance().onResumed()
         if (::mapView.isInitialized) {
             mapView.onPause()
         }
@@ -246,7 +311,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     }
 
     override fun onDestroy() {
-        ReposLacolisation.getInstance().onResumed()
+        locationManager?.removeUpdates()
         if (::mapView.isInitialized) {
             mapView.onDestroy()
         }

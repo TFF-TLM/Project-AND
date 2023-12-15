@@ -9,3 +9,7 @@ data class ErrorRegisterResponse(
     val email: List<String>?,
     val password: List<String>?
 )
+
+data class ErrorMessageResponse(
+    val message: String
+)

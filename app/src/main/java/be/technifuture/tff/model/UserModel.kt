@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 import java.net.URL
 
 class UserModel(
-    val id: Int,
-    val login: String,
-    val mail: String,
+    var id: Int,
+    var login: String,
+    var mail: String,
     var urlAvatar: String,
-    val clan: ClanModel,
-    val level: Int,
+    var clan: ClanModel,
+    var level: Int,
     var expMax: Int,
     var expActuel: Int,
     var nbCroquette: Int,

@@ -7,7 +7,7 @@ import be.technifuture.tff.model.enums.ChoixPopUp
 
 interface JeuxListener {
 
-    fun onInterestOpenned(pointInteret: PointInteret)
-    fun onChatOpenned(chat: Chat)
+    fun onInterestOpenned(id: String)
+    fun onChatOpenned(id: String)
     fun onClosePopUp()
 }
