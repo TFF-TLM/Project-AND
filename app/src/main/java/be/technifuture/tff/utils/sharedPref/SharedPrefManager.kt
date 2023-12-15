@@ -15,7 +15,8 @@ class SharedPrefManager {
     enum class KeyPref(val value: String) {
         USER_ID("USER_ID"),
         REFRESH_TOKEN( "REFRESH_TOKEN"),
-        EXPIRATION_TIME("EXPIRATION_TIME")
+        EXPIRATION_TIME("EXPIRATION_TIME"),
+        FIRST_TIME_OPENING("FIRST_TIME_OPENING"),
     }
 
     val sharedPref: SharedPreferences =

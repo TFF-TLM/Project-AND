@@ -2,6 +2,7 @@ package be.technifuture.tff.fragment
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.transition.Fade
 import be.technifuture.tff.R
+import be.technifuture.tff.application.MyApp
 import be.technifuture.tff.databinding.FragmentJeuxBinding
 import be.technifuture.tff.fragment.connect.LoginFragmentDirections
 import be.technifuture.tff.model.*
@@ -23,6 +25,8 @@ import be.technifuture.tff.model.enums.ColorChoice
 import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.repos.*
 import be.technifuture.tff.service.*
+import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.location.LocationManager
 import com.google.android.gms.maps.MapView
 
 class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
@@ -33,10 +37,13 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     private var isModeDemo: Boolean = false
     private lateinit var orientationArrow: OrientationArrow
 
-    private var gpsCoordinatesUser: GpsCoordinates? = GpsCoordinates(50.5926493,5.5539429)
+    private var gpsCoordinatesUser: GpsCoordinates? = null
     private var gpsCoordinatesTarget: GpsCoordinates? = null
+    private var gpsCoordinatesLastCall: GpsCoordinates? = null
 
-    var joystick : Joystick? = null
+    var joystick: Joystick? = null
+
+    private var locationManager: LocationManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +56,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ReposGoogleMap.getInstance().Init(requireContext(),13f, this)
+        ReposGoogleMap.getInstance().Init(16f, this) 
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(ReposGoogleMap.getInstance())
@@ -63,19 +70,18 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
             findNavController().navigate(direction)
         }
 
-        if(ReposUser.getInstance().getChatNb() > 0) {
+        if (ReposUser.getInstance().getChatNb() > 0) {
             binding.BtnAddChat.visibility = View.GONE
         } else {
             binding.BtnAddChat.visibility = View.VISIBLE
         }
         orientationArrow = OrientationArrow()
         binding.BtnRadar.visibility = View.GONE
-        binding.BtnAddChat.visibility =  View.INVISIBLE
-        ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
+        binding.BtnAddChat.visibility = View.INVISIBLE
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun OnInitListener(){
+    private fun OnInitListener() {
         binding.BtnAddChat.setOnClickListener {
 
         }
@@ -94,53 +100,84 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
             isModeDemo = !isModeDemo
             if (isModeDemo) {
                 binding.relativeLayoutJoystick.visibility = View.VISIBLE
-                binding.BtnJoystick.setColorFilter(Color.rgb(80, 255, 80)) // Assurez-vous que votre couleur est définie correctement
+                binding.BtnJoystick.setColorFilter(
+                    Color.rgb(
+                        80,
+                        255,
+                        80
+                    )
+                ) // Assurez-vous que votre couleur est définie correctement
             } else {
                 binding.relativeLayoutJoystick?.visibility = View.GONE
-                binding.BtnJoystick.setColorFilter(Color.rgb(255, 80, 80)) // Assurez-vous que votre couleur est définie correctement
+                binding.BtnJoystick.setColorFilter(
+                    Color.rgb(
+                        255,
+                        80,
+                        80
+                    )
+                ) // Assurez-vous que votre couleur est définie correctement
             }
         }
 
 
         binding.relativeLayoutJoystick.setOnTouchListener { arg0, arg1 ->
-             joystick!!.drawStick(arg1)
+            joystick!!.drawStick(arg1)
 
-             if(isModeDemo == true && gpsCoordinatesUser != null) {
+            if (isModeDemo && gpsCoordinatesUser != null) {
 
-                 if (arg1.action == MotionEvent.ACTION_DOWN || arg1.action == MotionEvent.ACTION_MOVE) {
-                     gpsCoordinatesUser = ReposGoogleMap.getInstance().CalculateNewPosition(
-                         gpsCoordinatesUser!!,
-                         joystick!!.getAngle().toDouble(),
-                         0.0004
-                     )
-                     //0.0002
-                     ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Yellow)
-                 } else if (arg1.action == MotionEvent.ACTION_UP) {
-                     ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
-                 }
-                 gpsCoordinatesTarget = null;
-                 mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
-                 gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinatesUser!!)
+                if (arg1.action == MotionEvent.ACTION_DOWN || arg1.action == MotionEvent.ACTION_MOVE) {
+                    gpsCoordinatesUser = ReposGoogleMap.getInstance().CalculateNewPosition(
+                        gpsCoordinatesUser!!,
+                        joystick!!.getAngle().toDouble(),
+                        0.0004
+                    )
+                    //0.0002
+                    ReposGoogleMap.getInstance()
+                        .SetPosition(gpsCoordinatesUser!!, ColorChoice.Yellow)
+                } else if (arg1.action == MotionEvent.ACTION_UP) {
+                    ReposGoogleMap.getInstance()
+                        .SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
+                }
 
-                 if(gpsCoordinatesTarget != null) {
-                     binding.BtnRadar.visibility = View.VISIBLE
-                 } else {
-                     binding.BtnRadar.visibility = View.GONE
-                 }
+                if (shouldCall(5f)) {
+                    gpsCoordinatesUser?.let {
+                        ReposGoogleMap.getInstance().updateCatsAndPoints(
+                            it.latitude.toFloat(),
+                            it.longitude.toFloat()
+                        )
+                        gpsCoordinatesLastCall = it
+                    }
+                }
 
-                 binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                     gpsCoordinatesUser!!, gpsCoordinatesTarget!!
-                 )
-             }
+                gpsCoordinatesTarget = null;
+                mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
+                gpsCoordinatesUser?.let { coordUser ->
+                    GameDataManager.instance.getNearestCats(coordUser.latitude.toFloat(), coordUser.longitude.toFloat())?.let { cat ->
+                        cat.gpsCoordinates?.let { coordTarget ->
+                            gpsCoordinatesTarget = coordTarget
+                        }
+                    }
+                }
+
+                if (gpsCoordinatesTarget != null) {
+                    binding.BtnRadar.visibility = View.VISIBLE
+                } else {
+                    binding.BtnRadar.visibility = View.GONE
+                }
+
+                binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
+                    gpsCoordinatesUser!!, gpsCoordinatesTarget!!
+                )
+            }
             true
         }
     }
 
     //******************************************************** Joystick
-    fun InitJoystick(){
+    fun InitJoystick() {
         joystick = Joystick(requireContext(), binding.relativeLayoutJoystick, R.drawable.inner)
-        joystick!!.setStickSize(150,150)
-        joystick!!.setLayoutSize(300,300)
+        joystick!!.setStickSize(150, 150)
+        joystick!!.setLayoutSize(300, 300)
         joystick!!.setLayoutAlpha(200)
         joystick!!.setStickAlpha(100)
         joystick!!.setOffset(90)
@@ -148,28 +185,25 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     }
 
 
-
     //******************************************************** Events Users
 
 
-    override fun onChatOpenned(chat: Chat) {
-        OpenPopUp(ChoixPopUp.Chat, chat)
+    override fun onChatOpenned(id: String) {
+        OpenPopUp(ChoixPopUp.Chat, id)
     }
 
-    fun OpenPopUp(PopUpType:ChoixPopUp ,chat: Chat? = null){
+    fun OpenPopUp(PopUpType: ChoixPopUp, catId: String? = null) {
         binding.FragmentChat.visibility = View.VISIBLE
 
         var chatInteractionFragment: Fragment? = null
 
-        if(PopUpType == ChoixPopUp.Chat && chat != null) {
-            val bundle = Bundle()
-            bundle.putParcelable("chat", chat)
-            chatInteractionFragment = ChatInteractionFragment()
-            chatInteractionFragment.arguments = bundle
+        if (PopUpType == ChoixPopUp.Chat && catId != null) {
+
+            chatInteractionFragment = ChatInteractionFragment(catId)
             chatInteractionFragment.setOnButtonClickListener(this)
         }
 
-        if(PopUpType == ChoixPopUp.Radar) {
+        if (PopUpType == ChoixPopUp.Radar) {
             chatInteractionFragment = RadarFragment()
             chatInteractionFragment.setOnButtonClickListener(this)
         }
@@ -200,7 +234,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         }
     }
 
-    override fun onInterestOpenned(pointInteret: PointInteret) {
+    override fun onInterestOpenned(id: String) {
         binding.FragmentChat.visibility = View.INVISIBLE
         val existingFragment = childFragmentManager.findFragmentById(R.id.FragmentChat)
         existingFragment?.let {
@@ -210,23 +244,53 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         }
     }
 
-    //******************************************************** delegate
-    override fun onGpsChanged(gpsCoordinates: GpsCoordinates) {
-        if(isModeDemo == false){
-            gpsCoordinatesUser = gpsCoordinates
-            ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
+    private fun shouldCall(limite: Float): Boolean {
+        var distance = 0f
+        gpsCoordinatesUser?.let { user ->
+            gpsCoordinatesLastCall?.let { lastCall ->
+                val results = FloatArray(1)
+                Location.distanceBetween(
+                    user.latitude,
+                    user.longitude,
+                    lastCall.latitude,
+                    lastCall.longitude,
+                    results
+                )
+                distance = results[0]
+            }
+        }
+        return distance > limite
+    }
 
-            if(gpsCoordinatesUser != null && gpsCoordinatesTarget != null){
+    private fun updateOnGpsChanged(gpsCoordinates: GpsCoordinates) {
+        if (!isModeDemo) {
+            gpsCoordinatesUser = gpsCoordinates
+            ReposGoogleMap.getInstance().SetPosition(gpsCoordinates, ColorChoice.Green)
+
+            if (shouldCall(5f)) {
+                ReposGoogleMap.getInstance().updateCatsAndPoints(
+                    gpsCoordinates.latitude.toFloat(),
+                    gpsCoordinates.longitude.toFloat()
+                )
+                gpsCoordinatesLastCall = gpsCoordinates
+            }
+
+            if (gpsCoordinatesUser != null && gpsCoordinatesTarget != null) {
                 binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
                     gpsCoordinatesUser!!, gpsCoordinatesTarget!!
                 )
             }
-            
-            (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(gpsCoordinates)
 
+            (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(
+                gpsCoordinates
+            )
         }
     }
 
+    //******************************************************** delegate
+    override fun onGpsChanged(gpsCoordinates: GpsCoordinates) {
+        updateOnGpsChanged(gpsCoordinates)
+    }
 
 
     //******************************************************** Events UI
@@ -248,6 +312,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
 
     override fun onDestroy() {
         ReposLacolisation.getInstance().onResumed()
+        locationManager?.removeUpdates()
         if (::mapView.isInitialized) {
             mapView.onDestroy()
         }

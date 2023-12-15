@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import be.technifuture.tff.model.interfaces.JeuxListener
 
 
-class ChatInteractionFragment : Fragment(), BonusListener {
+class ChatInteractionFragment(id: String) : Fragment(), BonusListener {
     private var jeuxListenner: JeuxListener? = null
     private lateinit var binding: FragmentChatInteractionBinding
     private val args: ChatInteractionFragmentArgs by navArgs()

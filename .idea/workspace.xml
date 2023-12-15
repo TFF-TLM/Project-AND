@@ -21,13 +21,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91527939-d792-4d45-9a1e-0323f115fdc3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/GameDataManager.kt" afterDir="false" />
+    <list default="true" id="91527939-d792-4d45-9a1e-0323f115fdc3" name="Changes" comment="pull from technifutur">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/utils/location/LocationManager.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/utils/permission/PermissionsCheckerManager.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/CreateAvatarUserFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/connect/CreateAvatarUserFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Clan.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Clan.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Position.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Position.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/CatApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/CatApiService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/JeuxActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/JeuxActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/ChatInteractionFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/ChatInteractionFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/JeuxFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/JeuxFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/PointInteret.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/PointInteret.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/ZoneChat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/ZoneChat.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/interfaces/JeuxListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/interfaces/JeuxListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/repos/ReposGoogleMap.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/repos/ReposGoogleMap.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Cat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Cat.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Interact.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Interact.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/InterestPoint.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/InterestPoint.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/GameDataManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/GameDataManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/utils/sharedPref/SharedPrefManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/utils/sharedPref/SharedPrefManager.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +46,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Mirodeon\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/student07/.android/avd/Nexus_9_API_34.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -76,6 +85,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/utils/location" />
+    </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="be.technifuture.tff.fragment" />
     </key>
@@ -94,7 +106,6 @@
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
       <option name="CLEAR_APP_STORAGE" value="false" />
-      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />

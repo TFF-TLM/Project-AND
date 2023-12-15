@@ -14,6 +14,14 @@ data class InteractCat(
     val givenFood: Int
 )
 
+data class InteractCatWithUser(
+    val id: Int,
+    val timestamp: String,
+    @SerializedName("given_food")
+    val givenFood: Int,
+    val user: UserInfoResponse
+)
+
 data class InteractCatResponse(
     @SerializedName("user_data")
     val userData: UserDataResponse,
