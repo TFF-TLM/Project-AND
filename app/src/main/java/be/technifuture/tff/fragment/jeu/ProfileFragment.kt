@@ -8,42 +8,52 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
-import be.technifuture.tff.service.UserConnected
+import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.service.network.manager.AuthDataManager
 import com.squareup.picasso.Picasso
 
 class ProfileFragment : Fragment() {
 
     lateinit var binding: FragmentProfileBinding
-
+    lateinit var user: UserModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        AuthDataManager.instance.getUserDetailsById(AuthDataManager.instance.user.id) { user, error, code ->
+            user?.let {
+                updateUI(it)
+            }
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
+    private fun updateUI(user: UserModel){
         Picasso.get()
-            .load(UserConnected.user.urlAvatar)
+            .load(user.urlAvatar)
             .into(binding.imgAvatar)
 
-        binding.imgClan.setImageResource(UserConnected.clan.image)
+        binding.imgClan.setImageResource(user.clan.image)
 
         binding.header.logo.layoutParams.height = binding.header.logo.layoutParams.height / 3
         binding.header.title.visibility = View.GONE
 
-        binding.labelLogin.text = UserConnected.user.login
-        binding.labelClan.text = UserConnected.clan.name
+        binding.labelLogin.text = user.login
+        binding.labelClan.text = user.clan.name
 
-        binding.labelNiv.text = getString(R.string.level, UserConnected.user.level.toString())
+        binding.labelNiv.text = getString(R.string.level, user.level.toString())
         binding.labelExp.text = getString(
             R.string.expAffiche,
-            UserConnected.user.expActuel.toString(), UserConnected.user.expMax.toString()
+            user.expActuel.toString(), user.expMax.toString()
         )
 
         binding.nbrCroquette.text =
-            getString(R.string.nbCroquet, UserConnected.user.nbCroquette.toString())
+            getString(R.string.nbCroquet, user.nbCroquette.toString())
         binding.nbrCat.text = getString(R.string.nbCat, "5")
-
-        revealExpBar()
 
         binding.BtnHistorique.setOnClickListener {
             val direction = ProfileFragmentDirections.actionProfileFragmentToHistoriqueFragment()
@@ -55,13 +65,9 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
-        return binding.root
-    }
-
-    private fun revealExpBar() {
         val widthMax = binding.backExp.layoutParams.width
-        //val ratio = (UserConnected.user.expActuel.toDouble() / UserConnected.user.expMax.toDouble())
-        val ratio = 0.5
+        val ratio = (user.expActuel.toDouble() / user.expMax.toDouble())
+        //val ratio = 0.5
         binding.frontExp.layoutParams.width = (widthMax * if (ratio > 0.1) ratio else 0.1).toInt()
     }
 

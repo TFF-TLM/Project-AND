@@ -101,8 +101,3 @@ class UserService {
     suspend fun listOfIngredient(): Response<UserModel> =
         NetworkService.getRetrofit().create(NetworkServiceInterface::class.java).listOfIngredient()
 }
-
-object UserConnected {
-    lateinit var user: UserModel
-    lateinit var clan: ClanModel
-}

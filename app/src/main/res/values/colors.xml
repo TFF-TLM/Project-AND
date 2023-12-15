@@ -16,9 +16,6 @@
     <color name="TintFour">#FCD0A1</color>
     <color name="TintFive">#FFAE03</color>
 
-
-    <color name="transparent">#00000000</color>
-
     <color name="backgroundColor">#349CD4</color>
     <color name="secondaryColor">#0b7285</color>
     <color name="RadarBcg">#8DD7FF</color>

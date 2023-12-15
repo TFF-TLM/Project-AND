@@ -91,7 +91,7 @@ class AuthDataManager {
         }
     }
 
-    private fun getUserDetailsById(
+    fun getUserDetailsById(
         id: Int,
         handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit
     ) {

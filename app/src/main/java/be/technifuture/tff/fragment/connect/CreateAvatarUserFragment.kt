@@ -18,8 +18,6 @@ import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.service.AlertDialogCustom
-import be.technifuture.tff.service.NetworkService
-import be.technifuture.tff.service.UserConnected
 import be.technifuture.tff.service.network.dto.Register
 import be.technifuture.tff.service.network.dto.UserDataRequestBody
 import be.technifuture.tff.service.network.manager.AuthDataManager
