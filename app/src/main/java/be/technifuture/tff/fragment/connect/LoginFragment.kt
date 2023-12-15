@@ -19,7 +19,6 @@ import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
 import be.technifuture.tff.service.NetworkService
-import be.technifuture.tff.service.UserConnected
 import be.technifuture.tff.service.network.manager.AuthDataManager
 import java.util.Date
 import be.technifuture.tff.service.network.dto.Auth
