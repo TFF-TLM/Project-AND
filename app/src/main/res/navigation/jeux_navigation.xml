@@ -16,14 +16,8 @@
         android:label="fragment_jeux"
         tools:layout="@layout/fragment_jeux" >
         <action
-            android:id="@+id/action_jeuxFragment_to_radarFragment"
-            app:destination="@id/radarFragment" />
-        <action
             android:id="@+id/action_jeuxFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_jeuxFragment_to_chatInteractionFragment2"
-            app:destination="@id/chatInteractionFragment2" />
         <action
             android:id="@+id/action_jeuxFragment_to_marketFragment"
             app:destination="@id/marketFragment" />
@@ -68,5 +62,9 @@
         android:id="@+id/marketFragment"
         android:name="be.technifuture.tff.fragment.MarketFragment"
         android:label="fragment_market"
-        tools:layout="@layout/fragment_market" />
+        tools:layout="@layout/fragment_market" >
+        <action
+            android:id="@+id/action_marketFragment_to_jeuxFragment"
+            app:destination="@id/jeuxFragment" />
+    </fragment>
 </navigation>
