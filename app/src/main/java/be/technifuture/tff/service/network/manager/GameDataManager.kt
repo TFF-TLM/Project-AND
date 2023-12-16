@@ -4,6 +4,7 @@ import android.location.Location
 import android.util.Log
 import be.technifuture.tff.model.GpsCoordinates
 import be.technifuture.tff.model.PointInteret
+import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.model.ZoneChat
 import be.technifuture.tff.repos.toLatLng
 import be.technifuture.tff.service.network.dto.Cat
@@ -13,6 +14,7 @@ import be.technifuture.tff.service.network.dto.CatWithInteract
 import be.technifuture.tff.service.network.dto.ErrorDetailsResponse
 import be.technifuture.tff.service.network.service.CatApiServiceImpl
 import be.technifuture.tff.service.network.service.InteractApiServiceImpl
+import be.technifuture.tff.service.network.utils.CallBuilder
 import com.google.gson.Gson
 import com.google.maps.android.SphericalUtil
 import kotlinx.coroutines.CoroutineScope
@@ -36,47 +38,10 @@ class GameDataManager {
         }
     }
 
-    private fun <T, K> getCall(
-        call: suspend () -> Response<T>,
-        catchError: Int?,
-        errorType: Class<K>?,
-        handler: (T?, K?, Int) -> Unit
-    ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = call()
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let { callResponse ->
-                            handler(callResponse, null, response.code())
-                        }
-                    } else {
-                        var errorResponse: K? = null
-                        catchError?.let { codeError ->
-                            if (response.code() == codeError) {
-                                errorResponse = Gson().fromJson(
-                                    response.body().toString(),
-                                    errorType
-                                )
-                            }
-                        }
-                        handler(null, errorResponse, response.code())
-                    }
-                } catch (e: HttpException) {
-                    handler(null, null, response.code())
-                    print(e)
-                } catch (e: Throwable) {
-                    handler(null, null, response.code())
-                    print(e)
-                }
-            }
-        }
-    }
-
-    fun getCatInBag(
+    fun getCatFromUserInBag(
         handler: (cats: List<ZoneChat>?, code: Int) -> Unit
     ) {
-        getCall(
+        CallBuilder.getCall(
             { catService.catInBag() },
             null,
             Nothing::class.java
@@ -89,10 +54,10 @@ class GameDataManager {
         }
     }
 
-    fun getCatOnMap(
+    fun getCatFromUserOnMap(
         handler: (cats: List<ZoneChat>?, code: Int) -> Unit
     ) {
-        getCall(
+        CallBuilder.getCall(
             { catService.catOnMap() },
             null,
             Nothing::class.java
@@ -109,7 +74,7 @@ class GameDataManager {
         id: Int,
         handler: (cat: ZoneChat?, error: ErrorDetailsResponse?, code: Int) -> Unit
     ) {
-        getCall(
+        CallBuilder.getCall(
             { catService.cat(id) },
             404,
             ErrorDetailsResponse::class.java
@@ -123,11 +88,11 @@ class GameDataManager {
         lon: Float,
         handler: (cats: List<ZoneChat>?, points: List<PointInteret>?, code: Int) -> Unit
     ) {
-        getCall(
+        CallBuilder.getCall(
             { interactService.surroundings(lat, lon) },
             null,
             Nothing::class.java
-        ) { callResponse, error, code ->
+        ) { callResponse, _, code ->
             var cats: List<ZoneChat>? = null
             var points: List<PointInteret>? = null
 
@@ -191,5 +156,26 @@ class GameDataManager {
             }
         }
         return nearestCat
+    }
+
+    fun refreshDataGameFromUser(
+        id: Int = AuthDataManager.instance.user.id,
+        handler: (
+            user: UserModel?,
+            catsFromUserInBag: List<ZoneChat>?,
+            catsFromUserOnMap: List<ZoneChat>?,
+            error: ErrorDetailsResponse?,
+            codeUser: Int,
+            codeInBag: Int,
+            codeOnMap: Int
+        ) -> Unit
+    ) {
+        AuthDataManager.instance.getUserDetailsById(id) { user, errorUser, codeUser ->
+            getCatFromUserInBag { catsInBag, codeInBag ->
+                getCatFromUserOnMap { catsOnMap, codeOnMap ->
+                    handler(user, catsInBag, catsOnMap, errorUser, codeUser, codeInBag, codeOnMap)
+                }
+            }
+        }
     }
 }

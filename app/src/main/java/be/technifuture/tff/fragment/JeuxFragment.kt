@@ -3,6 +3,7 @@ package be.technifuture.tff.fragment
 import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -48,7 +49,7 @@ class JeuxFragment : Fragment(), JeuxListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ReposGoogleMap.getInstance().init(16f, this)
+        ReposGoogleMap.getInstance().init(20f, this)
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(ReposGoogleMap.getInstance())
@@ -284,6 +285,7 @@ class JeuxFragment : Fragment(), JeuxListener {
         LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.let {
             locationManager = it
             it.setCallback { location ->
+                Log.d("LM", "callback")
                 updateOnGpsChanged(GpsCoordinates(location.latitude, location.longitude))
             }
         }

@@ -73,7 +73,7 @@ class ReposGoogleMap : OnMapReadyCallback {
         )
 
         LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
-
+        Log.d("LM", "map ready")
         this.isMapLoaded = true
     }
 

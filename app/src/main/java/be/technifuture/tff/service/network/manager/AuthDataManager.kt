@@ -11,12 +11,7 @@ import be.technifuture.tff.service.network.dto.ErrorRegisterResponse
 import be.technifuture.tff.service.network.dto.Register
 import be.technifuture.tff.service.network.dto.UserDataRequestBody
 import be.technifuture.tff.service.network.dto.UserDataResponse
-import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
+import be.technifuture.tff.service.network.utils.CallBuilder
 import java.util.Date
 
 
@@ -95,35 +90,15 @@ class AuthDataManager {
         id: Int,
         handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = userService.userDetails(id)
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let { userResponse ->
-                            userResponse.toUserModel()?.let {
-                                user = it
-                            }
-                            handler(user, null, response.code())
-                        }
-                    } else {
-                        var errorResponse: ErrorDetailsResponse? = null
-                        if (response.code() == 404) {
-                            errorResponse = Gson().fromJson(
-                                response.body().toString(),
-                                ErrorDetailsResponse::class.java
-                            )
-                        }
-                        handler(null, errorResponse, response.code())
-                    }
-                } catch (e: HttpException) {
-                    handler(null, null, response.code())
-                    print(e)
-                } catch (e: Throwable) {
-                    handler(null, null, response.code())
-                    print(e)
-                }
+        CallBuilder.getCall(
+            { userService.userDetails(id) },
+            404,
+            ErrorDetailsResponse::class.java
+        ) { callResponse, error, code ->
+            callResponse?.toUserModel()?.let {
+                user = it
             }
+            handler(user, error, code)
         }
     }
 
@@ -132,41 +107,26 @@ class AuthDataManager {
         remember: Boolean,
         handler: (user: UserModel?, error: ErrorDetailsResponse?, code: Int) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = authService.login(auth)
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let { authResponse ->
-                            saveRefreshToken(authResponse.refresh)
-                            if (remember) {
-                                saveUserId(authResponse.user.id)
-                                updateExpirationTime()
-                            } else {
-                                deleteUserId()
-                                deleteExpirationTime()
-                            }
-                            accessToken = authResponse.access
-                            getUserDetailsById(authResponse.user.id) { user, error, code ->
-                                handler(user, error, code)
-                            }
-                        }
-                    } else {
-                        var errorResponse: ErrorDetailsResponse? = null
-                        if (response.code() == 401) {
-                            errorResponse = Gson().fromJson(
-                                response.body().toString(),
-                                ErrorDetailsResponse::class.java
-                            )
-                        }
-                        handler(null, errorResponse, response.code())
-                    }
-                } catch (e: HttpException) {
-                    handler(null, null, response.code())
-                    print(e)
-                } catch (e: Throwable) {
-                    handler(null, null, response.code())
-                    print(e)
+        CallBuilder.getCall(
+            { authService.login(auth) },
+            401,
+            ErrorDetailsResponse::class.java
+        ) { authResponse, errorAuth, codeAuth ->
+            errorAuth?.let { error ->
+                handler(null, error, codeAuth)
+            }
+            authResponse?.let { auth ->
+                saveRefreshToken(auth.refresh)
+                if (remember) {
+                    saveUserId(auth.user.id)
+                    updateExpirationTime()
+                } else {
+                    deleteUserId()
+                    deleteExpirationTime()
+                }
+                accessToken = auth.access
+                GameDataManager.instance.refreshDataGameFromUser(auth.user.id) { user, _, _, errorUser, codeUser, _, _ ->
+                    handler(user, errorUser, codeUser)
                 }
             }
         }
@@ -179,12 +139,11 @@ class AuthDataManager {
         val userId = getUserId()
         val timestamp = getExpirationTime()
         val refreshToken = getRefreshToken()
-
         if (timestamp > Date().time && userId != -1 && refreshToken != null) {
             loader?.visibility = View.VISIBLE
-            getUserDetailsById(userId) { user, error, code ->
+            GameDataManager.instance.refreshDataGameFromUser(userId) { user, _, _, errorUser, codeUser, _, _ ->
                 loader?.visibility = View.GONE
-                handler(user, error, code)
+                handler(user, errorUser, codeUser)
             }
         }
     }
@@ -193,32 +152,12 @@ class AuthDataManager {
         register: Register,
         handler: (available: Boolean?, error: ErrorRegisterResponse?, code: Int) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = authService.verification(register)
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let { verificationResponse ->
-                            handler(verificationResponse.available, null, response.code())
-                        }
-                    } else {
-                        var errorResponse: ErrorRegisterResponse? = null
-                        if (response.code() == 400) {
-                            errorResponse = Gson().fromJson(
-                                response.body().toString(),
-                                ErrorRegisterResponse::class.java
-                            )
-                        }
-                        handler(null, errorResponse, response.code())
-                    }
-                } catch (e: HttpException) {
-                    handler(null, null, response.code())
-                    print(e)
-                } catch (e: Throwable) {
-                    handler(null, null, response.code())
-                    print(e)
-                }
-            }
+        CallBuilder.getCall(
+            { authService.verification(register) },
+            400,
+            ErrorRegisterResponse::class.java
+        ) { callResponse, error, code ->
+            handler(callResponse?.available, error, code)
         }
     }
 
@@ -226,25 +165,12 @@ class AuthDataManager {
         userData: UserDataRequestBody,
         handler: (userData: UserDataResponse?, code: Int) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = userService.createUserData(userData)
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let { userDataResponse ->
-                            handler(userDataResponse, response.code())
-                        }
-                    } else {
-                        handler(null, response.code())
-                    }
-                } catch (e: HttpException) {
-                    handler(null, response.code())
-                    print(e)
-                } catch (e: Throwable) {
-                    handler(null, response.code())
-                    print(e)
-                }
-            }
+        CallBuilder.getCall(
+            { userService.createUserData(userData) },
+            null,
+            Nothing::class.java
+        ) { callResponse, _, code ->
+            handler(callResponse, code)
         }
     }
 
@@ -260,54 +186,32 @@ class AuthDataManager {
             codeDetails: Int?
         ) -> Unit
     ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = authService.register(register)
-            withContext(Dispatchers.Main) {
-                try {
-                    if (response.isSuccessful) {
-                        response.body()?.let { authResponse ->
-                            saveRefreshToken(authResponse.refresh)
-                            createUserData(userData) { userDataResponse, userDataCode ->
-                                userDataResponse?.let {
-                                    getUserDetailsById(authResponse.user.id) { user, errorDetails, detailsCode ->
-                                        handler(
-                                            user,
-                                            null,
-                                            errorDetails,
-                                            response.code(),
-                                            userDataCode,
-                                            detailsCode
-                                        )
-                                    }
-                                } ?: run {
-                                    handler(
-                                        user,
-                                        null,
-                                        null,
-                                        response.code(),
-                                        userDataCode,
-                                        null
-                                    )
-                                }
-                            }
+        CallBuilder.getCall(
+            { authService.register(register) },
+            400,
+            ErrorRegisterResponse::class.java
+        ) { registerResponse, errorRegister, codeRegister ->
+            registerResponse?.let { auth ->
+                saveRefreshToken(auth.refresh)
+                createUserData(userData) { userDataResponse, userDataCode ->
+                    userDataResponse?.let {
+                        GameDataManager.instance.refreshDataGameFromUser(auth.user.id) { user, _, _, errorUser, codeUser, _, _ ->
+                            handler(user, null, errorUser, codeRegister, userDataCode, codeUser)
                         }
-                    } else {
-                        var errorResponse: ErrorRegisterResponse? = null
-                        if (response.code() == 400) {
-                            errorResponse = Gson().fromJson(
-                                response.body().toString(),
-                                ErrorRegisterResponse::class.java
-                            )
-                        }
-                        handler(null, errorResponse, null, response.code(), null, null)
+                    } ?: run {
+                        handler(
+                            user,
+                            null,
+                            null,
+                            codeRegister,
+                            userDataCode,
+                            null
+                        )
                     }
-                } catch (e: HttpException) {
-                    handler(null, null, null, response.code(), null, null)
-                    print(e)
-                } catch (e: Throwable) {
-                    handler(null, null, null, response.code(), null, null)
-                    print(e)
                 }
+            }
+            errorRegister?.let {
+                handler(user, errorRegister, null, codeRegister, null, null)
             }
         }
     }
