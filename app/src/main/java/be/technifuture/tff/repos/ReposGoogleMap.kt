@@ -1,5 +1,6 @@
 package be.technifuture.tff.repos
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -20,9 +21,11 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.SphericalUtil
+import java.io.IOException
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -58,6 +61,21 @@ class ReposGoogleMap : OnMapReadyCallback {
         zoomLevel = zoom
     }
 
+
+    private fun readJsonFile(context: Context, resourceId: Int): String? {
+        return try {
+            val inputStream = context.resources.openRawResource(resourceId)
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+            String(buffer, Charsets.UTF_8)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            null
+        }
+    }
+
     override fun onMapReady(gMap: GoogleMap) {
         googleMap = gMap
         googleMap.clear()
@@ -65,6 +83,13 @@ class ReposGoogleMap : OnMapReadyCallback {
         yellowIcon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)
 
         googleMap.uiSettings.isRotateGesturesEnabled = false
+        val styleJson = readJsonFile(MyApp.instance.applicationContext, R.raw.style_map)
+        if (styleJson != null) {
+            val success = googleMap.setMapStyle(MapStyleOptions(styleJson))
+            if (!success) {
+                Log.e("YourClass", "Style parsing failed.")
+            }
+        }
 
         googleMap.uiSettings.isScrollGesturesEnabled = false
         googleMap.setMinZoomPreference(18f)
