@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.adapter.BoutiqueAdapter
@@ -32,6 +33,11 @@ class MarketFragment : Fragment(), BoutiqueListener {
         super.onViewCreated(view, savedInstanceState)
         SetupBoutiqueRecyclerView()
         SetupPanierRecyclerView()
+
+        binding.btnHome.setOnClickListener {
+            val direction = MarketFragmentDirections.actionMarketFragmentToJeuxFragment()
+            findNavController().navigate(direction)
+        }
     }
 
     private fun SetupBoutiqueRecyclerView(){

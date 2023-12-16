@@ -26,6 +26,7 @@ import com.google.maps.android.SphericalUtil
 import kotlin.math.cos
 import kotlin.math.sin
 
+
 fun GpsCoordinates.toLatLng(): LatLng {
     return LatLng(latitude, longitude)
 }
