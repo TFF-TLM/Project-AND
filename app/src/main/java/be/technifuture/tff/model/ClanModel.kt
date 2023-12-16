@@ -5,6 +5,5 @@ import com.google.gson.annotations.SerializedName
 class ClanModel(
     val id: Int,
     val name: String,
-    val image: Int,
-    val description: String
+    val image: Int
 )

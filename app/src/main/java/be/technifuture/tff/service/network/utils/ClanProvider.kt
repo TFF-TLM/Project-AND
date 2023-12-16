@@ -15,8 +15,7 @@ object ClanBuilder {
         return ClanModel(
             id,
             name.replaceFirstChar(Char::titlecase),
-            item?.first ?: 0,
-            item?.second ?: ""
+            item?.first ?: 0
         )
     }
 }

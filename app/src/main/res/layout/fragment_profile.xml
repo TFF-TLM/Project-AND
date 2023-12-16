@@ -170,15 +170,24 @@
     </LinearLayout>
     </ScrollView>
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/BtnHistorique"
-        style="@style/round_button"
-        app:tint="@color/TintTwo"
+        style="@style/button_util"
+
+        app:icon="@drawable/ico_chat"
+        app:iconSize="30dp"
+        app:iconGravity="end"
+        app:iconPadding="5dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:contentDescription="Validation du formulaire"
+        android:text="Historique"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ico_chat"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:foregroundTint="@color/black"
+        android:drawableTint="@color/white"/>
 
     <ImageButton
         android:id="@+id/BtnClose"

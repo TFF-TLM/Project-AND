@@ -31,11 +31,20 @@
         android:textAlignment="center"
         android:text="@string/titleTop_historique" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/topRecycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
     <ImageView
         android:id="@+id/imgTitle2"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:layout_constraintTop_toBottomOf="@id/imgTitle1"
+        app:layout_constraintTop_toBottomOf="@id/topRecycler"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/patte"
         />
@@ -49,15 +58,33 @@
         android:textAlignment="center"
         android:text="@string/titleBottom_historique" />
 
-    <ImageButton
-        android:id="@+id/BtnProfil"
-        style="@style/round_button"
-        app:tint="@color/TintTwo"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bottomRecycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ico_user"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/title2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BtnProfil"
+        style="@style/button_util"
+
+        app:icon="@drawable/ico_user"
+        app:iconSize="30dp"
+        app:iconGravity="end"
+        app:iconPadding="5dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:contentDescription="Validation du formulaire"
+        android:text="Profil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:foregroundTint="@color/black"
+        android:drawableTint="@color/white"/>
 
     <ImageButton
         android:id="@+id/BtnClose"
