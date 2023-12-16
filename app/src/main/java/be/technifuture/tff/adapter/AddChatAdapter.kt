@@ -10,11 +10,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
 import be.technifuture.tff.model.Chat
+import be.technifuture.tff.model.ZoneChat
 import be.technifuture.tff.model.interfaces.AddChatListener
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 
 class AddChatAdapter(
-    private val ChatsItemsListe: MutableList<Chat>,
+    private val ChatsItemsListe: List<ZoneChat>,
     private val onClickListener: AddChatListener
 ) : RecyclerView.Adapter<AddChatViewHolder>() {
 
@@ -24,7 +26,7 @@ class AddChatAdapter(
     }
 
     override fun onBindViewHolder(holder: AddChatViewHolder, position: Int) {
-        val item: Chat = ChatsItemsListe[position]
+        val item: Chat = ChatsItemsListe[position].chat
         holder.setupData(item)
     }
 
@@ -47,9 +49,9 @@ class AddChatViewHolder (
         nom.text = item.nom
 
         if (!item.urlImage.isNullOrEmpty()) {
-            Glide.with(view)
-                .load(item.urlImage) // Chargez l'URL de l'image
-                .into(image) // Affichez l'image dans la vue 'photo'
+            Picasso.get()
+                .load(item.urlImage)
+                .into(image)
         }
 
         BtnAdd.setOnClickListener {

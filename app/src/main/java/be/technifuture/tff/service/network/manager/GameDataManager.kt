@@ -6,15 +6,18 @@ import be.technifuture.tff.model.GpsCoordinates
 import be.technifuture.tff.model.PointInteret
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.model.ZoneChat
+import be.technifuture.tff.repos.ReposGoogleMap
 import be.technifuture.tff.repos.toLatLng
 import be.technifuture.tff.service.network.dto.Cat
 import be.technifuture.tff.service.network.dto.CatInBagResponse
 import be.technifuture.tff.service.network.dto.CatOnMapResponse
 import be.technifuture.tff.service.network.dto.CatWithInteract
+import be.technifuture.tff.service.network.dto.DropCatRequestBody
 import be.technifuture.tff.service.network.dto.ErrorDetailsResponse
 import be.technifuture.tff.service.network.service.CatApiServiceImpl
 import be.technifuture.tff.service.network.service.InteractApiServiceImpl
 import be.technifuture.tff.service.network.utils.CallBuilder
+import be.technifuture.tff.utils.location.LocationManager
 import com.google.gson.Gson
 import com.google.maps.android.SphericalUtil
 import kotlinx.coroutines.CoroutineScope
@@ -28,8 +31,8 @@ class GameDataManager {
     private val interactService = InteractApiServiceImpl.instance
     private val catService = CatApiServiceImpl.instance
 
-    private var catFromUserInBag: List<ZoneChat> = listOf()
-    private var catFromUserOnMap: List<ZoneChat> = listOf()
+    var catFromUserInBag: List<ZoneChat> = listOf()
+    var catFromUserOnMap: List<ZoneChat> = listOf()
     private var catOnMap: List<ZoneChat> = listOf()
 
     companion object {
@@ -172,8 +175,43 @@ class GameDataManager {
     ) {
         AuthDataManager.instance.getUserDetailsById(id) { user, errorUser, codeUser ->
             getCatFromUserInBag { catsInBag, codeInBag ->
+                Log.d("Bag", "$catsInBag")
                 getCatFromUserOnMap { catsOnMap, codeOnMap ->
+                    Log.d("Bag", "$catsOnMap")
                     handler(user, catsInBag, catsOnMap, errorUser, codeUser, codeInBag, codeOnMap)
+                }
+            }
+        }
+    }
+
+    fun dropCat(id: Int, name: String, handler: (code: Int) -> Unit) {
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let { gps ->
+            CallBuilder.getCall(
+                {
+                    catService.dropCat(
+                        DropCatRequestBody(
+                            id,
+                            name,
+                            gps.latitude.toFloat(),
+                            gps.longitude.toFloat()
+                        )
+                    )
+                },
+                null,
+                Nothing::class.java
+            ) { callResponse, _, code ->
+                if (code == 200) {
+                    callResponse?.let {
+                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                            ReposGoogleMap.getInstance().updateCatsAndPoints(
+                                gps.latitude.toFloat(),
+                                gps.longitude.toFloat()
+                            )
+                            handler(code)
+                        }
+                    }
+                } else {
+                    handler(code)
                 }
             }
         }

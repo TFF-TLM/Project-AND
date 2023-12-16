@@ -57,12 +57,6 @@ class JeuxFragment : Fragment(), JeuxListener {
         InitJoystick()
         OnInitListener()
 
-
-        if (ReposUser.getInstance().getChatNb() == 0) {
-            binding.BtnAddChat.visibility = View.GONE
-        } else {
-            binding.BtnAddChat.visibility = View.VISIBLE
-        }
         orientationArrow = OrientationArrow()
         binding.BtnRadar.visibility = View.GONE
     }
@@ -130,31 +124,6 @@ class JeuxFragment : Fragment(), JeuxListener {
                     }
                 }
                 UpdateUiGps(gpsCoordinatesUser!!)
-                /*
-                gpsCoordinatesTarget = null;
-                mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
-                gpsCoordinatesUser?.let { coordUser ->
-                    GameDataManager.instance.getNearestCats(
-                        coordUser.latitude.toFloat(),
-                        coordUser.longitude.toFloat()
-                    )?.let { cat ->
-                        cat.gpsCoordinates?.let { coordTarget ->
-                            gpsCoordinatesTarget = coordTarget
-                        }
-                    }
-                }
-
-                if (gpsCoordinatesTarget != null) {
-                    binding.BtnRadar.visibility = View.VISIBLE
-                } else {
-                    binding.BtnRadar.visibility = View.GONE
-                }
-
-                binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                    gpsCoordinatesUser, gpsCoordinatesTarget
-                )
-
-                 */
             }
             true
         }
@@ -192,6 +161,11 @@ class JeuxFragment : Fragment(), JeuxListener {
 
         if (PopUpType == ChoixPopUp.Radar) {
             chatInteractionFragment = RadarFragment()
+            chatInteractionFragment.setOnButtonClickListener(this)
+        }
+
+        if (PopUpType == ChoixPopUp.AddChat) {
+            chatInteractionFragment = ChatAPoserFragment()
             chatInteractionFragment.setOnButtonClickListener(this)
         }
 
@@ -263,18 +237,6 @@ class JeuxFragment : Fragment(), JeuxListener {
             }
 
             UpdateUiGps(gpsCoordinates)
-            /*
-            if (gpsCoordinatesUser != null && gpsCoordinatesTarget != null) {
-                binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                    gpsCoordinatesUser!!, gpsCoordinatesTarget!!
-                )
-            }
-
-            (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(
-                gpsCoordinates
-            )
-
-             */
         }
     }
 
@@ -296,13 +258,23 @@ class JeuxFragment : Fragment(), JeuxListener {
         }
     }
 
-    private fun UpdateUiGps(gpsCoordinates: GpsCoordinates){
-
-        gpsCoordinatesTarget = null;
+    private fun UpdateUiGps(gpsCoordinates: GpsCoordinates) {
+        if (GameDataManager.instance.catFromUserInBag.isEmpty()) {
+            binding.BtnAddChat.visibility = View.GONE
+        } else {
+            binding.BtnAddChat.visibility = View.VISIBLE
+        }
         mySetting.LocalisationGps = gpsCoordinates as GpsCoordinates
-        gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinates!!)
+        gpsCoordinatesTarget = GameDataManager.instance.getNearestCats(
+            gpsCoordinates.latitude.toFloat(),
+            gpsCoordinates.longitude.toFloat()
+        )?.chat?.gpsCoordinates
 
-        if (ReposZoneChat.getInstance().nearChats.count()>0) {
+        if (GameDataManager.instance.getNearCats(
+                gpsCoordinates.latitude.toFloat(),
+                gpsCoordinates.longitude.toFloat()
+            ).isNotEmpty()
+        ) {
             binding.BtnRadar.visibility = View.VISIBLE
         } else {
             binding.BtnRadar.visibility = View.GONE
@@ -318,6 +290,7 @@ class JeuxFragment : Fragment(), JeuxListener {
             )
         }
     }
+
     //******************************************************** Events UI
     override fun onResume() {
         setupLocationManager()

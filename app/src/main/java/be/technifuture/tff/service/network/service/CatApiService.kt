@@ -27,7 +27,7 @@ interface CatApiService {
     @GET("cat/user/map")
     suspend fun catOnMap(): Response<CatOnMapResponse>
 
-    @POST("cat/drop/")
+    @POST("cat/drop")
     suspend fun dropCat(
         @Body data: DropCatRequestBody,
     ): Response<DropCatResponse>

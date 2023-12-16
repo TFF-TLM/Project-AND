@@ -17,7 +17,8 @@ class AlertDialogCustom (private val viewContext: Context){
         MAIL_EXIST,
         LOG_ERROR,
         NO_CONNECTION,
-        RETRIEVE_SEND
+        RETRIEVE_SEND,
+        CANT_DROP_CAT
     }
 
     fun getAlert(error: ErrorValidation){
@@ -51,6 +52,7 @@ class AlertDialogCustom (private val viewContext: Context){
                 view.resources.getString(R.string.NO_CONNECTION)
             ErrorValidation.RETRIEVE_SEND ->
                 view.resources.getString(R.string.RETRIEVE_SEND)
+            ErrorValidation.CANT_DROP_CAT -> "Le chat ne peut être posé ici."
         }
         builder.setCanceledOnTouchOutside(false)
         builder.show()
