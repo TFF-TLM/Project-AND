@@ -1,31 +1,23 @@
 package be.technifuture.tff.repos
 
-import be.technifuture.tff.model.Bonus
 import be.technifuture.tff.model.UserModel
-import be.technifuture.tff.model.enums.BonusType
 import be.technifuture.tff.service.network.utils.ClanBuilder
 
 class ReposUser {
     private var user: UserModel? = null
 
-
-    fun getUser() : UserModel{
-        return getInstance().user!!
-    }
-
     fun getChatNb() : Int {
-        var nb: Int = 0
        /* val user = getInstance().user?.bonus?.forEach { bonus ->
             if (bonus.bonusType == BonusType.Chat) {
                 nb += bonus.nombreItem
             }
         }*/
 
-        return nb
+        return 0
     }
 
     private fun mockData(): UserModel {
-        var userModel : UserModel = UserModel(
+        return UserModel(
             1,
             "Lm",
             "Lm@LM.LM",
@@ -41,7 +33,6 @@ class ReposUser {
                 Bonus(BonusType.Bouclier, 2, "ico_shield")
             )*/
         )
-        return userModel
     }
 
     companion object {

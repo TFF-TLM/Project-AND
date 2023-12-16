@@ -26,9 +26,9 @@ class GameDataManager {
     private val interactService = InteractApiServiceImpl.instance
     private val catService = CatApiServiceImpl.instance
 
-    var catFromUserInBag: List<ZoneChat> = listOf()
-    var catFromUserOnMap: List<ZoneChat> = listOf()
-    var catOnMap: List<ZoneChat> = listOf()
+    private var catFromUserInBag: List<ZoneChat> = listOf()
+    private var catFromUserOnMap: List<ZoneChat> = listOf()
+    private var catOnMap: List<ZoneChat> = listOf()
 
     companion object {
         val instance: GameDataManager by lazy {
