@@ -124,6 +124,7 @@ class ChatInteractionFragment(val id: String) : Fragment(), BonusListener {
                                 "Bravo, vous avez éliminé un chat ennemi !"
                             )
                         }
+                        jeuxListenner?.onClosePopUp()
                     }
                 }
             } else {
