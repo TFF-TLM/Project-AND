@@ -1,16 +1,15 @@
 package be.technifuture.tff.repos
 
-import android.util.Log
-import be.technifuture.tff.model.*
+import be.technifuture.tff.model.PanierItemBoutique
 import be.technifuture.tff.model.enums.BonusType
 
 class ReposShop {
 
-    public var panier = mutableListOf<PanierItemBoutique>()
-    public var shop = mutableListOf<PanierItemBoutique>()
+    var panier = mutableListOf<PanierItemBoutique>()
+    var shop = mutableListOf<PanierItemBoutique>()
 
 
-    fun PanierAddFromShop(item: PanierItemBoutique){
+    fun panierAddFromShop(item: PanierItemBoutique){
         val existingItem = panier.find { it.bonusType == item.bonusType }
         if (existingItem != null) {
             if (existingItem.prix == item.prix) {
@@ -24,23 +23,23 @@ class ReposShop {
     }
 
     fun getTotal(): String{
-        var Prix: Double = 0.0
-        panier.forEach{it ->
-            Prix += (it.prix * it.quantite)
+        var prix = 0.0
+        panier.forEach{
+            prix += (it.prix * it.quantite)
         }
-        return String.format("%.2f", Prix.toDouble())
+        return String.format("%.2f", prix)
     }
 
-    fun PanierRemove(item: PanierItemBoutique){
+    fun panierRemove(item: PanierItemBoutique){
         val existingItem = panier.find { it.bonusType == item.bonusType }
         existingItem?.quantite = existingItem?.quantite!! - 1
     }
 
-    fun PanierDel(item: PanierItemBoutique){
+    fun panierDel(item: PanierItemBoutique){
         panier.remove(item)
     }
 
-    fun PanierAdd(item: PanierItemBoutique) {
+    fun panierAdd(item: PanierItemBoutique) {
         val existingItem = panier.find { it.bonusType == item.bonusType }
         existingItem?.quantite = existingItem?.quantite!! + 1
     }

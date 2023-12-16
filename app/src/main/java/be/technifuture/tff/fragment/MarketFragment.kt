@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.adapter.BoutiqueAdapter
 import be.technifuture.tff.adapter.PanierAdapter
-import be.technifuture.tff.adapter.RadarChatsAdapter
-import be.technifuture.tff.databinding.FragmentJeuxBinding
 import be.technifuture.tff.databinding.FragmentMarketBinding
 import be.technifuture.tff.model.PanierItemBoutique
 import be.technifuture.tff.model.interfaces.BoutiqueListener
@@ -56,16 +54,16 @@ class MarketFragment : Fragment(), BoutiqueListener {
 
     override fun onBonusClick(action: String, item: PanierItemBoutique) {
         if(action == "ADD_TO_PANIER"){
-            ReposShop.getInstance().PanierAddFromShop(item);
+            ReposShop.getInstance().panierAddFromShop(item);
         }
         if(action == "ADD_PANIER"){
-            ReposShop.getInstance().PanierAdd(item);
+            ReposShop.getInstance().panierAdd(item);
         }
         if(action == "DEL_PANIER"){
-            ReposShop.getInstance().PanierDel(item)
+            ReposShop.getInstance().panierDel(item)
         }
         if(action == "REMOVE_PANIER"){
-            ReposShop.getInstance().PanierRemove(item);
+            ReposShop.getInstance().panierRemove(item);
         }
         adapterPanier.notifyDataSetChanged()
         binding.txtPrixTotal.text = ReposShop.getInstance().getTotal()
