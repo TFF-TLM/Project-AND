@@ -12,7 +12,7 @@ import be.technifuture.tff.model.interfaces.BonusListener
 import com.bumptech.glide.Glide
 
 class BonusAdapter(
-    private val BonusItemsListe: MutableList<Bonus>,
+    var BonusItemsListe: MutableList<Bonus>,
     private val onClickListener: BonusListener
 ) : RecyclerView.Adapter<BonusViewHolder>() {
 

@@ -85,12 +85,12 @@ class ReposGoogleMap : OnMapReadyCallback {
         speed: Double
     ): GpsCoordinates {
         val angleInRadians = Math.toRadians(angle)
-        val newLatitude = oldPosition.latitude + speed * - sin(angleInRadians)
+        val newLatitude = oldPosition.latitude + speed * -sin(angleInRadians)
         val newLongitude = oldPosition.longitude + speed * cos(angleInRadians)
         return GpsCoordinates(newLatitude, newLongitude)
     }
 
-    fun resetMyMarker(){
+    fun resetMyMarker() {
         myMarker = null
     }
 
@@ -138,7 +138,7 @@ class ReposGoogleMap : OnMapReadyCallback {
                         .anchor(0.5f, 0.5f)
                     val marker = googleMap.addMarker(markerOptions)
                     marker?.tag = "CH" + itemZoneChat.chat.id
-                    marker?.let{
+                    marker?.let {
                         markerList.add(it)
                     }
                 }
@@ -148,15 +148,17 @@ class ReposGoogleMap : OnMapReadyCallback {
 
     private fun setPointInteret(points: List<PointInteret>) {
         points.forEach { itemPointInteret ->
-            val position = itemPointInteret.gpsCoordinates.toLatLng()
-            val customIcon = BitmapDescriptorFactory.fromResource(R.drawable.ico_poi)
-            val markerOptions = MarkerOptions()
-                .zIndex(20f)
-                .position(position)
-                .icon(customIcon)
-                .title(" ")
+            if (itemPointInteret.isVisible) {
+                val position = itemPointInteret.gpsCoordinates.toLatLng()
+                val customIcon = BitmapDescriptorFactory.fromResource(R.drawable.ico_poi)
+                val markerOptions = MarkerOptions()
+                    .zIndex(20f)
+                    .position(position)
+                    .icon(customIcon)
+                    .title(" ")
 
-            googleMap.addMarker(markerOptions)?.tag = "PI" + itemPointInteret.id
+                googleMap.addMarker(markerOptions)?.tag = "PI" + itemPointInteret.id
+            }
         }
     }
 
@@ -215,10 +217,11 @@ class ReposGoogleMap : OnMapReadyCallback {
         }
     }
 
-    private fun removeAllExceptSelf(){
+    private fun removeAllExceptSelf() {
         markerList.forEach { it.remove() }
         markerList.clear()
     }
+
     fun updateCatsAndPoints(lat: Float, lon: Float) {
         GameDataManager.instance.getSurroundings(lat, lon) { cats, points, _ ->
             if (cats != null && points != null) {

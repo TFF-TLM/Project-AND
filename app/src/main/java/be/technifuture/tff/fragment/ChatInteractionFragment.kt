@@ -12,18 +12,24 @@ import androidx.recyclerview.widget.GridLayoutManager
 import be.technifuture.tff.adapter.BonusAdapter
 import be.technifuture.tff.databinding.FragmentChatInteractionBinding
 import be.technifuture.tff.model.*
+import be.technifuture.tff.model.enums.BonusType
 import be.technifuture.tff.model.interfaces.BonusListener
 import be.technifuture.tff.repos.ReposUser
 import com.bumptech.glide.Glide
 import be.technifuture.tff.model.interfaces.JeuxListener
+import be.technifuture.tff.service.AlertDialogCustom
+import be.technifuture.tff.service.network.manager.AuthDataManager
+import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.alert.AlertBuilder
+import com.squareup.picasso.Picasso
 
 
-class ChatInteractionFragment(id: String) : Fragment(), BonusListener {
+class ChatInteractionFragment(val id: String) : Fragment(), BonusListener {
     private var jeuxListenner: JeuxListener? = null
     private lateinit var binding: FragmentChatInteractionBinding
-    private lateinit var adapter : BonusAdapter
-    private lateinit var chat: Chat
-    private lateinit var bonus : MutableList<Bonus>
+    private lateinit var adapter: BonusAdapter
+    private var chat: Chat? = null
+    private lateinit var bonus: MutableList<Bonus>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,47 +41,156 @@ class ChatInteractionFragment(id: String) : Fragment(), BonusListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        SetupRecyclerView()
-        chat
-        SetupUI();
-        SetupListenner()
+        GameDataManager.instance.getCatById(id.toInt()) { cat, _, code ->
+            if (code == 200) {
+                cat?.let {
+                    chat = it.chat
+                    SetupRecyclerView()
+                    SetupUI()
+                    SetupListenner()
+                }
+            } else {
+                Log.d("CAT", "Unable to retrieve cat.")
+            }
+        }
     }
 
 
-    public fun setOnButtonClickListener(listenner : JeuxListener){
+    public fun setOnButtonClickListener(listenner: JeuxListener) {
         jeuxListenner = listenner
     }
 
-    public fun SetupListenner(){
+    public fun SetupListenner() {
         binding.btnChatClose.setOnClickListener {
             jeuxListenner?.onClosePopUp()
         }
     }
 
-    private fun SetupUI(){
-
-        if (!chat.urlImage.isNullOrEmpty()) {
-            Glide.with(this)
-                .load(chat.urlImage) // Chargez l'URL de l'image
-                .into(binding.chatImage) // Affichez l'image dans la vue 'photo'
+    private fun SetupUI() {
+        chat?.let {
+            Picasso.get()
+                .load(it.urlImage)
+                .into(binding.chatImage)
+            Log.d("PROGRESS", "${it.vie}/${it.maxVie}")
+            binding.chatVie.progress = it.vie
+            binding.chatVie.max = it.maxVie
+            binding.levelTxt.text = "Level : " + it.level
+            binding.infoCroquetteTxt.text = textFoodPossibility()
+            binding.nameTxt.text = it.nom
         }
-
-        binding.chatVie.progress = chat.vie
-        binding.chatVie.max = chat.maxVie
-        binding.levelTxt.text = "Level : " + chat.level
     }
 
-    private fun SetupRecyclerView(){
-        bonus = mutableListOf()//ReposUser.getInstance().getUser().bonus
+    private fun SetupRecyclerView() {
+        bonus = mutableListOf(
+            Bonus(
+                BonusType.Croquette,
+                AuthDataManager.instance.user.nbCroquette,
+                "ico_food"
+            )
+        )//ReposUser.getInstance().getUser().bonus
         adapter = BonusAdapter(bonus, this)
-        binding.chatRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
+        binding.chatRecyclerView.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         binding.chatRecyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
 
     }
 
+    private fun updateRecycler() {
+        bonus = mutableListOf(
+            Bonus(
+                BonusType.Croquette,
+                AuthDataManager.instance.user.nbCroquette,
+                "ico_food"
+            )
+        )
+        adapter.BonusItemsListe = bonus
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun updateUI() {
+        GameDataManager.instance.getCatById(id.toInt()) { cat, _, code ->
+            if (code == 200) {
+                cat?.let {
+                    chat = it.chat
+                    if (it.chat.alive) {
+                        updateRecycler()
+                        SetupUI()
+                    } else {
+                        activity?.let { context ->
+                            AlertBuilder.messageAlert(
+                                context,
+                                "Le chat est mort.",
+                                "Bravo, vous avez éliminé un chat ennemi !"
+                            )
+                        }
+                    }
+                }
+            } else {
+                Log.d("CAT", "Unable to retrieve cat.")
+            }
+        }
+    }
+
+    private fun foodPossibility(): Int {
+        return AuthDataManager.instance.user.croquetteMax - (chat?.foodreceived ?: 0)
+    }
+
+    private fun textFoodPossibility(): String {
+        val food = foodPossibility()
+        var text = if (food > 0) {
+            "Vous pouvez encore donner jusqu'à $food croquette(s)"
+        } else {
+            "Vous ne pouvez plus donner de croquettes"
+        }
+        if (!isSameClan()) {
+            text += " empoisonnée(s)"
+        }
+        return text
+    }
+
+    private fun foodMax(): Int {
+        val possible = foodPossibility()
+        val userFood = AuthDataManager.instance.user.nbCroquette
+        return if (possible > userFood) userFood else possible
+
+    }
+
+    private fun isSameClan(): Boolean {
+        return (chat?.clan?.id ?: 0) == AuthDataManager.instance.user.clan.id
+    }
+
     override fun onBonusClick(action: String, item: Bonus) {
-        Log.d("LM","onBonusClick")
+        Log.d("LM", "onBonusClick")
+        activity?.let {
+            if (foodPossibility() > 0) {
+                if (AuthDataManager.instance.user.nbCroquette > 0) {
+                    val titre =
+                        if (isSameClan()) "Nourrissez le chat !" else "Empoisonnez le chat !"
+                    AlertBuilder.pickerNumberAlert(
+                        it,
+                        titre,
+                        "Choisissez le nombre de croquettes que vous souhaitez donner.",
+                        0,
+                        foodMax()
+                    ) { food ->
+                        chat?.let { cat ->
+                            GameDataManager.instance.feedCat(cat.id.toInt(), food) { code ->
+                                if (code == 200) {
+                                    updateUI()
+                                } else {
+                                    AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.CANT_LEVEL_UP)
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.NO_MORE_FOOD)
+                }
+            } else {
+                AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.CANT_FEED)
+            }
+        }
     }
 
 }

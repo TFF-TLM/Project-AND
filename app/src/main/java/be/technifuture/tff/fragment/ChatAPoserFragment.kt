@@ -23,6 +23,7 @@ import be.technifuture.tff.repos.ReposZoneChat
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.OrientationManager
 import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.alert.AlertBuilder
 
 class ChatAPoserFragment : Fragment(), AddChatListener {
 
@@ -70,11 +71,19 @@ class ChatAPoserFragment : Fragment(), AddChatListener {
 
     override fun onAddChatClick(action: String, item: Chat) {
         Log.d("DROP", "${item.id.toInt()}")
-        GameDataManager.instance.dropCat(item.id.toInt(), "Chat posé") { code ->
-            if (code == 200) {
-                jeuxListenner?.onClosePopUp()
-            } else {
-                activity?.let { AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.CANT_DROP_CAT) }
+        activity?.let {
+            AlertBuilder.inputAlert(it, "Posez un chat", "Donnez un nom à votre chat !") { input ->
+                if (input.isNotEmpty() || input.isNotBlank()) {
+                    GameDataManager.instance.dropCat(item.id.toInt(), input) { code ->
+                        if (code == 200) {
+                            jeuxListenner?.onClosePopUp()
+                        } else {
+                            AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.CANT_DROP_CAT)
+                        }
+                    }
+                } else {
+                    AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.NAME_CAT_EMPTY)
+                }
             }
         }
     }

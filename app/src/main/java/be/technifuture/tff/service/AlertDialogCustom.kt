@@ -18,7 +18,11 @@ class AlertDialogCustom (private val viewContext: Context){
         LOG_ERROR,
         NO_CONNECTION,
         RETRIEVE_SEND,
-        CANT_DROP_CAT
+        CANT_DROP_CAT,
+        NAME_CAT_EMPTY,
+        CANT_FEED,
+        NO_MORE_FOOD,
+        CANT_LEVEL_UP
     }
 
     fun getAlert(error: ErrorValidation){
@@ -53,6 +57,10 @@ class AlertDialogCustom (private val viewContext: Context){
             ErrorValidation.RETRIEVE_SEND ->
                 view.resources.getString(R.string.RETRIEVE_SEND)
             ErrorValidation.CANT_DROP_CAT -> "Le chat ne peut être posé ici."
+            ErrorValidation.NAME_CAT_EMPTY -> "Le nom ne peut pas être vide."
+            ErrorValidation.CANT_FEED -> "Vous ne pouvez pas nourrir plus ce chat."
+            ErrorValidation.NO_MORE_FOOD-> "Vous n'avez plus de croquettes."
+            ErrorValidation.CANT_LEVEL_UP-> "Ce chat ne peut pas monter de niveau actuellement."
         }
         builder.setCanceledOnTouchOutside(false)
         builder.show()

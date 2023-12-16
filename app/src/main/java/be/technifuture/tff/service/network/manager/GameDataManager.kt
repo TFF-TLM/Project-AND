@@ -216,4 +216,28 @@ class GameDataManager {
             }
         }
     }
+
+    fun feedCat(id: Int, food: Int, handler: (code: Int) -> Unit) {
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let { gps ->
+            CallBuilder.getCall(
+                { interactService.interactCat(id, food) },
+                null,
+                Nothing::class.java
+            ) { callResponse, _, code ->
+                if (code == 200) {
+                    callResponse?.let {
+                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                            ReposGoogleMap.getInstance().updateCatsAndPoints(
+                                gps.latitude.toFloat(),
+                                gps.longitude.toFloat()
+                            )
+                            handler(code)
+                        }
+                    }
+                } else {
+                    handler(code)
+                }
+            }
+        }
+    }
 }

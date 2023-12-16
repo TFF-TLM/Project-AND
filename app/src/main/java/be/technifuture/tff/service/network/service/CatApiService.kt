@@ -18,7 +18,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface CatApiService {
-    @GET("cat/info/{cat_id")
+    @GET("cat/info/{cat_id}")
     suspend fun cat(@Path("cat_id") id: String): Response<CatWithInteract>
 
     @GET("cat/user/bag")
