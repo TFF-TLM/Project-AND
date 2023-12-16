@@ -58,6 +58,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         } else {
             binding.BtnAddChat.visibility = View.VISIBLE
         }
+        binding.BtnAddChat.visibility = View.VISIBLE
         orientationArrow = OrientationArrow()
         binding.BtnRadar.visibility = View.GONE
         ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
@@ -70,14 +71,13 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
             val direction = JeuxFragmentDirections.actionJeuxFragmentToMarketFragment()
             findNavController().navigate(direction)
         }
-        binding.BtnAddChat.setOnClickListener {
 
+        binding.BtnAddChat.setOnClickListener {
+            OpenPopUp(ChoixPopUp.AddChat, null)
         }
 
         binding.BtnRadar.setOnClickListener {
             OpenPopUp(ChoixPopUp.Radar, null)
-            //val action = JeuxFragmentDirections.actionJeuxFragmentToRadarFragment()
-            //findNavController().navigate(action)
         }
 
         binding.BtnProfil.setOnClickListener {
@@ -108,7 +108,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                     gpsCoordinatesUser = ReposGoogleMap.getInstance().CalculateNewPosition(
                         gpsCoordinatesUser!!,
                         joystick!!.getAngle().toDouble(),
-                        0.0004
+                        0.0002
                     )
                     //0.0002
                     ReposGoogleMap.getInstance()
@@ -117,19 +117,9 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
                     ReposGoogleMap.getInstance()
                         .SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
                 }
-                gpsCoordinatesTarget = null;
-                mySetting.LocalisationGps = gpsCoordinatesUser as GpsCoordinates
-                gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinatesUser!!)
 
-                if (gpsCoordinatesTarget != null) {
-                    binding.BtnRadar.visibility = View.VISIBLE
-                } else {
-                    binding.BtnRadar.visibility = View.GONE
-                }
+                UpdateUiGps(gpsCoordinatesUser!!)
 
-                binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                    gpsCoordinatesUser!!, gpsCoordinatesTarget!!
-                )
             }
             true
         }
@@ -167,6 +157,12 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
             chatInteractionFragment.setOnButtonClickListener(this)
         }
 
+
+        if (PopUpType == ChoixPopUp.AddChat) {
+            chatInteractionFragment = ChatAPoserFragment()
+            chatInteractionFragment.setOnButtonClickListener(this)
+        }
+
         if (PopUpType == ChoixPopUp.Radar) {
             chatInteractionFragment = RadarFragment()
             chatInteractionFragment.setOnButtonClickListener(this)
@@ -187,9 +183,7 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
     override fun onClosePopUp() {
         val fadeOut = Fade()
         fadeOut.duration = 500
-
         val existingFragment = childFragmentManager.findFragmentById(R.id.FragmentChat)
-
         existingFragment?.let {
             it.exitTransition = fadeOut
             childFragmentManager.beginTransaction()
@@ -213,21 +207,31 @@ class JeuxFragment : Fragment(), JeuxListener, GpsUpadateListener {
         if (isModeDemo == false) {
             gpsCoordinatesUser = gpsCoordinates
             ReposGoogleMap.getInstance().SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
-
-            if (gpsCoordinatesUser != null && gpsCoordinatesTarget != null) {
-                binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
-                    gpsCoordinatesUser!!, gpsCoordinatesTarget!!
-                )
-            }
-
-            (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(
-                gpsCoordinates
-            )
-
+            UpdateUiGps(gpsCoordinates)
         }
     }
 
+    private fun UpdateUiGps(gpsCoordinates: GpsCoordinates){
 
+        gpsCoordinatesTarget = null;
+        mySetting.LocalisationGps = gpsCoordinates as GpsCoordinates
+        gpsCoordinatesTarget = ReposZoneChat.getInstance().getNearChat(gpsCoordinates!!)
+
+        if (ReposZoneChat.getInstance().nearChats.count()>0) {
+            binding.BtnRadar.visibility = View.VISIBLE
+        } else {
+            binding.BtnRadar.visibility = View.GONE
+        }
+
+        binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(
+            gpsCoordinates!!, gpsCoordinatesTarget!!
+        )
+
+        (childFragmentManager.findFragmentById(R.id.FragmentChat) as? GpsUpadateListener)?.onGpsChanged(
+            gpsCoordinates
+        )
+
+    }
     //******************************************************** Events UI
     override fun onResume() {
         ReposLacolisation.getInstance().setListenner(this)

@@ -23,21 +23,25 @@ class ReposZoneChat  {
     public fun getNearChat(CoordinatesUser:GpsCoordinates): GpsCoordinates? {
 
         var gpsCoordinatesTarget: GpsCoordinates? = null
+        var TempDistance = 10000.0
 
         nearChats.clear()
         zoneChats.forEach { zoneChat ->
+
 
             val distance: Double = SphericalUtil.computeDistanceBetween(
                 CoordinatesUser!!.toLatLng(), zoneChat.gpsCoordinates.toLatLng()
             )
 
-            Log.d("LM","distance = " + distance.toString() + " raduis = " + zoneChat.radius.toString())
-
             if (distance <= zoneChat.radius) {
                 nearChats.add(zoneChat)
             }
 
-            gpsCoordinatesTarget = zoneChat.chat.gpsCoordinates
+            if(distance < TempDistance) {
+                TempDistance = distance
+                gpsCoordinatesTarget = zoneChat.chat.gpsCoordinates
+            }
+
         }
 
         return gpsCoordinatesTarget
