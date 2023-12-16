@@ -123,7 +123,7 @@ class ReposGoogleMap : OnMapReadyCallback {
     private fun setChat(cats: List<ZoneChat>) {
         cats.forEach { itemZoneChat ->
             if (itemZoneChat.chat.alive) {
-                itemZoneChat.gpsCoordinates?.let { pos ->
+                itemZoneChat.chat.gpsCoordinates?.let { pos ->
                     val position = pos.toLatLng()
 
                     val originalBitmap =
@@ -155,7 +155,6 @@ class ReposGoogleMap : OnMapReadyCallback {
                     .zIndex(20f)
                     .position(position)
                     .icon(customIcon)
-                    .title(" ")
 
                 googleMap.addMarker(markerOptions)?.tag = "PI" + itemPointInteret.id
             }
