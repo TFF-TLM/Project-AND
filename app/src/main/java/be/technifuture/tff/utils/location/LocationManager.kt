@@ -36,6 +36,7 @@ class LocationManager(
     init {
         if (instance[instanceKey] == null) {
             instance[instanceKey] = this
+            Log.d("LM", "init")
         }
     }
 
@@ -61,6 +62,7 @@ class LocationManager(
     }
 
     fun setCallback(handler: (Location) -> Unit){
+        Log.d("LM", "set callback")
         locationCallback = object : LocationCallback() {
             @SuppressLint("MissingPermission")
             override fun onLocationResult(locationResult: LocationResult) {
