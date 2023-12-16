@@ -1,10 +1,8 @@
 package be.technifuture.tff.fragment
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -13,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.transition.Fade
 import be.technifuture.tff.R
-import be.technifuture.tff.application.MyApp
 import be.technifuture.tff.databinding.FragmentJeuxBinding
 import be.technifuture.tff.model.*
 import be.technifuture.tff.model.enums.ChoixPopUp
@@ -23,8 +20,6 @@ import be.technifuture.tff.repos.*
 import be.technifuture.tff.service.*
 import be.technifuture.tff.service.network.manager.GameDataManager
 import be.technifuture.tff.utils.location.LocationManager
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.MapView
 
 class JeuxFragment : Fragment(), JeuxListener {
@@ -53,7 +48,7 @@ class JeuxFragment : Fragment(), JeuxListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ReposGoogleMap.getInstance().Init(16f, this)
+        ReposGoogleMap.getInstance().init(16f, this)
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(ReposGoogleMap.getInstance())
@@ -113,17 +108,17 @@ class JeuxFragment : Fragment(), JeuxListener {
             if (isModeDemo && gpsCoordinatesUser != null) {
 
                 if (arg1.action == MotionEvent.ACTION_DOWN || arg1.action == MotionEvent.ACTION_MOVE) {
-                    gpsCoordinatesUser = ReposGoogleMap.getInstance().CalculateNewPosition(
+                    gpsCoordinatesUser = ReposGoogleMap.getInstance().calculateNewPosition(
                         gpsCoordinatesUser!!,
                         joystick!!.getAngle().toDouble(),
                         0.0004
                     )
                     //0.0002
                     ReposGoogleMap.getInstance()
-                        .SetPosition(gpsCoordinatesUser!!, ColorChoice.Yellow)
+                        .setPosition(gpsCoordinatesUser!!, ColorChoice.Yellow)
                 } else if (arg1.action == MotionEvent.ACTION_UP) {
                     ReposGoogleMap.getInstance()
-                        .SetPosition(gpsCoordinatesUser!!, ColorChoice.Green)
+                        .setPosition(gpsCoordinatesUser!!, ColorChoice.Green)
                 }
 
                 if (shouldCall(5f)) {
@@ -255,7 +250,7 @@ class JeuxFragment : Fragment(), JeuxListener {
     private fun updateOnGpsChanged(gpsCoordinates: GpsCoordinates) {
         if (!isModeDemo) {
             gpsCoordinatesUser = gpsCoordinates
-            ReposGoogleMap.getInstance().SetPosition(gpsCoordinates, ColorChoice.Green)
+            ReposGoogleMap.getInstance().setPosition(gpsCoordinates, ColorChoice.Green)
 
             if (shouldCall(5f)) {
                 ReposGoogleMap.getInstance().updateCatsAndPoints(
