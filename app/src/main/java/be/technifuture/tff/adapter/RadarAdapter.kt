@@ -16,7 +16,7 @@ import be.technifuture.tff.model.interfaces.RadarListener
 import com.bumptech.glide.Glide
 
 class RadarChatsAdapter(
-    private val ChatsItemsListe: MutableList<Chat>,
+    var ChatsItemsListe: MutableList<Chat>,
     private val onClickListener: RadarListener
 ) : RecyclerView.Adapter<RadarChatsViewHolder>() {
 
@@ -49,7 +49,7 @@ class RadarChatsViewHolder (
     val hp: ProgressBar = view.findViewById(R.id.CellRadarChatHP)
 
     fun setupData(item: Chat) {
-        hp.max = 100
+        hp.max = item.maxVie
         hp.progress = item.vie
         nom.text = item.nom
         distance.text = item.distanceFromUser.toString() + " m"

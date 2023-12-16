@@ -17,6 +17,8 @@ import be.technifuture.tff.model.interfaces.OrientationListener
 import be.technifuture.tff.model.interfaces.RadarListener
 import be.technifuture.tff.repos.ReposZoneChat
 import be.technifuture.tff.service.OrientationManager
+import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.location.LocationManager
 import be.technifuture.tff.view.*
 import kotlin.math.cos
 import kotlin.math.sin
@@ -26,19 +28,35 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
 
     private lateinit var binding: FragmentRadarBinding
     private lateinit var radarView: RadarView
-    private var gpsCoordinatesUser: GpsCoordinates? = GpsCoordinates(50.5926493,5.5539429)
+    private var gpsCoordinatesUser: GpsCoordinates? =
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser
 
     private var jeuxListenner: JeuxListener? = null
 
-    private var chats: MutableList<Chat>? = mutableListOf()
-    private lateinit var adapter : RadarChatsAdapter
+    private var chats: MutableList<Chat> = mutableListOf()
+    private lateinit var adapter: RadarChatsAdapter
     private lateinit var compasManager: OrientationManager
-    val objects : MutableList<ObjectData> = mutableListOf()
+    val objects: MutableList<ObjectData> = mutableListOf()
 
-    private fun InitChats(){
-        ReposZoneChat.getInstance().nearChats.forEach{chatZone ->
-            chats?.add(chatZone.chat)
+    private fun InitChats() {
+        gpsCoordinatesUser?.let {
+            chats = getCats(it)
         }
+    }
+
+    private fun getCats(gps: GpsCoordinates): MutableList<Chat> {
+        GameDataManager.instance.getNearCats(
+            gps.latitude.toFloat(),
+            gps.longitude.toFloat()
+        )
+        val list = mutableListOf<Chat>()
+        GameDataManager.instance.getNearCats(
+            gps.latitude.toFloat(),
+            gps.longitude.toFloat()
+        ).forEach {
+            list.add(it.chat)
+        }
+        return list
     }
 
     //******************************************************** Events UI
@@ -60,28 +78,31 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
         SetupRecyclerView()
         SetupListenner()
 
-        chats?.forEach{ chat ->
-            chat.distanceFromUser = ReposZoneChat.getInstance().getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates!!).toInt()
+        chats.forEach { chat ->
+            chat.distanceFromUser =
+                ReposZoneChat.getInstance().getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates!!)
+                    .toInt()
         }
     }
 
 
     //******************************************************** Events Close
-    public fun setOnButtonClickListener(listenner : JeuxListener){
+    public fun setOnButtonClickListener(listenner: JeuxListener) {
         jeuxListenner = listenner
     }
 
-    public fun SetupListenner(){
+    public fun SetupListenner() {
         binding.btnRadarClose.setOnClickListener {
             jeuxListenner?.onClosePopUp()
         }
     }
 
     //******************************************************** Listenner
-    private fun SetupRecyclerView(){
-        chats?.let { it ->
+    private fun SetupRecyclerView() {
+        chats.let { it ->
             adapter = RadarChatsAdapter(it, this)
-            binding.RadarRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL,false)
+            binding.RadarRecyclerView.layoutManager =
+                LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
             binding.RadarRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
         }
@@ -94,21 +115,27 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
     override fun onOrientationChanged(azimuth: Float, pitch: Float, roll: Float) {
         updateRadar(azimuth)
     }
-    private fun updateRadar(azimuth: Float){
 
-        if(gpsCoordinatesUser != null){
+    private fun updateRadar(azimuth: Float) {
+
+        if (gpsCoordinatesUser != null) {
             objects.clear()
-            chats?.forEach { item ->
+            chats.forEach { item ->
                 val localCoordinates = convertGpsToXY(gpsCoordinatesUser!!, item.gpsCoordinates!!)
                 val rotatedCoordinates = rotateCoordinates(localCoordinates, azimuth, 0.04F)
-                val objectData = ObjectData(rotatedCoordinates.x.toFloat(), rotatedCoordinates.y.toFloat())
+                val objectData =
+                    ObjectData(rotatedCoordinates.x.toFloat(), rotatedCoordinates.y.toFloat())
                 objects.add(objectData)
             }
         }
         radarView.updateObjects(objects)
     }
 
-    private fun rotateCoordinates(coordinates: LocalCoordinates, azimuth: Float, sensitivity: Float): LocalCoordinates {
+    private fun rotateCoordinates(
+        coordinates: LocalCoordinates,
+        azimuth: Float,
+        sensitivity: Float
+    ): LocalCoordinates {
         val scaledAzimuth = azimuth * sensitivity
         val x = coordinates.x * cos(scaledAzimuth) - coordinates.y * sin(scaledAzimuth)
         val y = coordinates.x * sin(scaledAzimuth) + coordinates.y * cos(scaledAzimuth)
@@ -116,7 +143,7 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
     }
 
 
-    private fun convertGpsToXY(source: GpsCoordinates, target: GpsCoordinates ): LocalCoordinates {
+    private fun convertGpsToXY(source: GpsCoordinates, target: GpsCoordinates): LocalCoordinates {
         val earthRadius = 6371000.0
         val lat1 = Math.toRadians(source.latitude)
         val lon1 = Math.toRadians(source.longitude)
@@ -127,7 +154,8 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
         val deltaLat = lat2 - lat1
 
         val x = earthRadius * deltaLon * Math.cos(lat1)
-        val y = earthRadius * Math.log(Math.tan(Math.PI / 4 + lat2 / 2) / Math.tan(Math.PI / 4 + lat1 / 2))
+        val y =
+            earthRadius * Math.log(Math.tan(Math.PI / 4 + lat2 / 2) / Math.tan(Math.PI / 4 + lat1 / 2))
 
         return LocalCoordinates(x, y)
     }
@@ -153,9 +181,15 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
     }
 
     override fun onGpsChanged(gpsCoordinatesUser: GpsCoordinates) {
-        chats?.forEach{ chat ->
-            chat.distanceFromUser = ReposZoneChat.getInstance().getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates!!).toInt()
+        chats = getCats(gpsCoordinatesUser)
+        chats.forEach { chat ->
+            chat.distanceFromUser =
+                ReposZoneChat.getInstance()
+                    .getDistance(gpsCoordinatesUser!!, chat.gpsCoordinates!!)
+                    .toInt()
         }
+        adapter.ChatsItemsListe = chats
+        adapter.notifyDataSetChanged()
     }
 
 }

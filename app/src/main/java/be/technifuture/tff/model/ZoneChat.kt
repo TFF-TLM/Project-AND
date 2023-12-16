@@ -10,7 +10,11 @@ data class ZoneChat(
     var color: ChatRGB,
     var gpsCoordinates: GpsCoordinates?,
     var chat: Chat
-)
+){
+    fun toChat(): Chat {
+        return chat
+    }
+}
 
 data class ChatRGB(
     val r: Int,
