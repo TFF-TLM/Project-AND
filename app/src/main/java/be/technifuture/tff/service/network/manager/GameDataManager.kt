@@ -14,6 +14,7 @@ import be.technifuture.tff.service.network.dto.CatOnMapResponse
 import be.technifuture.tff.service.network.dto.CatWithInteract
 import be.technifuture.tff.service.network.dto.DropCatRequestBody
 import be.technifuture.tff.service.network.dto.ErrorDetailsResponse
+import be.technifuture.tff.service.network.dto.ErrorMessageResponse
 import be.technifuture.tff.service.network.service.CatApiServiceImpl
 import be.technifuture.tff.service.network.service.InteractApiServiceImpl
 import be.technifuture.tff.service.network.utils.CallBuilder
@@ -236,6 +237,33 @@ class GameDataManager {
                     }
                 } else {
                     handler(code)
+                }
+            }
+        }
+    }
+
+    fun interactInterestPoint(
+        id: Int,
+        handler: (cat: ZoneChat?, food: Int?, error: ErrorMessageResponse?, code: Int) -> Unit
+    ) {
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let { gps ->
+            CallBuilder.getCall(
+                { interactService.interactInterest(id) },
+                400,
+                ErrorMessageResponse::class.java
+            ) { callResponse, error, code ->
+                if (code == 200) {
+                    callResponse?.let {
+                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                            ReposGoogleMap.getInstance().updateCatsAndPoints(
+                                gps.latitude.toFloat(),
+                                gps.longitude.toFloat()
+                            )
+                            handler(it.cat?.toZoneChat(), it.foodGain, error, code)
+                        }
+                    }
+                } else {
+                    handler(null, null, error, code)
                 }
             }
         }

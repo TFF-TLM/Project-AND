@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Circle
 import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
@@ -54,6 +55,7 @@ class ReposGoogleMap : OnMapReadyCallback {
     private var isMapLoaded: Boolean = false
     private var jeuxListenner: JeuxListener? = null
     private var markerList = mutableListOf<Marker>()
+    private var zoneList = mutableListOf<Circle>()
     private var zoomLevel: Float = 20f
 
     fun init(zoom: Float, listenner: JeuxListener) {
@@ -148,7 +150,7 @@ class ReposGoogleMap : OnMapReadyCallback {
     private fun setChat(cats: List<ZoneChat>) {
         cats.forEach { itemZoneChat ->
             if (itemZoneChat.chat.alive) {
-                itemZoneChat.gpsCoordinates?.let { pos ->
+                itemZoneChat.chat.gpsCoordinates?.let { pos ->
                     val position = pos.toLatLng()
 
                     val originalBitmap =
@@ -163,9 +165,7 @@ class ReposGoogleMap : OnMapReadyCallback {
                         .anchor(0.5f, 0.5f)
                     val marker = googleMap.addMarker(markerOptions)
                     marker?.tag = "CH" + itemZoneChat.chat.id
-                    marker?.let {
-                        markerList.add(it)
-                    }
+                    marker?.let { markerList.add(it) }
                 }
             }
         }
@@ -180,9 +180,10 @@ class ReposGoogleMap : OnMapReadyCallback {
                     .zIndex(20f)
                     .position(position)
                     .icon(customIcon)
-                    .title(" ")
 
-                googleMap.addMarker(markerOptions)?.tag = "PI" + itemPointInteret.id
+                val marker = googleMap.addMarker(markerOptions)
+                marker?.tag = "PI" + itemPointInteret.id
+                marker?.let { markerList.add(it) }
             }
         }
     }
@@ -215,7 +216,9 @@ class ReposGoogleMap : OnMapReadyCallback {
                                 itemZoneChat.color.b
                             )
                         )
-                    googleMap.addCircle(circleOptions).tag = "ZC" + itemZoneChat.id
+                    val circle = googleMap.addCircle(circleOptions)
+                    circle.tag = "ZC" + itemZoneChat.id
+                    zoneList.add(circle)
                 }
             }
         }
@@ -245,6 +248,8 @@ class ReposGoogleMap : OnMapReadyCallback {
     private fun removeAllExceptSelf() {
         markerList.forEach { it.remove() }
         markerList.clear()
+        zoneList.forEach { it.remove() }
+        zoneList.clear()
     }
 
     fun updateCatsAndPoints(lat: Float, lon: Float) {
