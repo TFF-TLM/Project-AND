@@ -29,7 +29,6 @@ class JeuxFragment : Fragment(), JeuxListener {
     private lateinit var binding: FragmentJeuxBinding
     private lateinit var mapView: MapView
 
-    private var isModeDemo: Boolean = false
     private lateinit var orientationArrow: OrientationArrow
 
     private var gpsCoordinatesUser: GpsCoordinates? = null
@@ -55,12 +54,17 @@ class JeuxFragment : Fragment(), JeuxListener {
         mapView = binding.mapView
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(ReposGoogleMap.getInstance())
+        gpsCoordinatesUser =
+            LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser
 
         InitJoystick()
         OnInitListener()
+        updateBtnJoystickVisibility()
 
         orientationArrow = OrientationArrow()
-        binding.BtnRadar.visibility = View.GONE
+        gpsCoordinatesUser?.let {
+            UpdateUiGps(it)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -84,23 +88,15 @@ class JeuxFragment : Fragment(), JeuxListener {
         }
 
         binding.BtnJoystick.setOnClickListener {
-            isModeDemo = !isModeDemo
-            if (isModeDemo) {
-                binding.relativeLayoutJoystick.visibility = View.VISIBLE
-                binding.BtnJoystick.alpha = 1.0F
-                //binding.BtnJoystick.setColorFilter(Color.rgb(80, 255, 80)) // Assurez-vous que votre couleur est définie correctement
-            } else {
-                binding.relativeLayoutJoystick?.visibility = View.GONE
-                binding.BtnJoystick.alpha = 0.3F
-                //binding.BtnJoystick.setColorFilter(Color.rgb(255, 80, 80)) // Assurez-vous que votre couleur est définie correctement
-            }
+            GameDataManager.instance.isModeDemo = !GameDataManager.instance.isModeDemo
+            updateBtnJoystickVisibility()
         }
 
 
         binding.relativeLayoutJoystick.setOnTouchListener { arg0, arg1 ->
             joystick!!.drawStick(arg1)
 
-            if (isModeDemo && gpsCoordinatesUser != null) {
+            if (GameDataManager.instance.isModeDemo && gpsCoordinatesUser != null) {
 
                 if (arg1.action == MotionEvent.ACTION_DOWN || arg1.action == MotionEvent.ACTION_MOVE) {
                     gpsCoordinatesUser = ReposGoogleMap.getInstance().calculateNewPosition(
@@ -123,13 +119,30 @@ class JeuxFragment : Fragment(), JeuxListener {
                         ReposGoogleMap.getInstance().updateCatsAndPoints(
                             it.latitude.toFloat(),
                             it.longitude.toFloat()
-                        )
+                        ) { lat, lon ->
+                            if (!GameDataManager.instance.isLaunch) {
+                                GameDataManager.instance.isLaunch = true
+                                updateVisibilityBtnRadar(lat, lon)
+                            }
+                        }
                         gpsCoordinatesLastCall = it
                     }
                 }
                 UpdateUiGps(gpsCoordinatesUser!!)
             }
             true
+        }
+    }
+
+    private fun updateBtnJoystickVisibility() {
+        if (GameDataManager.instance.isModeDemo) {
+            binding.relativeLayoutJoystick.visibility = View.VISIBLE
+            binding.BtnJoystick.alpha = 1.0F
+            //binding.BtnJoystick.setColorFilter(Color.rgb(80, 255, 80)) // Assurez-vous que votre couleur est définie correctement
+        } else {
+            binding.relativeLayoutJoystick?.visibility = View.GONE
+            binding.BtnJoystick.alpha = 0.3F
+            //binding.BtnJoystick.setColorFilter(Color.rgb(255, 80, 80)) // Assurez-vous que votre couleur est définie correctement
         }
     }
 
@@ -255,7 +268,7 @@ class JeuxFragment : Fragment(), JeuxListener {
     }
 
     private fun updateOnGpsChanged(gpsCoordinates: GpsCoordinates) {
-        if (!isModeDemo) {
+        if (!GameDataManager.instance.isModeDemo) {
             gpsCoordinatesUser = gpsCoordinates
             ReposGoogleMap.getInstance().setPosition(gpsCoordinates, ColorChoice.Green)
 
@@ -263,7 +276,12 @@ class JeuxFragment : Fragment(), JeuxListener {
                 ReposGoogleMap.getInstance().updateCatsAndPoints(
                     gpsCoordinates.latitude.toFloat(),
                     gpsCoordinates.longitude.toFloat()
-                )
+                ) { lat, lon ->
+                    if (!GameDataManager.instance.isLaunch) {
+                        GameDataManager.instance.isLaunch = true
+                        updateVisibilityBtnRadar(lat, lon)
+                    }
+                }
                 gpsCoordinatesLastCall = gpsCoordinates
             }
 
@@ -289,6 +307,16 @@ class JeuxFragment : Fragment(), JeuxListener {
         }
     }
 
+    private fun updateVisibilityBtnRadar(lat: Float, lon: Float) {
+        if (GameDataManager.instance.getNearCats(lat, lon).isNotEmpty()) {
+            Log.d("RADAR", "Btn radar visible")
+            binding.BtnRadar.visibility = View.VISIBLE
+        } else {
+            Log.d("RADAR", "Btn radar gone")
+            binding.BtnRadar.visibility = View.GONE
+        }
+    }
+
     private fun UpdateUiGps(gpsCoordinates: GpsCoordinates) {
         if (GameDataManager.instance.catFromUserInBag.isEmpty()) {
             binding.BtnAddChat.visibility = View.GONE
@@ -301,15 +329,10 @@ class JeuxFragment : Fragment(), JeuxListener {
             gpsCoordinates.longitude.toFloat()
         )?.chat?.gpsCoordinates
 
-        if (GameDataManager.instance.getNearCats(
-                gpsCoordinates.latitude.toFloat(),
-                gpsCoordinates.longitude.toFloat()
-            ).isNotEmpty()
-        ) {
-            binding.BtnRadar.visibility = View.VISIBLE
-        } else {
-            binding.BtnRadar.visibility = View.GONE
-        }
+        updateVisibilityBtnRadar(
+            gpsCoordinates.latitude.toFloat(),
+            gpsCoordinates.longitude.toFloat()
+        )
 
         if (gpsCoordinatesUser != null && gpsCoordinatesTarget != null) {
             binding.imgCompas.rotation = orientationArrow.updateArrowRotationDemo1(

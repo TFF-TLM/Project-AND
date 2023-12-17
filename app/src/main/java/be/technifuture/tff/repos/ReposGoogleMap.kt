@@ -100,7 +100,15 @@ class ReposGoogleMap : OnMapReadyCallback {
             CameraUpdateFactory.zoomTo(zoomLevel)
         )
 
+        if (GameDataManager.instance.isModeDemo) {
+            LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let {
+                setPosition(it, ColorChoice.Green)
+                updateCatsAndPoints(it.latitude.toFloat(), it.longitude.toFloat()) { _, _ -> }
+            }
+        }
+
         LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
+
         Log.d("LM", "map ready")
         this.isMapLoaded = true
     }
@@ -252,7 +260,7 @@ class ReposGoogleMap : OnMapReadyCallback {
         zoneList.clear()
     }
 
-    fun updateCatsAndPoints(lat: Float, lon: Float) {
+    fun updateCatsAndPoints(lat: Float, lon: Float, handler: (lat: Float, lon: Float) -> Unit) {
         GameDataManager.instance.getSurroundings(lat, lon) { cats, points, _ ->
             if (cats != null && points != null) {
                 removeAllExceptSelf()
@@ -260,6 +268,7 @@ class ReposGoogleMap : OnMapReadyCallback {
                 setPointInteret(points)
                 setChat(cats)
                 setListenerMarker(cats, points)
+                handler(lat, lon)
             }
         }
     }

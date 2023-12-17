@@ -37,6 +37,9 @@ class GameDataManager {
     var catUserHasInteract: List<ZoneChat> = listOf()
     private var catOnMap: List<ZoneChat> = listOf()
 
+    var isModeDemo = false
+    var isLaunch = false
+
     companion object {
         val instance: GameDataManager by lazy {
             GameDataManager()
@@ -238,7 +241,7 @@ class GameDataManager {
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()
-                            )
+                            ) { _, _ -> }
                             handler(code)
                         }
                     }
@@ -262,7 +265,7 @@ class GameDataManager {
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()
-                            )
+                            ) { _, _ -> }
                             handler(code)
                         }
                     }
@@ -289,7 +292,7 @@ class GameDataManager {
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()
-                            )
+                            ) { _, _ -> }
                             handler(it.cat?.toZoneChat(), it.foodGain, error, code)
                         }
                     }

@@ -62,30 +62,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91527939-d792-4d45-9a1e-0323f115fdc3" name="Changes" comment="resolve conflict InteractionInterestPoint into develop">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/utils/date/DateBuilder.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/adapter/AddChatAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/adapter/AddChatAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/ChatAPoserFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/ChatAPoserFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/ChatInteractionFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/ChatInteractionFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/JeuxFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/JeuxFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/RadarFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/RadarFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/jeu/HistoriqueFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/jeu/HistoriqueFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/jeu/ProfileFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/fragment/jeu/ProfileFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/ZoneChat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/model/ZoneChat.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Cat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Cat.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Interact.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/dto/Interact.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/AuthDataManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/AuthDataManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/repos/ReposGoogleMap.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/repos/ReposGoogleMap.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/GameDataManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/manager/GameDataManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/CatApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/be/technifuture/tff/service/network/service/CatApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/cell_add_chat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cell_add_chat.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_chat_a_poser.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_chat_a_poser.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_chat_interaction.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_chat_interaction.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_historique.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_historique.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_jeux.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_jeux.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
