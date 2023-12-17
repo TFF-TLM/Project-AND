@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/ico_user"
+        android:title="Utilisateur" />
+    <item
+        android:id="@+id/historiqueFragment"
+        android:icon="@drawable/patte"
+        android:title="Historique" />
+    <item
+        android:id="@+id/marketFragment"
+        android:icon="@drawable/ico_euro"
+        android:title="Boutique" />
+</menu>

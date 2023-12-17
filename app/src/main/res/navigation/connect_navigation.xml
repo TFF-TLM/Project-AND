@@ -7,7 +7,57 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="be.technifuture.tff.fragment.LoginFragment"
+        android:name="be.technifuture.tff.fragment.connect.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_createUserFragment"
+            app:destination="@id/createUserFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_retrieveMailFragment"
+            app:destination="@id/retrieveMailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createUserFragment"
+        android:name="be.technifuture.tff.fragment.connect.CreateUserFragment"
+        android:label="fragment_create_user"
+        tools:layout="@layout/fragment_create_user" >
+        <action
+            android:id="@+id/action_createUserFragment_to_CreateClanUserFragment"
+            app:destination="@id/createClanUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAvatarUserFragment"
+        android:name="be.technifuture.tff.fragment.connect.CreateAvatarUserFragment"
+        android:label="fragment_create_avatar_user"
+        tools:layout="@layout/fragment_create_avatar_user" >
+        <argument
+            android:name="user"
+            app:argType="be.technifuture.tff.model.NewUserModel" />
+        <action
+            android:id="@+id/action_createAvatarUserFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createClanUserFragment"
+        android:name="be.technifuture.tff.fragment.connect.CreateClanUserFragment"
+        android:label="fragment_create_clan_user"
+        tools:layout="@layout/fragment_create_clan_user">
+        <action
+            android:id="@+id/action_fragment_create_clan_user_to_createAvatarUserFragment"
+            app:destination="@id/createAvatarUserFragment" />
+        <argument
+            android:name="user"
+            app:argType="be.technifuture.tff.model.NewUserModel" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/retrieveMailFragment"
+        android:name="be.technifuture.tff.fragment.connect.RetrieveMailFragment"
+        android:label="fragment_retrieve_mail"
+        tools:layout="@layout/fragment_retrieve_mail" >
+        <action
+            android:id="@+id/action_retrieveMailFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

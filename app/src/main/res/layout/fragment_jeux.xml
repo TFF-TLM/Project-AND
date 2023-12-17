@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.JeuxFragment">
+
+
+    <com.google.android.gms.maps.MapView
+        android:elevation="1dp"
+        android:id="@+id/mapView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck"/>
+
+
+    <LinearLayout
+        android:elevation="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mapView"
+>
+
+        <ImageButton
+            android:id="@+id/BtnJoystick"
+            style="@style/round_button"
+            android:alpha="0.3"
+            android:src="@drawable/ico_joystick"
+            tools:ignore="SpeakableTextPresentCheck"
+            app:tint="@color/TintTwo"/>
+
+        <ImageButton
+            android:id="@+id/BtnAddChat"
+            style="@style/round_button"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:src="@drawable/ico_chat"
+            app:tint="@color/TintTwo"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/BtnRadar"
+            style="@style/round_button"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:src="@drawable/ico_radar"
+            tools:ignore="SpeakableTextPresentCheck"
+            app:tint="@color/TintTwo"
+            android:importantForAccessibility="no" />
+
+        <ImageButton
+            android:id="@+id/BtnProfil"
+            style="@style/round_button"
+            android:src="@drawable/ico_user"
+            app:tint="@color/TintTwo"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/BtnShop"
+            style="@style/round_button"
+            android:src="@drawable/ico_euro"
+            app:tint="@color/TintTwo"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/imgCompas"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:elevation="5dp"
+        android:scaleType="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ico_direction"
+        app:tint="@color/TintTwo"
+        android:importantForAccessibility="no" />
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutJoystick"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/outer"
+        android:elevation="10dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/mapView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </RelativeLayout>
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/FragmentChat"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00FFFFFF"
+        android:elevation="15dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

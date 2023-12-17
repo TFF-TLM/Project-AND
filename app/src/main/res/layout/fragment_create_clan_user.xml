@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.connect.CreateClanUserFragment"
+    android:background="@color/backgroundColor">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/include_header"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/sayHello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/say_hello"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <TextView
+        android:id="@+id/explain_screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/explain_clan"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/sayHello" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/explain_screen">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clan1_contenair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/imageClan1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/clan_jaune" />
+
+                <TextView
+                    android:id="@+id/nameClan1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yellow_clan"
+                    app:layout_constraintTop_toTopOf="@id/imageClan1"
+                    app:layout_constraintStart_toEndOf="@id/imageClan1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/descClan1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/nameClan1"
+                    app:layout_constraintStart_toEndOf="@id/imageClan1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/yellow_desc"
+                    android:textAlignment="center" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clan2_contenair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_margin="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/imageClan2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/clan_rouge" />
+
+                <TextView
+                    android:id="@+id/nameClan2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/red_clan"
+                    app:layout_constraintTop_toTopOf="@id/imageClan2"
+                    app:layout_constraintStart_toEndOf="@id/imageClan2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/descClan2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/nameClan2"
+                    app:layout_constraintStart_toEndOf="@id/imageClan2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/red_desc"
+                    android:textAlignment="center" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clan3_contenair"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_margin="20dp">
+
+            <ImageView
+                android:id="@+id/imageClan3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/clan_vert"
+                />
+
+                <TextView
+                    android:id="@+id/nameClan3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/imageClan3"
+                    app:layout_constraintStart_toEndOf="@id/imageClan3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/green_clan"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/descClan3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/nameClan3"
+                    app:layout_constraintStart_toEndOf="@id/imageClan3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:text="@string/green_desc"
+                    android:textAlignment="center" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextButton"
+        style="@style/button_util"
+
+        app:icon="@drawable/ic_stat_name"
+        app:iconSize="30dp"
+        app:iconGravity="end"
+        app:iconPadding="5dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+       android:contentDescription="Suivant"
+
+        android:text="@string/nextButton"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="round_button">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/rounded_background</item>
+        <item name="android:importantForAccessibility">no</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+    <style name="button_util">
+        <item name="android:backgroundTint">@color/TintFour</item>
+        <item name="android:textColor">@color/TintThree</item>
+        <item name="iconTint">@color/TintFive</item>
+    </style>
+</resources>
