@@ -20,6 +20,7 @@ import be.technifuture.tff.model.interfaces.*
 import be.technifuture.tff.repos.*
 import be.technifuture.tff.service.*
 import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.alert.AlertBuilder
 import be.technifuture.tff.utils.location.LocationManager
 import com.google.android.gms.maps.MapView
 
@@ -203,6 +204,28 @@ class JeuxFragment : Fragment(), JeuxListener {
                 .remove(it)
                 .commit()
         }
+        GameDataManager.instance.interactInterestPoint(id.toInt()) { cat, food, _, code ->
+            activity?.let {
+                if (code == 200) {
+                    cat?.let { chat ->
+                        AlertBuilder.messageAlert(
+                            it,
+                            "Bravo, vous avez récupéré un chat !",
+                            "Allez dans l'onglet mes chats pour le voir et le poser sur la carte."
+                        )
+                    } ?: run {
+                        AlertBuilder.messageAlert(
+                            it,
+                            "Des croquettes !",
+                            "Vous avez gagnés $food croquette(s)"
+                        )
+                    }
+                } else {
+                    AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.ALREADY_INTERACT)
+                }
+            }
+        }
+
     }
 
     private fun shouldCall(limite: Float): Boolean {

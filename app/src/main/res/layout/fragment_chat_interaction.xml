@@ -27,7 +27,7 @@
             android:id="@+id/chatImage"
             android:layout_width="0dp"
             android:layout_height="250dp"
-            android:background="#FFFCFC"
+            android:background="@color/backgroundColor"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_generate"
             app:layout_constraintEnd_toEndOf="parent"
