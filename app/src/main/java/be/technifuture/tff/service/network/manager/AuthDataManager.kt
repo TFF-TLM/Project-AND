@@ -125,7 +125,7 @@ class AuthDataManager {
                     deleteExpirationTime()
                 }
                 accessToken = auth.access
-                GameDataManager.instance.refreshDataGameFromUser(auth.user.id) { user, _, _, errorUser, codeUser, _, _ ->
+                GameDataManager.instance.refreshDataGameFromUser(auth.user.id) { user, _, _, _, errorUser, codeUser, _, _, _ ->
                     handler(user, errorUser, codeUser)
                 }
             }
@@ -141,7 +141,7 @@ class AuthDataManager {
         val refreshToken = getRefreshToken()
         if (timestamp > Date().time && userId != -1 && refreshToken != null) {
             loader?.visibility = View.VISIBLE
-            GameDataManager.instance.refreshDataGameFromUser(userId) { user, _, _, errorUser, codeUser, _, _ ->
+            GameDataManager.instance.refreshDataGameFromUser(userId) { user, _, _, _, errorUser, codeUser, _, _, _ ->
                 loader?.visibility = View.GONE
                 handler(user, errorUser, codeUser)
             }
@@ -195,7 +195,7 @@ class AuthDataManager {
                 saveRefreshToken(auth.refresh)
                 createUserData(userData) { userDataResponse, userDataCode ->
                     userDataResponse?.let {
-                        GameDataManager.instance.refreshDataGameFromUser(auth.user.id) { user, _, _, errorUser, codeUser, _, _ ->
+                        GameDataManager.instance.refreshDataGameFromUser(auth.user.id) { user, _, _, _, errorUser, codeUser, _, _, _ ->
                             handler(user, null, errorUser, codeRegister, userDataCode, codeUser)
                         }
                     } ?: run {

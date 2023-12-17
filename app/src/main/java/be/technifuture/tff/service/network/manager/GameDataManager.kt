@@ -34,6 +34,7 @@ class GameDataManager {
 
     var catFromUserInBag: List<ZoneChat> = listOf()
     var catFromUserOnMap: List<ZoneChat> = listOf()
+    var catUserHasInteract: List<ZoneChat> = listOf()
     private var catOnMap: List<ZoneChat> = listOf()
 
     companion object {
@@ -53,6 +54,22 @@ class GameDataManager {
             val result = callResponse?.toZoneChatList()
             result?.let {
                 catFromUserInBag = it
+            }
+            handler(result, code)
+        }
+    }
+
+    fun getCatUserHasInteract(
+        handler: (cats: List<ZoneChat>?, code: Int) -> Unit
+    ) {
+        CallBuilder.getCall(
+            { catService.catHistory() },
+            null,
+            Nothing::class.java
+        ) { callResponse, _, code ->
+            val result = callResponse?.toZoneChatList()
+            result?.let {
+                catUserHasInteract = it
             }
             handler(result, code)
         }
@@ -168,10 +185,12 @@ class GameDataManager {
             user: UserModel?,
             catsFromUserInBag: List<ZoneChat>?,
             catsFromUserOnMap: List<ZoneChat>?,
+            catUserHasInteract: List<ZoneChat>?,
             error: ErrorDetailsResponse?,
             codeUser: Int,
             codeInBag: Int,
-            codeOnMap: Int
+            codeOnMap: Int,
+            codeHasInteract: Int
         ) -> Unit
     ) {
         AuthDataManager.instance.getUserDetailsById(id) { user, errorUser, codeUser ->
@@ -179,7 +198,19 @@ class GameDataManager {
                 Log.d("Bag", "$catsInBag")
                 getCatFromUserOnMap { catsOnMap, codeOnMap ->
                     Log.d("Bag", "$catsOnMap")
-                    handler(user, catsInBag, catsOnMap, errorUser, codeUser, codeInBag, codeOnMap)
+                    getCatUserHasInteract { catsHasInteract, codeHasInteract ->
+                        handler(
+                            user,
+                            catsInBag,
+                            catsOnMap,
+                            catsHasInteract,
+                            errorUser,
+                            codeUser,
+                            codeInBag,
+                            codeOnMap,
+                            codeHasInteract
+                        )
+                    }
                 }
             }
         }
@@ -203,7 +234,7 @@ class GameDataManager {
             ) { callResponse, _, code ->
                 if (code == 200) {
                     callResponse?.let {
-                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                        refreshDataGameFromUser { _, _, _, _, _, _, _, _, _ ->
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()
@@ -227,7 +258,7 @@ class GameDataManager {
             ) { callResponse, _, code ->
                 if (code == 200) {
                     callResponse?.let {
-                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                        refreshDataGameFromUser { _, _, _, _, _, _, _, _, _ ->
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()
@@ -254,7 +285,7 @@ class GameDataManager {
             ) { callResponse, error, code ->
                 if (code == 200) {
                     callResponse?.let {
-                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                        refreshDataGameFromUser { _, _, _, _, _, _, _, _, _ ->
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()

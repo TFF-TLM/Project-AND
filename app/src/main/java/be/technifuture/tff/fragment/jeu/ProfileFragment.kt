@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
 import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.service.network.manager.AuthDataManager
 import be.technifuture.tff.service.network.manager.GameDataManager
 import com.squareup.picasso.Picasso
 
@@ -25,11 +26,7 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        GameDataManager.instance.refreshDataGameFromUser { user, _, _, _, _, _, _ ->
-            user?.let {
-                updateUI(it)
-            }
-        }
+        updateUI(AuthDataManager.instance.user)
         super.onViewCreated(view, savedInstanceState)
     }
 

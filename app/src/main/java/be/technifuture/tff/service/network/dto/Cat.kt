@@ -34,28 +34,37 @@ data class CatWithInteract(
     }
 
     fun toChat(): Chat {
-       return Chat(
-           this.id.toString(),
-           this.image,
-           this.name,
-           this.exp,
-           this.limiteExp,
-           this.lvl,
-           false,
-           this.position?.toGpsCoordinates(),
-           0,
-           this.clan.toClanModel(),
-           this.owner.username,
-           this.alive,
-           recievedFood()
-       )
+        return Chat(
+            this.id.toString(),
+            this.image,
+            this.name,
+            this.exp,
+            this.limiteExp,
+            this.lvl,
+            false,
+            this.position?.toGpsCoordinates(),
+            0,
+            this.clan.toClanModel(),
+            this.owner.username,
+            this.alive,
+            recievedFood(),
+            selfInteract()
+        )
     }
 
     private fun recievedFood(): Int {
-        return if(interact.isNotEmpty()) {
+        return if (interact.isNotEmpty()) {
             interact.first().givenFood
         } else {
             0
+        }
+    }
+
+    private fun selfInteract(): InteractCat? {
+        return if (interact.isNotEmpty()) {
+            interact.first()
+        } else {
+            null
         }
     }
 }
@@ -102,16 +111,27 @@ data class CatWithAllInteract(
             this.clan.toClanModel(),
             this.owner.username,
             this.alive,
-            recievedFood()
+            recievedFood(),
+            selfInteract(),
+            interact
         )
     }
 
     private fun recievedFood(): Int {
         val currentUserInteract = interact.filter { it.user.id == AuthDataManager.instance.user.id }
-        return if(currentUserInteract.isNotEmpty()) {
+        return if (currentUserInteract.isNotEmpty()) {
             currentUserInteract.first().givenFood
         } else {
             0
+        }
+    }
+
+    private fun selfInteract(): InteractCat? {
+        val currentUserInteract = interact.filter { it.user.id == AuthDataManager.instance.user.id }
+        return if (currentUserInteract.isNotEmpty()) {
+            currentUserInteract.first().toInteractCat()
+        } else {
+            null
         }
     }
 }
@@ -166,11 +186,7 @@ data class CatInBagResponse(
     val cats: List<Cat>
 ) {
     fun toZoneChatList(): List<ZoneChat> {
-        val list = mutableListOf<ZoneChat>()
-        cats.forEach {
-            list.add(it.toZoneChat())
-        }
-        return list
+        return cats.map { it.toZoneChat() }
     }
 }
 
@@ -178,11 +194,15 @@ data class CatOnMapResponse(
     val cats: List<CatWithAllInteract>
 ) {
     fun toZoneChatList(): List<ZoneChat> {
-        val list = mutableListOf<ZoneChat>()
-        cats.forEach {
-            list.add(it.toZoneChat())
-        }
-        return list
+        return cats.map { it.toZoneChat() }
+    }
+}
+
+data class CatHistoryResponse(
+    val cats: List<CatWithInteract>
+) {
+    fun toZoneChatList(): List<ZoneChat> {
+        return cats.map { it.toZoneChat() }
     }
 }
 

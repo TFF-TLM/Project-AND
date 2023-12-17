@@ -9,33 +9,6 @@
     android:backgroundTint="@color/TintFour"
     android:padding="20dp">
 
-    <TextView
-        android:id="@+id/CellAddChatNom"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/TintThree"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-    <ImageButton
-        android:id="@+id/CellAddChatBtn"
-        style="@style/round_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-
-        android:importantForAccessibility="no"
-        android:src="@drawable/ico_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CellAddChatNom"
-        app:tint="@color/TintTwo"
-        tools:ignore="SpeakableTextPresentCheck" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="110dp"
@@ -54,5 +27,22 @@
             app:srcCompat="@drawable/ico_img" />
 
     </androidx.cardview.widget.CardView>
+
+    <ImageButton
+        android:id="@+id/CellAddChatBtn"
+        style="@style/round_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+
+        android:importantForAccessibility="no"
+        android:src="@drawable/ico_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:tint="@color/TintTwo"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

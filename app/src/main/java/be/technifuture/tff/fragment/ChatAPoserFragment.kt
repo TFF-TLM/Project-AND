@@ -74,7 +74,9 @@ class ChatAPoserFragment : Fragment(), AddChatListener {
         activity?.let {
             AlertBuilder.inputAlert(it, "Posez un chat", "Donnez un nom à votre chat !") { input ->
                 if (input.isNotEmpty() || input.isNotBlank()) {
+                    binding.loaderView.visibility = View.VISIBLE
                     GameDataManager.instance.dropCat(item.id.toInt(), input) { code ->
+                        binding.loaderView.visibility = View.GONE
                         if (code == 200) {
                             jeuxListenner?.onClosePopUp()
                         } else {

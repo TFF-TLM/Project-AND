@@ -37,6 +37,7 @@ class JeuxFragment : Fragment(), JeuxListener {
     private var gpsCoordinatesLastCall: GpsCoordinates? = null
 
     private var locationManager: LocationManager? = null
+    private val limiteMeterToCall = 5f
 
     var joystick: Joystick? = null
 
@@ -115,7 +116,9 @@ class JeuxFragment : Fragment(), JeuxListener {
                         .setPosition(gpsCoordinatesUser!!, ColorChoice.Green)
                 }
 
-                if (shouldCall(5f)) {
+                locationManager?.localisationUser = gpsCoordinatesUser
+
+                if (shouldCall(limiteMeterToCall)) {
                     gpsCoordinatesUser?.let {
                         ReposGoogleMap.getInstance().updateCatsAndPoints(
                             it.latitude.toFloat(),
@@ -204,7 +207,9 @@ class JeuxFragment : Fragment(), JeuxListener {
                 .remove(it)
                 .commit()
         }
+        binding.loaderView.visibility = View.VISIBLE
         GameDataManager.instance.interactInterestPoint(id.toInt()) { cat, food, _, code ->
+            binding.loaderView.visibility = View.GONE
             activity?.let {
                 if (code == 200) {
                     cat?.let { chat ->
@@ -219,6 +224,9 @@ class JeuxFragment : Fragment(), JeuxListener {
                             "Des croquettes !",
                             "Vous avez gagnés $food croquette(s)"
                         )
+                    }
+                    LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let { gps ->
+                        UpdateUiGps(gps)
                     }
                 } else {
                     AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.ALREADY_INTERACT)
@@ -251,7 +259,7 @@ class JeuxFragment : Fragment(), JeuxListener {
             gpsCoordinatesUser = gpsCoordinates
             ReposGoogleMap.getInstance().setPosition(gpsCoordinates, ColorChoice.Green)
 
-            if (shouldCall(5f)) {
+            if (shouldCall(limiteMeterToCall)) {
                 ReposGoogleMap.getInstance().updateCatsAndPoints(
                     gpsCoordinates.latitude.toFloat(),
                     gpsCoordinates.longitude.toFloat()

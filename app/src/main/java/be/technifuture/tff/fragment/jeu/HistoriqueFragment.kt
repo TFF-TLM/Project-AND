@@ -14,21 +14,22 @@ import be.technifuture.tff.databinding.FragmentHistoriqueBinding
 import be.technifuture.tff.model.Chat
 import be.technifuture.tff.model.ClanModel
 import be.technifuture.tff.model.GpsCoordinates
+import be.technifuture.tff.model.ZoneChat
 import be.technifuture.tff.model.interfaces.RadarListener
 import be.technifuture.tff.repos.ReposZoneChat
 import be.technifuture.tff.service.ClanService
 import be.technifuture.tff.service.NetworkService
+import be.technifuture.tff.service.network.manager.GameDataManager
+import be.technifuture.tff.utils.date.DateBuilder
 
 class HistoriqueFragment : Fragment() {
 
     lateinit var binding: FragmentHistoriqueBinding
-    private var chats: MutableList<Chat> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        initMockChat()
         binding = FragmentHistoriqueBinding.inflate(layoutInflater)
         binding.header.title.visibility = View.GONE
         binding.header.logo.layoutParams.height = binding.header.logo.layoutParams.height / 3
@@ -42,8 +43,16 @@ class HistoriqueFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
-        setupRecyclerView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.loaderView.visibility = View.VISIBLE
+        GameDataManager.instance.refreshDataGameFromUser { _, _, _, _, _, _, _, _, _ ->
+            binding.loaderView.visibility = View.GONE
+            setupRecyclerView()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -52,61 +61,31 @@ class HistoriqueFragment : Fragment() {
         val recyclerViewBot = binding.bottomRecycler
 
         recyclerViewTop.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recyclerViewTop.adapter = HistoriqueChatAdapter(mutableListOf(chats[1], chats[2]))
+        recyclerViewTop.adapter = HistoriqueChatAdapter(catUserHasInteract().toMutableList())
 
         recyclerViewBot.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        recyclerViewBot.adapter = HistoriqueChatAdapter(mutableListOf(chats[0]))
+        recyclerViewBot.adapter = HistoriqueChatAdapter(catFromUserOnMap().toMutableList())
 
 
     }
 
-    private fun initMockChat() {
-        chats = mutableListOf(
-            Chat(
-                "0",
-                "https://res.cloudinary.com/dota5mahf/4f23f2b4-31bb-4543-b5b3-0bd397c422e7",
-                "Lucy",
-                3,
-                5,
-                1,
-                true,
-                GpsCoordinates(0.0, 0.0),
-                1,
-                NetworkService.clan.getClanById(1),
-                "Tony",
-                true,
-                40
-            ),
-            Chat(
-                "2",
-                "https://res.cloudinary.com/dota5mahf/5cadc418-82d1-47c9-904b-068be3b59073",
-                "Sushi",
-                5,
-                10,
-                2,
-                true,
-                GpsCoordinates(0.0, 0.0),
-                1,
-                NetworkService.clan.getClanById(2),
-                "Medhi",
-                true,
-                40
-            ),
-            Chat(
-                "0",
-                "https://res.cloudinary.com/dota5mahf/b690df13-ed11-4a21-b587-e3af75c597ae",
-                "Padmé",
-                34,
-                50,
-                3,
-                true,
-                GpsCoordinates(0.0, 0.0),
-                1,
-                NetworkService.clan.getClanById(3),
-                "Laurent",
-                true,
-                40
-            ),
-        )
+    private fun catUserHasInteract(): List<Chat> {
+        val result = GameDataManager.instance.catUserHasInteract.map { it.chat }
+            .sortedBy { it.interactFromUser?.timestamp ?: DateBuilder.refFutur }
+        result.forEach { it.updateDistance() }
+        return result
+    }
+
+    private fun catFromUserOnMap(): List<Chat> {
+        val result = GameDataManager.instance.catFromUserOnMap.map { it.chat }
+            .sortedBy { chat ->
+                if (chat.allInteract.isNotEmpty()) {
+                    chat.allInteract.minBy { it.timestamp }.timestamp
+                } else {
+                    DateBuilder.refFutur
+                }
+            }
+        result.forEach { it.updateDistance() }
+        return result
     }
 }
