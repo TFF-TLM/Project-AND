@@ -9,16 +9,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.adapter.HistoriqueChatAdapter
-import be.technifuture.tff.adapter.RadarChatsAdapter
 import be.technifuture.tff.databinding.FragmentHistoriqueBinding
-import be.technifuture.tff.model.Chat
-import be.technifuture.tff.model.ClanModel
-import be.technifuture.tff.model.GpsCoordinates
-import be.technifuture.tff.model.interfaces.RadarListener
-import be.technifuture.tff.repos.ReposZoneChat
-import be.technifuture.tff.service.ClanService
 import be.technifuture.tff.service.MockData
-import be.technifuture.tff.service.NetworkService
 
 class HistoriqueFragment : Fragment() {
 
