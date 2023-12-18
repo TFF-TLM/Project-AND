@@ -41,7 +41,9 @@ class ChatInteractionFragment(val id: String) : Fragment(), BonusListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loaderView.visibility = View.VISIBLE
         GameDataManager.instance.getCatById(id.toInt()) { cat, _, code ->
+            binding.loaderView.visibility = View.GONE
             if (code == 200) {
                 cat?.let {
                     chat = it.chat
@@ -87,7 +89,7 @@ class ChatInteractionFragment(val id: String) : Fragment(), BonusListener {
                 AuthDataManager.instance.user.nbCroquette,
                 "ico_food"
             )
-        )//ReposUser.getInstance().getUser().bonus
+        )
         adapter = BonusAdapter(bonus, this)
         binding.chatRecyclerView.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
@@ -110,6 +112,7 @@ class ChatInteractionFragment(val id: String) : Fragment(), BonusListener {
 
     private fun updateUI() {
         GameDataManager.instance.getCatById(id.toInt()) { cat, _, code ->
+            binding.loaderView.visibility = View.GONE
             if (code == 200) {
                 cat?.let {
                     chat = it.chat
@@ -176,10 +179,12 @@ class ChatInteractionFragment(val id: String) : Fragment(), BonusListener {
                         foodMax()
                     ) { food ->
                         chat?.let { cat ->
+                            binding.loaderView.visibility = View.VISIBLE
                             GameDataManager.instance.feedCat(cat.id.toInt(), food) { code ->
                                 if (code == 200) {
                                     updateUI()
                                 } else {
+                                    binding.loaderView.visibility = View.GONE
                                     AlertDialogCustom(it).getAlert(AlertDialogCustom.ErrorValidation.CANT_LEVEL_UP)
                                 }
                             }

@@ -22,7 +22,8 @@ class AlertDialogCustom (private val viewContext: Context){
         NAME_CAT_EMPTY,
         CANT_FEED,
         NO_MORE_FOOD,
-        CANT_LEVEL_UP
+        CANT_LEVEL_UP,
+        ALREADY_INTERACT
     }
 
     fun getAlert(error: ErrorValidation){
@@ -61,6 +62,7 @@ class AlertDialogCustom (private val viewContext: Context){
             ErrorValidation.CANT_FEED -> "Vous ne pouvez pas nourrir plus ce chat."
             ErrorValidation.NO_MORE_FOOD-> "Vous n'avez plus de croquettes."
             ErrorValidation.CANT_LEVEL_UP-> "Ce chat ne peut pas monter de niveau actuellement."
+            ErrorValidation.ALREADY_INTERACT-> "Vous avez déjà récupéré les récompenses."
         }
         builder.setCanceledOnTouchOutside(false)
         builder.show()

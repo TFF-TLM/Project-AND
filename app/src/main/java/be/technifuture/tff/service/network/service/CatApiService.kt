@@ -1,6 +1,7 @@
 package be.technifuture.tff.service.network.service
 
 import be.technifuture.tff.service.network.authenticator.AuthAuthenticator
+import be.technifuture.tff.service.network.dto.CatHistoryResponse
 import be.technifuture.tff.service.network.dto.CatInBagResponse
 import be.technifuture.tff.service.network.dto.CatOnMapResponse
 import be.technifuture.tff.service.network.dto.CatWithInteract
@@ -27,6 +28,9 @@ interface CatApiService {
     @GET("cat/user/map")
     suspend fun catOnMap(): Response<CatOnMapResponse>
 
+    @GET("cat/user/history")
+    suspend fun catHistory(): Response<CatHistoryResponse>
+
     @POST("cat/drop")
     suspend fun dropCat(
         @Body data: DropCatRequestBody,
@@ -50,9 +54,12 @@ class CatApiServiceImpl {
     }
 
     suspend fun cat(id: Int): Response<CatWithInteract> = service.cat(id.toString())
+
     suspend fun catInBag(): Response<CatInBagResponse> = service.catInBag()
 
     suspend fun catOnMap(): Response<CatOnMapResponse> = service.catOnMap()
+
+    suspend fun catHistory(): Response<CatHistoryResponse> = service.catHistory()
 
     suspend fun dropCat(data: DropCatRequestBody): Response<DropCatResponse> = service.dropCat(data)
 }

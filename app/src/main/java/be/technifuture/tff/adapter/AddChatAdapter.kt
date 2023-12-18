@@ -42,11 +42,9 @@ class AddChatViewHolder (
 ) : RecyclerView.ViewHolder(view) {
 
     val BtnAdd: ImageButton = view.findViewById(R.id.CellAddChatBtn)
-    val nom: TextView = view.findViewById(R.id.CellAddChatNom)
     val image: ImageView = view.findViewById(R.id.CellAddChatImg)
 
     fun setupData(item: Chat) {
-        nom.text = item.nom
 
         if (!item.urlImage.isNullOrEmpty()) {
             Picasso.get()

@@ -20,7 +20,11 @@ data class InteractCatWithUser(
     @SerializedName("given_food")
     val givenFood: Int,
     val user: UserInfoResponse
-)
+) {
+    fun toInteractCat(): InteractCat {
+        return InteractCat(id, timestamp, givenFood)
+    }
+}
 
 data class InteractCatResponse(
     @SerializedName("user_data")
