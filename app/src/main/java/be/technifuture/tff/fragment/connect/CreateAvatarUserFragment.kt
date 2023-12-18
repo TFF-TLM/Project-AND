@@ -18,17 +18,19 @@ import be.technifuture.tff.adapter.CreateAvatarAdapter
 import be.technifuture.tff.databinding.FragmentCreateAvatarUserBinding
 import be.technifuture.tff.model.NewUserModel
 import be.technifuture.tff.service.AlertDialogCustom
+import be.technifuture.tff.service.MockData
 import be.technifuture.tff.service.network.dto.Register
 import be.technifuture.tff.service.network.dto.UserDataRequestBody
 import be.technifuture.tff.service.network.manager.AuthDataManager
 import com.squareup.picasso.Picasso
+import okhttp3.internal.wait
 
 class CreateAvatarUserFragment : Fragment() {
 
     private val args: CreateAvatarUserFragmentArgs by navArgs()
     private lateinit var user: NewUserModel
     private lateinit var binding: FragmentCreateAvatarUserBinding
-    private val authManager = AuthDataManager.instance
+    //private val authManager = AuthDataManager.instance
 
     private var answerSelected = mutableListOf("", "", "")
 
@@ -96,13 +98,28 @@ class CreateAvatarUserFragment : Fragment() {
     }
 
     private fun navigate() {
-        val intent = Intent(requireContext(), JeuxActivity::class.java)
+        val direction = CreateAvatarUserFragmentDirections.actionCreateAvatarUserFragmentToLoginFragment()
+        findNavController().navigate(direction)
+        /*val intent = Intent(requireContext(), JeuxActivity::class.java)
         startActivity(intent).also {
             activity?.finish()
-        }
+        }*/
     }
 
     private fun register() {
+        binding.loaderView.visibility = View.VISIBLE
+
+
+        Picasso.get()
+            .load(MockData.getUrlAvatar())
+            .into(binding.avatarUser)
+
+
+        binding.loaderView.visibility = View.GONE
+        binding.boxOfRecycler.visibility = View.GONE
+        binding.buttonGenerateAvatar.visibility = View.GONE
+        binding.buttonCreateUser.visibility = View.VISIBLE
+        /*
         binding.loaderView.visibility = View.VISIBLE
         authManager.register(
             Register(user.login, user.mail, user.password),
@@ -128,7 +145,7 @@ class CreateAvatarUserFragment : Fragment() {
                 binding.buttonCreateUser.visibility = View.VISIBLE
             }
         }
-    }
+    }*/
 }
 
 private val chooseAvatar = mutableListOf(
@@ -145,3 +162,4 @@ private val chooseAvatar = mutableListOf(
         "Basket", "Voiture", "Courrir", "Hockey"
     )
 )
+}

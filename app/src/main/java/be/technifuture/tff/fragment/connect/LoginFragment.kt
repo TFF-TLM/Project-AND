@@ -1,12 +1,9 @@
 package be.technifuture.tff.fragment.connect
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,18 +12,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.JeuxActivity
 import be.technifuture.tff.databinding.FragmentLoginBinding
-import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
-import be.technifuture.tff.service.NetworkService
-import be.technifuture.tff.service.network.manager.AuthDataManager
-import java.util.Date
-import be.technifuture.tff.service.network.dto.Auth
+import be.technifuture.tff.service.MockData
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private val authManager = AuthDataManager.instance
+    //private val authManager = AuthDataManager.instance
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,10 +45,10 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        isAlreadyConnected()
-    }
+        //isAlreadyConnected()
+    }*/
 
 
     private fun isNetworkAvailable(): Boolean {
@@ -71,15 +64,30 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun isAlreadyConnected() {
+    /*private fun isAlreadyConnected() {
         authManager.isAlreadyConnected(binding.loaderView) { user, error, code ->
             if (user != null && error == null && code == 200) {
                 navigate()
             }
         }
-    }
+    }*/
 
     private fun login() {
+        binding.loaderView.visibility = View.VISIBLE
+        if(isNetworkAvailable()){
+            if(MockData.canConnect(binding.editTextLogin.text.toString(),
+                    binding.editTextPassword.text.toString())) {
+                navigate()
+            }else{
+                activity?.let { AlertDialogCustom(it).getAlert(ErrorValidation.LOG_ERROR) }
+                binding.loaderView.visibility = View.GONE
+            }
+        }else{
+            activity?.let { AlertDialogCustom(it).getAlert(ErrorValidation.NO_CONNECTION) }
+            binding.loaderView.visibility = View.GONE
+        }
+
+        /*
         binding.loaderView.visibility = View.VISIBLE
         if (isNetworkAvailable()) {
             authManager.login(
@@ -99,7 +107,7 @@ class LoginFragment : Fragment() {
         } else {
             activity?.let { AlertDialogCustom(it).getAlert(ErrorValidation.NO_CONNECTION) }
             binding.loaderView.visibility = View.GONE
-        }
+        }*/
     }
 
     private fun navigate() {

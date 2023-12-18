@@ -14,7 +14,6 @@ import be.technifuture.tff.service.AlertDialogCustom
 class RetrieveMailFragment : Fragment() {
 
     private lateinit var binding: FragmentRetrieveMailBinding
-    private lateinit var viewController: CreateUserController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

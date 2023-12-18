@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
 import be.technifuture.tff.model.UserModel
+import be.technifuture.tff.service.MockData
 import be.technifuture.tff.service.network.manager.AuthDataManager
 import com.squareup.picasso.Picasso
 
@@ -25,11 +26,12 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        AuthDataManager.instance.getUserDetailsById(AuthDataManager.instance.user.id) { user, error, code ->
+        /*AuthDataManager.instance.getUserDetailsById(AuthDataManager.instance.user.id) { user, error, code ->
             user?.let {
                 updateUI(it)
             }
-        }
+        }*/
+        updateUI(MockData.getUserConnected())
         super.onViewCreated(view, savedInstanceState)
     }
     private fun updateUI(user: UserModel){

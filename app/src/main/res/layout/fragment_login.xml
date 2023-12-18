@@ -44,7 +44,7 @@
                     android:hint="@string/login"
                     android:inputType="text"
                     android:lines="1"
-                    android:text="izzi.tony@gmail.com" />
+                    android:text="izzi.tony@tff.com" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -65,7 +65,7 @@
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:lines="1"
-                    android:text="Hard&#38;1530251"
+                    android:text="T@t42o#Y"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
