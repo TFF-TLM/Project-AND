@@ -122,9 +122,6 @@ class AuthDataManager {
             401,
             ErrorDetailsResponse::class.java
         ) { authResponse, errorAuth, codeAuth ->
-            errorAuth?.let { error ->
-                handler(null, error, codeAuth)
-            }
             authResponse?.let { auth ->
                 saveRefreshToken(auth.refresh)
                 if (remember) {
@@ -138,6 +135,8 @@ class AuthDataManager {
                 GameDataManager.instance.refreshDataGameFromUser(auth.user.id) { user, _, _, _, errorUser, codeUser, _, _, _ ->
                     handler(user, errorUser, codeUser)
                 }
+            } ?: run {
+                handler(null, errorAuth, codeAuth)
             }
         }
     }
