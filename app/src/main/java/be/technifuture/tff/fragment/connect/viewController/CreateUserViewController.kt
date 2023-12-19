@@ -86,7 +86,6 @@ class CreateUserController(private val viewBinding: FragmentCreateUserBinding,
             alert.getAlert(ErrorValidation.MAIL_RULES)
             return false
         }
-
         return true
 
     }
