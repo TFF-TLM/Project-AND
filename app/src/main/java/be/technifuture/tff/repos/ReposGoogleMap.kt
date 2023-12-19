@@ -105,9 +105,9 @@ class ReposGoogleMap : OnMapReadyCallback {
                 setPosition(it, ColorChoice.Green)
                 updateCatsAndPoints(it.latitude.toFloat(), it.longitude.toFloat()) { _, _ -> }
             }
+        } else {
+            LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
         }
-
-        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
 
         Log.d("LM", "map ready")
         this.isMapLoaded = true

@@ -7,21 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import be.technifuture.tff.R
 import be.technifuture.tff.adapter.AddChatAdapter
-import be.technifuture.tff.adapter.RadarChatsAdapter
 import be.technifuture.tff.databinding.FragmentChatAPoserBinding
-import be.technifuture.tff.databinding.FragmentRadarBinding
 import be.technifuture.tff.model.Chat
 import be.technifuture.tff.model.interfaces.AddChatListener
 import be.technifuture.tff.model.interfaces.JeuxListener
-import be.technifuture.tff.model.mySetting
-import be.technifuture.tff.repos.ReposGoogleMap
-import be.technifuture.tff.repos.ReposZoneChat
 import be.technifuture.tff.service.AlertDialogCustom
-import be.technifuture.tff.service.OrientationManager
 import be.technifuture.tff.service.network.manager.GameDataManager
 import be.technifuture.tff.utils.alert.AlertBuilder
 
@@ -72,7 +64,7 @@ class ChatAPoserFragment : Fragment(), AddChatListener {
     override fun onAddChatClick(action: String, item: Chat) {
         Log.d("DROP", "${item.id.toInt()}")
         activity?.let {
-            AlertBuilder.inputAlert(it, "Posez un chat", "Donnez un nom à votre chat !") { input ->
+            AlertBuilder.inputAlert(it, "Poser un chat", "Donnez un nom à votre chat !") { input ->
                 if (input.isNotEmpty() || input.isNotBlank()) {
                     binding.loaderView.visibility = View.VISIBLE
                     GameDataManager.instance.dropCat(item.id.toInt(), input) { code ->

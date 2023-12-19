@@ -1,12 +1,9 @@
 package be.technifuture.tff.fragment.connect
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.preference.PreferenceManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import be.technifuture.tff.JeuxActivity
 import be.technifuture.tff.databinding.FragmentLoginBinding
-import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.AlertDialogCustom.ErrorValidation
-import be.technifuture.tff.service.NetworkService
 import be.technifuture.tff.service.network.manager.AuthDataManager
-import java.util.Date
 import be.technifuture.tff.service.network.dto.Auth
 
 class LoginFragment : Fragment() {

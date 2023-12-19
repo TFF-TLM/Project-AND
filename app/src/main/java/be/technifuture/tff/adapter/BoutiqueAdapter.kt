@@ -3,16 +3,12 @@ package be.technifuture.tff.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
-import be.technifuture.tff.model.Bonus
 import be.technifuture.tff.model.PanierItemBoutique
-import be.technifuture.tff.model.*
 import be.technifuture.tff.model.interfaces.BoutiqueListener
 import com.bumptech.glide.Glide
 

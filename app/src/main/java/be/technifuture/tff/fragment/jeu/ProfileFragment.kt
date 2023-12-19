@@ -1,11 +1,14 @@
 package be.technifuture.tff.fragment.jeu
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import be.technifuture.tff.ConnectActivity
+import be.technifuture.tff.JeuxActivity
 import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
 import be.technifuture.tff.model.UserModel
@@ -64,6 +67,12 @@ class ProfileFragment : Fragment() {
         binding.BtnClose.setOnClickListener {
             val direction = ProfileFragmentDirections.actionProfileFragmentToJeuxFragment()
             findNavController().navigate(direction)
+        }
+
+        binding.BtnLogout.setOnClickListener {
+            activity?.let {
+                AuthDataManager.instance.logout(it)
+            }
         }
 
         val widthMax = binding.backExp.layoutParams.width

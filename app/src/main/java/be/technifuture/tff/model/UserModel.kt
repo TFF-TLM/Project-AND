@@ -1,7 +1,5 @@
 package be.technifuture.tff.model
 
-import com.google.gson.annotations.SerializedName
-import java.net.URL
 
 class UserModel(
     var id: Int,

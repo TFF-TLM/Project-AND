@@ -6,16 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import be.technifuture.tff.adapter.BonusAdapter
 import be.technifuture.tff.databinding.FragmentChatInteractionBinding
 import be.technifuture.tff.model.*
 import be.technifuture.tff.model.enums.BonusType
 import be.technifuture.tff.model.interfaces.BonusListener
-import be.technifuture.tff.repos.ReposUser
-import com.bumptech.glide.Glide
 import be.technifuture.tff.model.interfaces.JeuxListener
 import be.technifuture.tff.service.AlertDialogCustom
 import be.technifuture.tff.service.network.manager.AuthDataManager
