@@ -211,6 +211,26 @@
         android:foregroundTint="@color/black"
         android:drawableTint="@color/white"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BtnLogout"
+        style="@style/button_util"
+
+        app:icon="@drawable/ico_remove"
+        app:iconSize="20dp"
+        app:iconGravity="end"
+        app:iconPadding="2dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:textSize="10sp"
+        android:contentDescription="Déconnexion"
+        android:text="Déconnexion"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:foregroundTint="@color/black"
+        android:drawableTint="@color/white"/>
+
     <ImageButton
         android:id="@+id/BtnClose"
         style="@style/round_button"

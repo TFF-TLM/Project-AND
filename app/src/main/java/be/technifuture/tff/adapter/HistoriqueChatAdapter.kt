@@ -3,10 +3,8 @@ package be.technifuture.tff.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import be.technifuture.tff.databinding.CellCreateAvatarBinding
 import be.technifuture.tff.databinding.CellRadarChatBinding
 import be.technifuture.tff.model.Chat
-import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 
 class HistoriqueChatAdapter(private var list: MutableList<Chat>) :

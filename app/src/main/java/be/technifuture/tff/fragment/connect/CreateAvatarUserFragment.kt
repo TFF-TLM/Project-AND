@@ -2,15 +2,12 @@ package be.technifuture.tff.fragment.connect
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.JeuxActivity
 import be.technifuture.tff.R
@@ -134,11 +131,11 @@ class CreateAvatarUserFragment : Fragment() {
 private val chooseAvatar = mutableListOf(
     mutableListOf( // Lieux
         "Espace", "Montagne", "Plage", "Maison",
-        "Forêt", "Desert", "Campagne", "Lune", "Mer"
+        "Forêt", "Désert", "Campagne", "Lune", "Mer"
     ),
     mutableListOf( // Animaux
         "Serpent", "Licorne", "Dragon", "Hibou", "Phoenix",
-        "Aigle", "Requin", "Tigre", "Krakker"
+        "Aigle", "Requin", "Tigre", "Krakken"
     ),
     mutableListOf( // Hobbit
         "Football", "Jeu vidéo", "Judo", "Natation", "Vélo",

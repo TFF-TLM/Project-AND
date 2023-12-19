@@ -5,14 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import be.technifuture.tff.R
 import be.technifuture.tff.model.Chat
 import be.technifuture.tff.model.ZoneChat
 import be.technifuture.tff.model.interfaces.AddChatListener
-import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 
 class AddChatAdapter(

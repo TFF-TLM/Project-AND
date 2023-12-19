@@ -1,6 +1,5 @@
 package be.technifuture.tff
 
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isVisible

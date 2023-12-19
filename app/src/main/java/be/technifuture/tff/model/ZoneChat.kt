@@ -1,9 +1,6 @@
 package be.technifuture.tff.model
 
-import android.graphics.Color
 import android.location.Location
-import android.os.Parcel
-import android.os.Parcelable
 import be.technifuture.tff.service.network.dto.InteractCat
 import be.technifuture.tff.service.network.dto.InteractCatWithUser
 import be.technifuture.tff.utils.location.LocationManager

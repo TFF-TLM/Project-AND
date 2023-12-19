@@ -138,10 +138,12 @@ class JeuxFragment : Fragment(), JeuxListener {
         if (GameDataManager.instance.isModeDemo) {
             binding.relativeLayoutJoystick.visibility = View.VISIBLE
             binding.BtnJoystick.alpha = 1.0F
+            LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.removeUpdates()
             //binding.BtnJoystick.setColorFilter(Color.rgb(80, 255, 80)) // Assurez-vous que votre couleur est définie correctement
         } else {
-            binding.relativeLayoutJoystick?.visibility = View.GONE
+            binding.relativeLayoutJoystick.visibility = View.GONE
             binding.BtnJoystick.alpha = 0.3F
+            LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.getLastKnownLocation()
             //binding.BtnJoystick.setColorFilter(Color.rgb(255, 80, 80)) // Assurez-vous que votre couleur est définie correctement
         }
     }
@@ -223,19 +225,22 @@ class JeuxFragment : Fragment(), JeuxListener {
         binding.loaderView.visibility = View.VISIBLE
         GameDataManager.instance.interactInterestPoint(id.toInt()) { cat, food, _, code ->
             binding.loaderView.visibility = View.GONE
+            LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let {
+                ReposGoogleMap.getInstance().setPosition(it, ColorChoice.Green)
+            }
             activity?.let {
                 if (code == 200) {
                     cat?.let { chat ->
                         AlertBuilder.messageAlert(
                             it,
                             "Bravo, vous avez récupéré un chat !",
-                            "Allez dans l'onglet mes chats pour le voir et le poser sur la carte."
+                            "Allez dans l'onglet \"mes chats\" pour le voir et le poser sur la carte."
                         )
                     } ?: run {
                         AlertBuilder.messageAlert(
                             it,
                             "Des croquettes !",
-                            "Vous avez gagnés $food croquette(s)"
+                            "Vous avez gagné $food croquette(s)"
                         )
                     }
                     LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let { gps ->

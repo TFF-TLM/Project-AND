@@ -4,8 +4,8 @@
     <!-- Login Fragment -->
     <string name="login">Login</string>
     <string name="password">Password</string>
-    <string name="retrievePassword">Mots de pass oublié ?</string>
-    <string name="signUp">Crée un compte</string>
+    <string name="retrievePassword">Mot de passe oublié ?</string>
+    <string name="signUp">Créer un compte</string>
     <string name="connect">Se connecter</string>
     <string name="remember_me">Se souvenir de moi</string>
 
@@ -13,25 +13,25 @@
     <string name="red_clan">Flachato</string>
     <string name="red_desc">Bonus à l\'attaque</string>
     <string name="green_clan">Tochaxik</string>
-    <string name="green_desc">Resistance au attaque</string>
+    <string name="green_desc">Résistance au attaque</string>
     <string name="yellow_clan">Achamer</string>
     <string name="yellow_desc">Bonus à l\'expansion</string>
 
     <!-- Retrieve Password Fragment -->
-    <string name="retrieve_title">Récupération mot de pass</string>
-    <string name="explain_retrieve">Veuillez entre votre email</string>
+    <string name="retrieve_title">Récupération mot de passe</string>
+    <string name="explain_retrieve">Veuillez entrer votre email</string>
     <string name="retrieve_send">Envoyé</string>
 
     <!-- Profil Fragment -->
         <!-- Acceuil -->
     <string name="level">Level %1$s</string>
     <string name="expAffiche">%1$s / %2$s</string>
-    <string name="nbCroquet">Nombre de croquette : %1$s</string>
+    <string name="nbCroquet">Nombre de croquettes : %1$s</string>
     <string name="nbCatMap">Nombre de chats posés: %1$s</string>
     <string name="nbCatBag">Nombre de chats dans le sac: %1$s</string>
         <!-- Historique -->
-    <string name="titleTop_historique">Mes derniére Activité</string>
-    <string name="titleBottom_historique">Activité des Mes chats</string>
+    <string name="titleTop_historique">Mes dernières Activités</string>
+    <string name="titleBottom_historique">Activités de mes chats</string>
 
     <!-- Profil Chat interaction -->
     <string name="vie">Vie</string>
@@ -40,44 +40,44 @@
     <!-- Create User Fragment -->
     <string name="mail">Adress Mail</string>
     <string name="confirm_password">Vérification du Password</string>
-    <string name="info_user">Donnée Utilisateur</string>
+    <string name="info_user">Données Utilisateur</string>
     <string name="create_avatar">Création de l\'avatar</string>
     <string name="create_user">Valider</string>
     <string name="choose_clan">Choix du Clan</string>
     <string name="say_hello">Bonjour %1$s</string>
     <string name="explain_clan">Choisis ton camp</string>
-    <string name="explain_avatar">Choisis 3 mots qui décriron ton avatar</string>
-    <string name="question1">Quel est votre endroit préférer</string>
-    <string name="question2">Quel animal est vous ?</string>
-    <string name="question3">Quel est votre Hobbit ?</string>
+    <string name="explain_avatar">Choisis 3 mots qui décriront ton avatar</string>
+    <string name="question1">Quel est votre endroit préféré ?</string>
+    <string name="question2">Quel animal êtes-vous ?</string>
+    <string name="question3">Quel est votre hobby ?</string>
     <string name="nextButton">Suivant</string>
 
     <!-- Alert Dialogue Custom Error -->
     <string name="LOGIN_RULES">
-        Le login doit respecter ces régles : \n
+        Le login doit respecter ces règles : \n
         * Pas de chiffre en premier \n
-        * Min 5 caractéres \n
-        * Max 20 caractéres \n
-        * Pas de caractéres spéciaux\n
+        * Min 5 caractères \n
+        * Max 20 caractères \n
+        * Pas de caractères spéciaux\n
     </string>
 
     <string name="RETRIEVE_SEND">Mail envoyé</string>
 
     <string name="LOGIN_EXIST">Ce login existe déjà</string>
     <string name="PASSWORD_RULES">
-        Le Password dois respecter ces régles : \n
+        Le Password dois respecter ces règles : \n
         * Minimun une lettre majuscule \n
         * Minimun une lettre minuscule \n
-        * Minimun un caractére spécial \n
-        * Min 8 caractéres \n
+        * Minimun un caractère spécial \n
+        * Min 8 caractères \n
     </string>
-    <string name="PASSWORD_SAME">La vérification du mots de pass ne corespond pas</string>
+    <string name="PASSWORD_SAME">La vérification du mots de passe ne coresspond pas</string>
     <string name="MAIL_RULES">
         Adresse mail au mauvais format
     </string>
     <string name="MAIL_EXIST">Ce mail existe déjà</string>
     <string name="NO_CONNECTION">Veuillez vous connecter à internet</string>
-    <string name="LOG_ERROR">Login/Mots de pass incorrect</string>
+    <string name="LOG_ERROR">Login/Mots de passe incorrect</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 

@@ -1,6 +1,9 @@
 package be.technifuture.tff.service.network.manager
 
+import android.app.Activity
+import android.content.Intent
 import android.view.View
+import be.technifuture.tff.ConnectActivity
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.network.service.AuthApiServiceImpl
 import be.technifuture.tff.service.network.service.UserApiServiceImpl
@@ -40,6 +43,13 @@ class AuthDataManager {
     private fun saveRefreshToken(token: String) {
         with(sharedPrefManager.editor) {
             putString(SharedPrefManager.KeyPref.REFRESH_TOKEN.value, token)
+            apply()
+        }
+    }
+
+    private fun deleteRefreshToken() {
+        with(sharedPrefManager.editor) {
+            remove(SharedPrefManager.KeyPref.REFRESH_TOKEN.value)
             apply()
         }
     }
@@ -213,6 +223,16 @@ class AuthDataManager {
             errorRegister?.let {
                 handler(user, errorRegister, null, codeRegister, null, null)
             }
+        }
+    }
+
+    fun logout(activity: Activity) {
+        deleteUserId()
+        deleteExpirationTime()
+        deleteRefreshToken()
+        val intent = Intent(activity, ConnectActivity::class.java)
+        activity.startActivity(intent).also {
+            activity.finish()
         }
     }
 }
