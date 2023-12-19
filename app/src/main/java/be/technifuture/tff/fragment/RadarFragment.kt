@@ -45,18 +45,10 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
     }
 
     private fun getCats(gps: GpsCoordinates): MutableList<Chat> {
-        GameDataManager.instance.getNearCats(
+        return GameDataManager.instance.getNearCats(
             gps.latitude.toFloat(),
             gps.longitude.toFloat()
-        )
-        val list = mutableListOf<Chat>()
-        GameDataManager.instance.getNearCats(
-            gps.latitude.toFloat(),
-            gps.longitude.toFloat()
-        ).forEach {
-            list.add(it.chat)
-        }
-        return list
+        ).map { it.toChat() }.toMutableList()
     }
 
     //******************************************************** Events UI
@@ -181,6 +173,7 @@ class RadarFragment : Fragment(), RadarListener, OrientationListener, GpsUpadate
     }
 
     override fun onGpsChanged(gpsCoordinatesUser: GpsCoordinates) {
+        this.gpsCoordinatesUser = gpsCoordinatesUser
         chats = getCats(gpsCoordinatesUser)
         chats.forEach { chat ->
             chat.distanceFromUser =

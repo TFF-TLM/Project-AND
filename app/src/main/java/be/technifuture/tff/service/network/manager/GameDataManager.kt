@@ -14,6 +14,7 @@ import be.technifuture.tff.service.network.dto.CatOnMapResponse
 import be.technifuture.tff.service.network.dto.CatWithInteract
 import be.technifuture.tff.service.network.dto.DropCatRequestBody
 import be.technifuture.tff.service.network.dto.ErrorDetailsResponse
+import be.technifuture.tff.service.network.dto.ErrorMessageResponse
 import be.technifuture.tff.service.network.service.CatApiServiceImpl
 import be.technifuture.tff.service.network.service.InteractApiServiceImpl
 import be.technifuture.tff.service.network.utils.CallBuilder
@@ -33,7 +34,11 @@ class GameDataManager {
 
     var catFromUserInBag: List<ZoneChat> = listOf()
     var catFromUserOnMap: List<ZoneChat> = listOf()
+    var catUserHasInteract: List<ZoneChat> = listOf()
     private var catOnMap: List<ZoneChat> = listOf()
+
+    var isModeDemo = false
+    var isLaunch = false
 
     companion object {
         val instance: GameDataManager by lazy {
@@ -52,6 +57,22 @@ class GameDataManager {
             val result = callResponse?.toZoneChatList()
             result?.let {
                 catFromUserInBag = it
+            }
+            handler(result, code)
+        }
+    }
+
+    fun getCatUserHasInteract(
+        handler: (cats: List<ZoneChat>?, code: Int) -> Unit
+    ) {
+        CallBuilder.getCall(
+            { catService.catHistory() },
+            null,
+            Nothing::class.java
+        ) { callResponse, _, code ->
+            val result = callResponse?.toZoneChatList()
+            result?.let {
+                catUserHasInteract = it
             }
             handler(result, code)
         }
@@ -167,10 +188,12 @@ class GameDataManager {
             user: UserModel?,
             catsFromUserInBag: List<ZoneChat>?,
             catsFromUserOnMap: List<ZoneChat>?,
+            catUserHasInteract: List<ZoneChat>?,
             error: ErrorDetailsResponse?,
             codeUser: Int,
             codeInBag: Int,
-            codeOnMap: Int
+            codeOnMap: Int,
+            codeHasInteract: Int
         ) -> Unit
     ) {
         AuthDataManager.instance.getUserDetailsById(id) { user, errorUser, codeUser ->
@@ -178,7 +201,19 @@ class GameDataManager {
                 Log.d("Bag", "$catsInBag")
                 getCatFromUserOnMap { catsOnMap, codeOnMap ->
                     Log.d("Bag", "$catsOnMap")
-                    handler(user, catsInBag, catsOnMap, errorUser, codeUser, codeInBag, codeOnMap)
+                    getCatUserHasInteract { catsHasInteract, codeHasInteract ->
+                        handler(
+                            user,
+                            catsInBag,
+                            catsOnMap,
+                            catsHasInteract,
+                            errorUser,
+                            codeUser,
+                            codeInBag,
+                            codeOnMap,
+                            codeHasInteract
+                        )
+                    }
                 }
             }
         }
@@ -202,11 +237,11 @@ class GameDataManager {
             ) { callResponse, _, code ->
                 if (code == 200) {
                     callResponse?.let {
-                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                        refreshDataGameFromUser { _, _, _, _, _, _, _, _, _ ->
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()
-                            )
+                            ) { _, _ -> }
                             handler(code)
                         }
                     }
@@ -226,16 +261,43 @@ class GameDataManager {
             ) { callResponse, _, code ->
                 if (code == 200) {
                     callResponse?.let {
-                        refreshDataGameFromUser { _, _, _, _, _, _, _ ->
+                        refreshDataGameFromUser { _, _, _, _, _, _, _, _, _ ->
                             ReposGoogleMap.getInstance().updateCatsAndPoints(
                                 gps.latitude.toFloat(),
                                 gps.longitude.toFloat()
-                            )
+                            ) { _, _ -> }
                             handler(code)
                         }
                     }
                 } else {
                     handler(code)
+                }
+            }
+        }
+    }
+
+    fun interactInterestPoint(
+        id: Int,
+        handler: (cat: ZoneChat?, food: Int?, error: ErrorMessageResponse?, code: Int) -> Unit
+    ) {
+        LocationManager.instance[LocationManager.KEY_LOCATION_MANAGER]?.localisationUser?.let { gps ->
+            CallBuilder.getCall(
+                { interactService.interactInterest(id) },
+                400,
+                ErrorMessageResponse::class.java
+            ) { callResponse, error, code ->
+                if (code == 200) {
+                    callResponse?.let {
+                        refreshDataGameFromUser { _, _, _, _, _, _, _, _, _ ->
+                            ReposGoogleMap.getInstance().updateCatsAndPoints(
+                                gps.latitude.toFloat(),
+                                gps.longitude.toFloat()
+                            ) { _, _ -> }
+                            handler(it.cat?.toZoneChat(), it.foodGain, error, code)
+                        }
+                    }
+                } else {
+                    handler(null, null, error, code)
                 }
             }
         }

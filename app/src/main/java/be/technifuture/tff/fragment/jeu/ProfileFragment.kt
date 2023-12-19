@@ -10,6 +10,7 @@ import be.technifuture.tff.R
 import be.technifuture.tff.databinding.FragmentProfileBinding
 import be.technifuture.tff.model.UserModel
 import be.technifuture.tff.service.network.manager.AuthDataManager
+import be.technifuture.tff.service.network.manager.GameDataManager
 import com.squareup.picasso.Picasso
 
 class ProfileFragment : Fragment() {
@@ -25,14 +26,11 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        AuthDataManager.instance.getUserDetailsById(AuthDataManager.instance.user.id) { user, error, code ->
-            user?.let {
-                updateUI(it)
-            }
-        }
+        updateUI(AuthDataManager.instance.user)
         super.onViewCreated(view, savedInstanceState)
     }
-    private fun updateUI(user: UserModel){
+
+    private fun updateUI(user: UserModel) {
         Picasso.get()
             .load(user.urlAvatar)
             .into(binding.imgAvatar)
@@ -53,14 +51,17 @@ class ProfileFragment : Fragment() {
 
         binding.nbrCroquette.text =
             getString(R.string.nbCroquet, user.nbCroquette.toString())
-        binding.nbrCat.text = getString(R.string.nbCat, "5")
+        binding.nbrCatMap.text =
+            getString(R.string.nbCatMap, GameDataManager.instance.catFromUserOnMap.size.toString())
+        binding.nbrCatBag.text =
+            getString(R.string.nbCatBag, GameDataManager.instance.catFromUserInBag.size.toString())
 
         binding.BtnHistorique.setOnClickListener {
             val direction = ProfileFragmentDirections.actionProfileFragmentToHistoriqueFragment()
             findNavController().navigate(direction)
         }
 
-        binding.BtnClose.setOnClickListener{
+        binding.BtnClose.setOnClickListener {
             val direction = ProfileFragmentDirections.actionProfileFragmentToJeuxFragment()
             findNavController().navigate(direction)
         }

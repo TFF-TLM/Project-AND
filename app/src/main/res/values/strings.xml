@@ -27,7 +27,8 @@
     <string name="level">Level %1$s</string>
     <string name="expAffiche">%1$s / %2$s</string>
     <string name="nbCroquet">Nombre de croquette : %1$s</string>
-    <string name="nbCat">Nombre de chat : %1$s</string>
+    <string name="nbCatMap">Nombre de chats posés: %1$s</string>
+    <string name="nbCatBag">Nombre de chats dans le sac: %1$s</string>
         <!-- Historique -->
     <string name="titleTop_historique">Mes derniére Activité</string>
     <string name="titleBottom_historique">Activité des Mes chats</string>
