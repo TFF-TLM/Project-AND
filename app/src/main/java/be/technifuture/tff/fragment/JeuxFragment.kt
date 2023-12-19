@@ -59,7 +59,7 @@ class JeuxFragment : Fragment(), JeuxListener {
 
         InitJoystick()
         OnInitListener()
-        updateBtnJoystickVisibility()
+
 
         orientationArrow = OrientationArrow()
         gpsCoordinatesUser?.let {
@@ -91,7 +91,6 @@ class JeuxFragment : Fragment(), JeuxListener {
             GameDataManager.instance.isModeDemo = !GameDataManager.instance.isModeDemo
             updateBtnJoystickVisibility()
         }
-
 
         binding.relativeLayoutJoystick.setOnTouchListener { arg0, arg1 ->
             joystick!!.drawStick(arg1)
@@ -130,6 +129,7 @@ class JeuxFragment : Fragment(), JeuxListener {
                 }
                 UpdateUiGps(gpsCoordinatesUser!!)
             }
+            Log.d("DEBUGG", "${gpsCoordinatesUser?.latitude} ${gpsCoordinatesUser?.longitude}")
             true
         }
     }
@@ -353,6 +353,7 @@ class JeuxFragment : Fragment(), JeuxListener {
     //******************************************************** Events UI
     override fun onResume() {
         setupLocationManager()
+        updateBtnJoystickVisibility()
         if (::mapView.isInitialized) {
             mapView.onResume()
         }

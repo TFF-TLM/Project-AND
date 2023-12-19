@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:hint="@string/password"
-                    android:text="abcd1234ABCD??"
+                    android:text="abcd1234ABC??"
                     android:inputType="textPassword"
                     android:lines="1"
                     />
